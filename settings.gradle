@@ -1,4 +1,4 @@
-rootProject.name = 'devtools-22-ws'
+rootProject.name = 'tooling-devtools-22-ws'
 
 
 include ':apis', ':components', ':javafx'
