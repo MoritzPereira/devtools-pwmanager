@@ -18,18 +18,21 @@ public interface PwManagerListener {
 
     /**
      * Add a new Entry to the entry-list.
+
      * @param newEntry with the given attributes
      */
     void entryAdded(Entry newEntry);
 
     /**
      * Deletes the current entry.
+
      * @param currentEntry the entry which should be deleted.
      */
     void entryDeleted(Entry currentEntry);
 
     /**
      * Updates the attributes of an entry.
+
      * @param password password of current Entry
      * @param url url of current Entry
      * @param username username of current Entry
