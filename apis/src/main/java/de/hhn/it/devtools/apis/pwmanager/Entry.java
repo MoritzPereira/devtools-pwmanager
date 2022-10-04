@@ -12,7 +12,7 @@ public class Entry {
         this.url = url;
         this.username = username;
         this.email = email;
-        this.password = hash(password);
+        this.password = encrypt(password);
         
     }
 
@@ -29,8 +29,15 @@ public class Entry {
 
     }
 
-    private String hash(String password){
+    private String encrypt(String password){
         return "HASHEDPW";
     }
 
+    private String decrypt(String password){
+        return "NORMALPW";
+    }
+
+    public String getPassword() {
+        return decrypt(password);
+    }
 }
