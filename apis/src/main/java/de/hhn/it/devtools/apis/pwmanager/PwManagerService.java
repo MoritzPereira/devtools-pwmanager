@@ -2,11 +2,21 @@ package de.hhn.it.devtools.apis.pwmanager;
 
 public interface PwManagerService {
 
-    private void changeMasterPW(String password){
+    String masterPw = "test";
+    boolean hidepws = true;
+
+    /**
+     * changes the Master Password.
+     * @param password the new master password.
+     */
+    private void changeMasterPw(String password){
 
     }
 
-    private void hidePasswords(){
+    /**
+     * changes the visibility of the passwords.
+     */
+    private void changeHidden(){
 
     }
 }
