@@ -1,6 +1,6 @@
 package de.hhn.it.devtools.apis.pwmanager;
 
-public interface pwmanagerService {
+public interface PwManagerService {
 
     private void changeMasterPW(String password){
 
