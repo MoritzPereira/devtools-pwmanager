@@ -9,12 +9,12 @@ public interface PwManagerListener {
     /**
      * Updates the log-status to "logged in".
      */
-    void loggedin();
+    void loggingin(String masterPw);
 
     /**
      * Updates the log-status to "logged out".
      */
-    void loggedout();
+    void logout();
 
     /**
      * Add a new Entry to the entry-list.
@@ -32,13 +32,8 @@ public interface PwManagerListener {
 
     /**
      * Updates the attributes of an entry.
-
-     * @param password password of current Entry
-     * @param url url of current Entry
-     * @param username username of current Entry
-     * @param email email of current Entry
      */
-    void entryChanged(Entry password, Entry url, Entry username, Entry email);
+    void entryChanged(Entry changedEntry);
 
     /**
      * Changes the visability of the chosen password.

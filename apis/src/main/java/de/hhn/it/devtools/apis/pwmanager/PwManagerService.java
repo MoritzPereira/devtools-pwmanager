@@ -10,16 +10,14 @@ public interface PwManagerService {
      *
      * @param password the new master password.
      */
-    private void changeMasterPw(String password) {
-
-    }
+     void changeMasterPw(String password);
 
     /**
      * changes the visibility of the passwords.
      */
-    private void changeHidden() {
+     void changeHidden();
 
-    }
+
 
     /**
      * Creates a new Entry.
@@ -30,16 +28,13 @@ public interface PwManagerService {
      * @param password
      * @return the created entry.
      */
-    private Entry addEntry(String url, String username, String email, String password) {
-        Entry entry = new Entry(url, username, email, password);
-        return entry;
-    }
+    public Entry addEntry(String url, String username, String email, String password);
 
     /**
      * Deletes an entry.
      * @param entry that will be deleted.
      */
-    private void deleteEntry(Entry entry){
+    public void deleteEntry(Entry entry);
 
-    }
+
 }
