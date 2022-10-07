@@ -2,13 +2,15 @@ package de.hhn.it.devtools.apis.pwmanager;
 
 public class Entry {
 
+    private int id;
     private String url;
     private String username;
     private String email;
     private String password;
 
-    public Entry(String url, String username, String email, String password){
+    public Entry(int id, String url, String username, String email, String password){
 
+        this.id = id;
         this.url = url;
         this.username = username;
         this.email = email;
@@ -16,16 +18,16 @@ public class Entry {
         
     }
 
-    private void changeUrl(String url){
+    public void changeUrl(String url){
 
     }
-    private void changeUsername(String username){
+    public void changeUsername(String username){
 
     }
-    private void changeEmail(String email){
+    public void changeEmail(String email){
 
     }
-    private void changePassword(String password){
+    public void changePassword(String password){
 
     }
 
@@ -39,5 +41,21 @@ public class Entry {
 
     public String getPassword() {
         return decrypt(password);
+    }
+
+    public int getId(){
+        return id;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }

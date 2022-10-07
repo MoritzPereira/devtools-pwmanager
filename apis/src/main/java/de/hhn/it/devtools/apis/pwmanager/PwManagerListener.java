@@ -1,5 +1,7 @@
 package de.hhn.it.devtools.apis.pwmanager;
 
+import java.util.ArrayList;
+
 /**
  * Listener of the Password-Manager tool.
  *
@@ -33,7 +35,7 @@ public interface PwManagerListener {
     /**
      * Updates the attributes of an entry.
      */
-    void entryChanged(Entry changedEntry);
+    void entryChanged(int id, String url, String username, String email, String password);
 
     /**
      * Changes the visability of the chosen password.
@@ -44,5 +46,24 @@ public interface PwManagerListener {
      * Updates the entry-list.
      */
     void updateEntryList();
+
+    /**
+     * gives the pw specs.
+     */
+    void generatePw(boolean useUpper, boolean useLower, boolean useDigits, boolean useSpecialChars);
+
+    /**
+     * shows the newly generated pw.
+     *
+     * @param pw the generated pw.
+     */
+     void showNewPw(String pw);
+
+    /**
+     * gives the sorted List of Entrys.
+     *
+     * @param entryList sorted list of entrys
+     */
+     void showsortedEntryList(ArrayList<Entry> entryList);
 
 }
