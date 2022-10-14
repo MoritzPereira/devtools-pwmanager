@@ -14,7 +14,7 @@ public class Entry {
         this.url = url;
         this.username = username;
         this.email = email;
-        this.password = encrypt(password);
+        this.password = password;
         
     }
 
@@ -31,16 +31,8 @@ public class Entry {
 
     }
 
-    private String encrypt(String password){
-        return "HASHEDPW";
-    }
-
-    private String decrypt(String password){
-        return "NORMALPW";
-    }
-
     public String getPassword() {
-        return decrypt(password);
+        return password;
     }
 
     public int getId(){
@@ -58,4 +50,41 @@ public class Entry {
     public String getEmail() {
         return email;
     }
+
+    public void encryptAll(){
+        id = Integer.parseInt(encrypt(String.valueOf(id)));
+        url = encrypt(url);
+        username = encrypt(username);
+        email = encrypt(email);
+        password = encrypt(password);
+    }
+
+    public void decryptAll(){
+        id = Integer.parseInt(decrypt(String.valueOf(id)));
+        url = decrypt(url);
+        username = decrypt(username);
+        email = decrypt(email);
+        password = decrypt(password);
+    }
+
+    private String encrypt(String text){
+        StringBuilder hashedString = new StringBuilder();
+        char[]        chars        = text.toCharArray();
+        for (char c : chars) {
+            c += 15;
+            hashedString.append(c);
+        }
+        return hashedString.toString();
+    }
+
+    private String decrypt(String text){
+        StringBuilder result = new StringBuilder();
+        char[]        chars  = text.toCharArray();
+        for (char c : chars) {
+            c -= 15;
+            result.append(c);
+        }
+        return result.toString();
+    }
+
 }
