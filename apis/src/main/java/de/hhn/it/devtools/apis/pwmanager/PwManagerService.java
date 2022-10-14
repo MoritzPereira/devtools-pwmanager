@@ -1,5 +1,7 @@
 package de.hhn.it.devtools.apis.pwmanager;
 
+import java.util.ArrayList;
+
 public interface PwManagerService {
 
   String masterPw = "test";
@@ -19,7 +21,7 @@ public interface PwManagerService {
 
 
   /**
-   * Creates a new Entry.
+   * Creates a new Entry and loads the entry in the file.
    *
    * @param id       for the associated password.
    * @param url      for the associated password.
@@ -31,7 +33,7 @@ public interface PwManagerService {
   public Entry addEntry(int id, String url, String username, String email, String password);
 
   /**
-   * Changes an entry.
+   * Changes an entry and loads the entry in the file.
    *
    * @param id
    * @param url      of the changed entry.
@@ -55,7 +57,15 @@ public interface PwManagerService {
    */
   public String generateNewPw(boolean useUpper, boolean useLower, boolean useDigits, boolean useSpecialChars);
 
+  /**
+   * Encrypts a single entry and loads the entry in the file.
+   */
+  public void exportToFile();
 
-
+  /**
+   * Reads the encrypted entries from the file and puts the decrypted entries in the list.
+   * @return a list with decrypted entries
+   */
+  public ArrayList<Entry> importFromFile();
 
 }
