@@ -3,9 +3,11 @@ package de.hhn.it.devtools.apis.todolist;
 public interface ToDoEntry {
 
     /**
-     * adds a new todo to the todo-list
+     * creates a new todo in the todo list
+     * @param title title of the new todo
+     * @param description description of the new todo
      */
-    void addTodo(String title, String description);
+    ToDo createTodo(String title, String description);
 
     /**
      * deletes a todo of the todo-list
@@ -14,11 +16,13 @@ public interface ToDoEntry {
 
     /**
      * edits a title of a todo
+     * @param newTitle the new title of the todo
      */
     void editTitle(String newTitle);
 
     /**
      * edits a description of a todo
+     * @param newDescription the new description of the todo
      */
     void editDescription(String newDescription);
 
