@@ -15,8 +15,16 @@ public interface ToDoEntry {
 
     /**
      * deletes a todo of the todo-list.
+     * @param todoId, the ID of the task to delete
      */
-    void deleteTodo();
+    void deleteTodo(int todoId);
+
+    /**
+     * edits a todo of the todo-list.
+     * @param title, edits the title of the task
+     * @param description, edits the description of the task
+     */
+    void editTodo(String title, String description);
 
 
 }

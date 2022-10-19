@@ -8,6 +8,7 @@ import java.util.Date;
  */
 public class Task {
 
+    private int id;
     private String title;
     private String description;
     private Date startDate;     //TODO: should these be required when creating a task
@@ -22,9 +23,19 @@ public class Task {
      * @param title title of the new task
      * @param description description of the new task
      */
-    public Task(String title, String description) {
+    public Task(int id, String title, String description) {
+        this.id = id;
         this.title = title;
         this.description = description;
+    }
+
+    /**
+     * returns the ID of the task.
+     *
+     * @return id
+     */
+    public int getId() {
+        return id;
     }
 
     /**
@@ -82,6 +93,15 @@ public class Task {
     }
 
     /**
+     * changes the ID of the task.
+     *
+     * @param newId is the new ID to be set
+     */
+    public void setId(int newId) {
+        this.id = newId;
+    }
+
+    /**
      * changes the title of the task.
      *
      * @param newTitle is the new title to be set
@@ -134,8 +154,6 @@ public class Task {
     public void setPriority(int newPriority) {
         this.priority = newPriority;
     }
-
-
 
     /**
      * sets the state of the task.
