@@ -30,6 +30,4 @@ public interface ToDoListener {
      * @param state the state of the task
      */
     void newState(TaskState state);
-
-
 }

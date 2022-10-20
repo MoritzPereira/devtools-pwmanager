@@ -160,7 +160,7 @@ public class Task {
     /**
      * Sets the state of the task.
      *
-     * @param state
+     * @param state is the processing state of the task
      */
     public void setState(final TaskState state) {
         this.state = state;
@@ -174,5 +174,4 @@ public class Task {
     public TaskState getState() {
         return state;
     }
-
 }
