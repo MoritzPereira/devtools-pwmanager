@@ -13,7 +13,7 @@ public interface ToDoListener {
     /**
      * Current task has been deleted.
      *
-     * @param todoId the ID of the task
+     * @param id the ID of the task
      */
     void taskDeleted(int id);
 
