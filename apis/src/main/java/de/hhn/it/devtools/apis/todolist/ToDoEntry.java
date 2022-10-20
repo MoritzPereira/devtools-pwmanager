@@ -6,25 +6,28 @@ package de.hhn.it.devtools.apis.todolist;
 public interface ToDoEntry {
 
     /**
-     * creates a new todo in the todo list.
-     * @param title title of the new todo
-     * @param description description of the new todo
-     * @param checked checked status of the todo
+     * Creates a new task in the todo list.
+     *
+     * @param title title of the new task
+     * @param description description of the new task
+     * @param checked checked status of the task
      */
-    Task createTodo(String title, String description, boolean checked);
+    Task createTask(String title, String description, boolean checked);
 
     /**
-     * deletes a todo of the todo-list.
+     * Deletes a task of the todo-list.
+     *
      * @param todoId, the ID of the task to delete
      */
-    void deleteTodo(int todoId);
+    void deleteTask(int todoId);
 
     /**
-     * edits a todo of the todo-list.
+     * Edits a task of the todo-list.
+     *
      * @param title, edits the title of the task
      * @param description, edits the description of the task
      */
-    void editTodo(String title, String description);
+    void editTask(String title, String description);
 
 
 }

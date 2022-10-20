@@ -11,26 +11,28 @@ public class Task {
     private int id;
     private String title;
     private String description;
-    private Date startDate;     //TODO: should these be required when creating a task
-    private Date endDate;       //.
-    private int priority;       //.
+    private Date startDate;
+    private Date endDate;
+    private int priority;
     //TODO: missing: repeating weekly, monthly ..., est. time to end
     private boolean highlighted;
     private TaskState state;
 
     /**
      * Constructor Task for creating new tasks.
+     *
      * @param title title of the new task
      * @param description description of the new task
+     * @param id identification number of task
      */
-    public Task(int id, String title, String description) {
+    public Task(String title, String description, int id) {
         this.id = id;
         this.title = title;
         this.description = description;
     }
 
     /**
-     * returns the ID of the task.
+     * Returns the ID of the task.
      *
      * @return id
      */
@@ -39,7 +41,7 @@ public class Task {
     }
 
     /**
-     * returns the title of the task.
+     * Returns the title of the task.
      *
      * @return title
      */
@@ -48,7 +50,7 @@ public class Task {
     }
 
     /**
-     * returns description of task.
+     * Returns description of task.
      *
      * @return description
      */
@@ -57,7 +59,7 @@ public class Task {
     }
 
     /**
-     * returns the highlighted state
+     * Returns the highlighted state
      *
      * @return highlighted
      */
@@ -66,7 +68,7 @@ public class Task {
     }
 
     /**
-     * returns the start date of the task.
+     * Returns the start date of the task.
      *
      * @return startDate
      */
@@ -75,7 +77,7 @@ public class Task {
     }
 
     /**
-     * returns the end date of the task.
+     * Returns the end date of the task.
      *
      * @return endDate
      */
@@ -84,7 +86,7 @@ public class Task {
     }
 
     /**
-     * returns the priority value of the task
+     * Returns the priority value of the task
      *
      * @return priority
      */
@@ -93,7 +95,7 @@ public class Task {
     }
 
     /**
-     * changes the ID of the task.
+     * Changes the ID of the task.
      *
      * @param newId is the new ID to be set
      */
@@ -102,7 +104,7 @@ public class Task {
     }
 
     /**
-     * changes the title of the task.
+     * Changes the title of the task.
      *
      * @param newTitle is the new title to be set
      */
@@ -111,7 +113,7 @@ public class Task {
     }
 
     /**
-     * changes the description of the task.
+     * Changes the description of the task.
      *
      * @param newDescription is the new description to be set
      */
@@ -120,7 +122,7 @@ public class Task {
     }
 
     /**
-     * highlights or removes the highlight of a task
+     * Highlights or removes the highlight of a task
      *
      * @param newHighlighted true for highlighting a task, false for removing highlight
      */
@@ -129,7 +131,7 @@ public class Task {
     }
 
     /**
-     * sets or changes (pre-/postpones) the start date of the task.
+     * Sets or changes (pre-/postpones) the start date of the task.
      *
      * @param newStartDate is the new start date of the task
      */
@@ -138,7 +140,7 @@ public class Task {
     }
 
     /**
-     * sets or changes (pre-/postpones) the end date of the task.
+     * Sets or changes (pre-/postpones) the end date of the task.
      *
      * @param newEndDate is the new end date of the task
      */
@@ -147,7 +149,7 @@ public class Task {
     }
 
     /**
-     * sets or changes the priority of a task.
+     * Sets or changes the priority of a task.
      *
      * @param newPriority is the new priority of the task
      */
@@ -156,7 +158,9 @@ public class Task {
     }
 
     /**
-     * sets the state of the task.
+     * Sets the state of the task.
+     *
+     * @param state
      */
     public void setState(final TaskState state) {
         this.state = state;
@@ -164,6 +168,7 @@ public class Task {
 
     /**
      * Returns the state of the task.
+     *
      * @return state
      */
     public TaskState getState() {
