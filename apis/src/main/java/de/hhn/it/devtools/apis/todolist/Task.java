@@ -14,7 +14,7 @@ public class Task {
     private Date startDate;
     private Date endDate;
     private int priority;
-    //TODO: missing: repeating weekly, monthly ..., est. time to end
+    private TaskFrequency frequency;
     private boolean highlighted;
     private TaskState state;
 
@@ -26,9 +26,9 @@ public class Task {
      * @param id identification number of task
      */
     public Task(String title, String description, int id) {
-        this.id = id;
         this.title = title;
         this.description = description;
+        this.id = id;
     }
 
     /**
@@ -86,12 +86,21 @@ public class Task {
     }
 
     /**
-     * Returns the priority value of the task
+     * Returns the priority value of the task.
      *
      * @return priority
      */
     public int getPriority() {
         return priority;
+    }
+
+    /**
+     * Returns the frequency of the tasks repeating.
+     *
+     * @return frequency
+     */
+    public TaskFrequency getFrequency() {
+        return frequency;
     }
 
     /**
@@ -122,7 +131,7 @@ public class Task {
     }
 
     /**
-     * Highlights or removes the highlight of a task
+     * Highlights or removes the highlight of a task.
      *
      * @param newHighlighted true for highlighting a task, false for removing highlight
      */
@@ -155,6 +164,15 @@ public class Task {
      */
     public void setPriority(int newPriority) {
         this.priority = newPriority;
+    }
+
+    /**
+     * Sets or changes the frequency of the task interval.
+     *
+     * @param frequency is the new frequency
+     */
+    public void setFrequency(TaskFrequency frequency) {
+        this.frequency = frequency;
     }
 
     /**

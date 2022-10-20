@@ -1,5 +1,6 @@
 package de.hhn.it.devtools.apis.todolist;
 
+/** Listener callbacks to notify observers for state changes. */
 public interface ToDoListener {
 
     /**
@@ -7,14 +8,14 @@ public interface ToDoListener {
      *
      * @param newTask new task
      */
-    void todoCreated(Task newTask);
+    void taskCreated(Task newTask);
 
     /**
      * Current task has been deleted.
      *
      * @param todoId the ID of the task
      */
-    void todoDeleted(int todoId);
+    void taskDeleted(int id);
 
     /**
      * Current task has been edited.
@@ -22,7 +23,7 @@ public interface ToDoListener {
      * @param title the title of the task
      * @param description the description of the task
      */
-    void todoEdited(String title, String description);
+    void taskEdited(String title, String description);
 
     /**
      * Informs about change of state of a task.
