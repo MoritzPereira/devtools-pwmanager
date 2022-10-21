@@ -44,7 +44,7 @@ package de.hhn.it.devtools.apis.paintservice;
 
 
     /**
-     * @return y-coordinate of each start poin
+     * @return y-coordinate of each start point
      */
     double getStartX();
 
