@@ -1,6 +1,7 @@
 package de.hhn.it.devtools.apis.todolist;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.UUID;
 
 /**
  * Task Class
@@ -8,11 +9,11 @@ import java.util.Date;
  */
 public class Task {
 
-  private int id;
+  private final UUID id;
   private String title;
   private String description;
-  private Date startDate;
-  private Date endDate;
+  private LocalDate startDate;
+  private LocalDate endDate;
   private int priority;
   private TaskFrequency frequency;
   private boolean highlighted;
@@ -23,12 +24,11 @@ public class Task {
    *
    * @param title title of the new task
    * @param description description of the new task
-   * @param id identification number of task
    */
-  public Task(String title, String description, int id) {
+  public Task(String title, String description) {
     this.title = title;
     this.description = description;
-    this.id = id;
+    id = UUID.randomUUID();
   }
 
   /**
@@ -36,7 +36,7 @@ public class Task {
    *
    * @return id
    */
-  public int getId() {
+  public UUID getId() {
     return id;
   }
 
@@ -72,7 +72,7 @@ public class Task {
    *
    * @return startDate
    */
-  public Date getStartDate() {
+  public LocalDate getStartDate() {
     return startDate;
   }
 
@@ -81,7 +81,7 @@ public class Task {
    *
    * @return endDate
    */
-  public Date getEndDate() {
+  public LocalDate getEndDate() {
     return endDate;
   }
 
@@ -101,15 +101,6 @@ public class Task {
    */
   public TaskFrequency getFrequency() {
     return frequency;
-  }
-
-  /**
-   * Changes the ID of the task.
-   *
-   * @param newId is the new ID to be set
-   */
-  public void setId(int newId) {
-    this.id = newId;
   }
 
   /**
@@ -144,7 +135,7 @@ public class Task {
    *
    * @param newStartDate is the new start date of the task
    */
-  public void setStartDate(Date newStartDate) {
+  public void setStartDate(LocalDate newStartDate) {
     this.startDate = newStartDate;
   }
 
@@ -153,7 +144,7 @@ public class Task {
    *
    * @param newEndDate is the new end date of the task
    */
-  public void setEndDate(Date newEndDate) {
+  public void setEndDate(LocalDate newEndDate) {
     this.endDate = newEndDate;
   }
 
