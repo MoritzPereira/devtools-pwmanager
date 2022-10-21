@@ -1,6 +1,7 @@
 package de.hhn.it.devtools.apis.todolist;
 
-import java.time.LocalDate;
+import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
+
 import java.util.UUID;
 
 /** Listener callbacks to notify observers for state changes. */
@@ -11,7 +12,7 @@ public interface ToDoListener {
    *
    * @param newTask new task
    */
-  void taskCreated(Task newTask); //TODO: throws illegal date exception
+  void taskCreated(Task newTask) throws IllegalParameterException;
 
   /**
    * Current task has been deleted.
@@ -23,18 +24,9 @@ public interface ToDoListener {
   /**
    * Current task has been edited.
    *
-   * @param title the new title of the task
-   * @param description the new description of the task
-   * @param startDate the new start date of the task
-   * @param endDate the new end date of the task
-   * @param priority the new priority value of the task
-   * @param frequency the new frequency of the task
-   * @param highlighted true value for highlighted, false value for un-highlighted
-   * @param newState the new state of the task
+   * @param taskChanged is the task that had its properties changed
    */
-  void taskEdited(String title, String description, LocalDate startDate, LocalDate endDate,
-                  int priority, TaskFrequency frequency, boolean highlighted, TaskState newState);
-  //TODO: alternative möglicherweise implementieren
+  void taskEdited(Task taskChanged);
 
   /**
    * Informs about change of state of a task.

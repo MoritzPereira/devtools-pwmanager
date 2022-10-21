@@ -28,19 +28,10 @@ public interface ToDoEntry {
   /**
    * Edits a task of the ToDo List.
    *
-   * @param title the new title of the task
-   * @param description the new description of the task
-   * @param startDate the new start date of the task
-   * @param endDate the new end date of the task
-   * @param priority the new priority value of the task
-   * @param frequency the new frequency of the task
-   * @param highlighted true value for highlighted, false value for un-highlighted
-   * @param newState the new state of the task
+   * @param taskChanged is the task that had its properties changed
    */
-  void editTask(String title, String description, LocalDate startDate, LocalDate endDate,
-                int priority, TaskFrequency frequency, boolean highlighted, TaskState newState)
+  void editTask(Task taskChanged)
           throws IllegalParameterException;
-  //TODO: alternative zur übernahme aller werte: Task überschreiben // neue werte vergleichen
 
   /** Saves all open and existing tasks in a file.*/
   void saveList();
