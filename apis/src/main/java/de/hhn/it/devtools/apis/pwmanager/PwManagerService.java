@@ -15,6 +15,17 @@ public interface PwManagerService {
   void changeMasterPw(String password);
 
   /**
+   * Logs in the user and gives access to the passwords
+   * @param masterPw Master password to get access
+   */
+  void login(String masterPw);
+
+  /**
+   * Logs out the user
+   */
+  void logout();
+
+  /**
    * changes the visibility of the passwords.
    */
   void changeHidden();
