@@ -2,7 +2,7 @@ package de.hhn.it.devtools.apis.pwmanager;
 
 public class Entry {
 
-    private int id;
+    private int entryId;
     private String url;
     private String username;
     private String email;
@@ -10,7 +10,7 @@ public class Entry {
 
     public Entry(int id, String url, String username, String email, String password){
 
-        this.id = id;
+        this.entryId = id;
         this.url = url;
         this.username = username;
         this.email = email;
@@ -35,8 +35,8 @@ public class Entry {
         return password;
     }
 
-    public int getId(){
-        return id;
+    public int getEntryId(){
+        return entryId;
     }
 
     public String getUrl() {
@@ -52,7 +52,7 @@ public class Entry {
     }
 
     public void encryptAll(){
-        id = Integer.parseInt(encrypt(String.valueOf(id)));
+        entryId = Integer.parseInt(encrypt(String.valueOf(entryId)));
         url = encrypt(url);
         username = encrypt(username);
         email = encrypt(email);
@@ -60,7 +60,7 @@ public class Entry {
     }
 
     public void decryptAll(){
-        id = Integer.parseInt(decrypt(String.valueOf(id)));
+        entryId = Integer.parseInt(decrypt(String.valueOf(entryId)));
         url = decrypt(url);
         username = decrypt(username);
         email = decrypt(email);

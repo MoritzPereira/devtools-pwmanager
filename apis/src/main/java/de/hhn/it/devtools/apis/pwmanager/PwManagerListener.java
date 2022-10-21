@@ -40,7 +40,7 @@ public interface PwManagerListener {
     /**
      * Changes the visability of the chosen password.
      */
-    void changepasswordVisibility();
+    void changePasswordVisibility(int id);
 
     /**
      * Updates the entry-list.
