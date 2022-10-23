@@ -1,7 +1,7 @@
 package de.hhn.it.devtools.apis.paint;
 
 /**
- * this is a helper class for Shapedescriptor to save the colors as RGB triplets
+ * this is a helper class for ShapeDescriptor to save the colors as RGB triplets
  */
 public class ColorTriplet {
 
