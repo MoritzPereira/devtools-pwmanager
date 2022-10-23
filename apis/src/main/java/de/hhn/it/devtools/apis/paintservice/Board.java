@@ -15,9 +15,17 @@ public class Board {
   private Stack<ShapeDescriptor> undoStack;
   private Stack<ShapeDescriptor> redoStack;
 
+
+  /**
+   * constructor of board
+   * sets height and length and default color white
+   * @param height of the board
+   * @param width of the board
+   */
   public Board(double height, double width) {
     this.height = height;
     this.width = width;
+    setBoardColor(255,255,255);
     undoStack = new Stack<>();
     redoStack = new Stack<>();
     boardId = 0;
@@ -47,8 +55,10 @@ public class Board {
     return width;
   }
 
-  public void setBoardColor(ColorTriplet colorTriplet) {
-    this.colorTriplet = colorTriplet;
+  public void setBoardColor(double red, double green, double blue) {
+    colorTriplet.setRed(red);
+    colorTriplet.setGreen(green);
+    colorTriplet.setBlue(blue);
   }
 
   public ColorTriplet getBoardColor() {
