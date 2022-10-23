@@ -6,6 +6,9 @@ group = "de.hhn.it.devtools.apis"
 version = "1.0"
 
 dependencies {
+
+    implementation 'javax.servlet:javax.servlet-api:4.0.1'
+    implementation 'clojure.javafx.launcher:clojure.javafx.launcher:2018.315.54270'
     // see also the dependencies in build.gradle (root)
 }
 
