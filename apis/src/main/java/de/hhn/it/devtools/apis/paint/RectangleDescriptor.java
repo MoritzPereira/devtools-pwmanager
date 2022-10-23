@@ -1,4 +1,4 @@
-package de.hhn.it.devtools.apis.paintservice;
+package de.hhn.it.devtools.apis.paint;
 
 /**
  * Used to expand the description properties of angular shapes.

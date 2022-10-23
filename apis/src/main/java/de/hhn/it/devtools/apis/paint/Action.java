@@ -1,4 +1,4 @@
-package de.hhn.it.devtools.apis.paintservice;
+package de.hhn.it.devtools.apis.paint;
 
 /**
  * Mode describes the different possible actions on the board
