@@ -134,7 +134,7 @@ import java.util.HashMap;
          /**
          * @param isFilled describes if shape is filled out or not
          */
-         public void setForm(Boolean isFilled) {
+         public void setFilled(Boolean isFilled) {
              this.isFilled = isFilled;
          }
 

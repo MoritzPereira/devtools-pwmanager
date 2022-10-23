@@ -43,7 +43,7 @@ public class PaintUsageDemo {
 
 
         //not filled for scribble actions
-        shape0.setForm(false);
+        shape0.setFilled(false);
 
         //user starts draw by pressing mouse
         boolean mousePressed = true;
