@@ -1,4 +1,4 @@
-package de.hhn.it.devtools.apis.paintservice;
+package de.hhn.it.devtools.apis.paint;
 
 import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
 import java.util.EmptyStackException;

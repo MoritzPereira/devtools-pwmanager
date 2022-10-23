@@ -1,4 +1,4 @@
-package de.hhn.it.devtools.apis.paintservice;
+package de.hhn.it.devtools.apis.paint;
 
 /**
  * this is a helper class for Shapedescriptor to save the colors as RGB triplets

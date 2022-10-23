@@ -1,7 +1,6 @@
 package de.hhn.it.devtools.apis.paint;
 
 import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
-import de.hhn.it.devtools.apis.paintservice.*;
 
 /**
  * This usage demo is not runnable because in this module there is no possibility to access the

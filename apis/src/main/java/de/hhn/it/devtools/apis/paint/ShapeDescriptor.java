@@ -1,4 +1,4 @@
-package de.hhn.it.devtools.apis.paintservice;
+package de.hhn.it.devtools.apis.paint;
 
 
 import java.util.HashMap;
