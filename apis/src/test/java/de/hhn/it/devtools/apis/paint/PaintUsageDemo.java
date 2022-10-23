@@ -43,7 +43,7 @@ public class PaintUsageDemo {
 
 
         //not filled for scribble actions
-        shape0.setForm(false);
+        shape0.setFilled(false);
 
         //user starts draw by pressing mouse
         boolean mousePressed = true;
@@ -57,11 +57,9 @@ public class PaintUsageDemo {
         }
 
 
-        //user releases mouse
+        //user releases mouse and defines the end of a shape/drawing action
         mousePressed = false;
 
-
-        //defines the end of a shape/drawing action
         shape0.setEndPoint(mouseExampleCoordinateX, mouseExampleCoordinateY);
 
 
