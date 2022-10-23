@@ -37,7 +37,7 @@ public interface PaintService {
      * @throws IllegalParameterException if either the shapeId or boardId does not exist
      *                                   or the listener is a null reference.
      */
-    void addCallback(int shapeId, PaintListener listener, int boardId) throws IllegalParameterException;
+    void addCallback(int shapeId, ActionListener listener, int boardId) throws IllegalParameterException;
 
 
     /**
@@ -49,7 +49,7 @@ public interface PaintService {
      * @throws IllegalParameterException if either the shapeId or boardId does not exist
      *                                   or the listener is a null reference.
      */
-    void removeCallback(int id, PaintListener listener, int boardId) throws IllegalParameterException;
+    void removeCallback(int id, ActionListener listener, int boardId) throws IllegalParameterException;
 
 
     /**
