@@ -29,6 +29,7 @@ public class Task {
     this.title = title;
     this.description = description;
     id = UUID.randomUUID();
+    state = TaskState.NOTSTARTED;
   }
 
   /**
