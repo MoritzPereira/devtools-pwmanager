@@ -35,7 +35,7 @@ public interface PwManagerListener {
     /**
      * Updates the attributes of an entry.
      */
-    void entryChanged(int id, String url, String username, String email, String password);
+    void entryChanged(Entry entry);
 
     /**
      * Changes the visability of the chosen password.
