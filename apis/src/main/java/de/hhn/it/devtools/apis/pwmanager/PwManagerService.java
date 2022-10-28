@@ -83,17 +83,17 @@ public interface PwManagerService {
                               boolean useSpecialChars) throws RuntimeException;
 
   /**
-   * Encrypts a single entry and loads the entry in the file.
+   * Gets the state from the component
    *
    * @throws RuntimeException if method takes too much time
    */
-  public void exportToFile() throws RuntimeException;
+  public ArrayList<Entry> getState() throws RuntimeException;
 
   /**
-   * Reads the encrypted entries from the file and puts the decrypted entries in the list.
+   * Loads the state in the component.
    *
    * @return a list with decrypted entries
    */
-  public ArrayList<Entry> importFromFile() throws RuntimeException;
+  public void loadState(ArrayList<Entry> state) throws RuntimeException;
 
 }
