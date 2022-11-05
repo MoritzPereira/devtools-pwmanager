@@ -1,7 +1,7 @@
 package de.hhn.it.devtools.apis.paint;
 
 
-import java.util.Stack;
+import java.util.ArrayList;
 
 /**
  * represents und describes a board on which different drawing actions can be done
@@ -12,8 +12,8 @@ public class Board {
   private double height;
   private double width;
   private ColorTriplet colorTriplet;
-  private Stack<ShapeDescriptor> undoStack;
-  private Stack<ShapeDescriptor> redoStack;
+  private ArrayList<ShapeDescriptor> undoHistory;
+  private ArrayList<ShapeDescriptor> redoHistory;
 
 
   /**
@@ -26,8 +26,8 @@ public class Board {
     this.height = height;
     this.width = width;
     setBoardColor(255,255,255);
-    undoStack = new Stack<>();
-    redoStack = new Stack<>();
+    undoHistory = new ArrayList<>();
+    redoHistory = new ArrayList<>();
     boardId = 0;
   }
 
@@ -71,7 +71,7 @@ public class Board {
    * @param shapeDescriptor the shape to be added
    */
   public void addShape(ShapeDescriptor shapeDescriptor) {
-    undoStack.push(shapeDescriptor);
+    undoHistory.add(shapeDescriptor);
   }
 
   /**
@@ -79,8 +79,8 @@ public class Board {
    * @param shapeDescriptor shape to be deleted
    */
   public void removeShape(ShapeDescriptor shapeDescriptor) {
-    undoStack.remove(shapeDescriptor);
-    redoStack.push(shapeDescriptor);
+    undoHistory.remove(shapeDescriptor);
+    redoHistory.add(shapeDescriptor);
   }
 
 
@@ -88,16 +88,16 @@ public class Board {
   /**
    * @return a bunch of shapes that earlier be undoed
    */
-  public Stack<ShapeDescriptor> getRedoStack() {
-    return redoStack;
+  public ArrayList<ShapeDescriptor> getRedoHistory() {
+    return redoHistory;
   }
 
 
   /**
    * @return all shapes and drawing actions of the board
    */
-  public Stack<ShapeDescriptor> getUndoStack() {
-    return undoStack;
+  public ArrayList<ShapeDescriptor> getUndoStack() {
+    return undoHistory;
   }
 
 

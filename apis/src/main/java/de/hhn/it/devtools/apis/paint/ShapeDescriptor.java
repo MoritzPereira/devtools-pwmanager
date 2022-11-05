@@ -1,7 +1,8 @@
 package de.hhn.it.devtools.apis.paint;
 
 
-import java.util.HashMap;
+import java.util.ArrayList;
+
 
 
      /**
@@ -9,20 +10,17 @@ import java.util.HashMap;
      */
     public class ShapeDescriptor {
 
-         protected int shapeId;
-         protected double thickness;
-         protected double startX;
-         protected double startY;
-         protected double endX;
-         protected double endY;
-         protected HashMap<Double, Double> coordinates = new HashMap<>();
-         protected Shape shape;
-         protected Boolean isFilled;
-         protected ColorTriplet shapeColor;
+         private int shapeId;
+         private double thickness;
+         private Point startPoint;
+         private Point endPoint;
+         private ArrayList<Point> points = new ArrayList<>();
+         private Boolean straightMode;
+         private ColorTriplet shapeColor;
 
 
 
-         public ShapeDescriptor(double startX, double startY){
+         public ShapeDescriptor(int startX, int startY){
              shapeColor = new ColorTriplet();
              setStartPoint(startX, startY);
              shapeId = 0;
@@ -47,10 +45,9 @@ import java.util.HashMap;
           * @param startY Y-coordinate of the point
           * @throws IllegalArgumentException for invalid coordinates f.ex negative ones
           */
-         public void setStartPoint(double startX, double startY) {
-             this.startX = startX;
-             this.startY = startY;
-             coordinates.put(startX, startY);
+         public void setStartPoint(int startX, int startY) {
+             startPoint = new Point(startX, startY);
+             points.add(startPoint);
          }
 
 
@@ -61,10 +58,9 @@ import java.util.HashMap;
           * @param endY Y-coordinate of the point
           * @throws IllegalArgumentException for invalid coordinates f.ex negative ones
           */
-         public void setEndPoint(double endX, double endY) {
-             this.endX = endX;
-             this.endY = endY;
-             coordinates.put(endX,endY);
+         public void setEndPoint(int endX, int endY) {
+             endPoint = new Point(endX, endY);
+             points.add(endPoint);
          }
 
 
@@ -79,72 +75,44 @@ import java.util.HashMap;
           * @param y Y-coordinate of each point
           * @throws IllegalArgumentException if one coordinate is invalid
           */
-         public void addPoint(double x, double y) {
-             coordinates.put(x,y);
+         public void addPoint(int x, int y) {
+             points.add(new Point(x, y));
          }
 
 
          /**
-          * @return y-coordinate of each start point
+          * @return start point of each drawing action
           */
-         public double getStartX() {
-             return startX;
+         public Point getStartPoint() {
+             return startPoint;
          }
 
+
          /**
-          * @return y-coordinate of each start point
+          * @return End point of each drawing action
           */
-         public double getStartY() {
-             return startY;
+         public Point getEndPoint() {
+             return endPoint;
          }
 
 
+
          /**
-          * @return x-coordinate of each end point
+          * @param straightMode defines if the draw action is free hand or on straight lines
           */
-         public double getEndX() {
-             return endX;
+         public void setStraightMode(Boolean straightMode) {
+             this.straightMode = straightMode;
          }
 
 
          /**
-          * @return y-coordinate of each end point
+          * @return style of drawing action (straight or free hand)
           */
-         public double getEndY() {
-             return endY;
+         public Boolean getStraightMode() {
+             return straightMode;
          }
 
 
-         /**
-          * @param shape one of the shapes that are defined in the enum class
-          */
-         public void setShape(Shape shape) {
-             this.shape = shape;
-         }
-
-
-         /**
-          * @return the actual shape
-          */
-         public Shape getShape() {
-             return shape;
-         }
-
-
-         /**
-         * @param isFilled describes if shape is filled out or not
-         */
-         public void setFilled(Boolean isFilled) {
-             this.isFilled = isFilled;
-         }
-
-
-         /**
-          * @return boolean expression if shape is filled out or not
-          */
-         public Boolean getFilled() {
-             return isFilled;
-         }
 
 
          /**

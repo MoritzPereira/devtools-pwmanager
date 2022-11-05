@@ -16,8 +16,8 @@ public class PaintUsageDemo {
 
 
         //example coordinates of mouse point
-        double mouseExampleCoordinateX = 1;
-        double mouseExampleCoordinateY = 1;
+        int mouseExampleCoordinateX = 1;
+        int mouseExampleCoordinateY = 1;
 
 
         Board page1 = new Board(500, 500);
@@ -30,7 +30,7 @@ public class PaintUsageDemo {
         //user start new drawing action and select scribble as shape type
         ShapeDescriptor shape0 = new ShapeDescriptor(mouseExampleCoordinateX, mouseExampleCoordinateY);
         shape0.setShapeId(0);
-        shape0.setShape(Shape.SCRIBBLE);
+        shape0.setStraightMode(false);
 
 
         //example color, should later be the last selected color
@@ -41,8 +41,6 @@ public class PaintUsageDemo {
         shape0.setLineThickness(5.3);
 
 
-        //not filled for scribble actions
-        shape0.setFilled(false);
 
         //user starts draw by pressing mouse
         boolean mousePressed = true;
@@ -51,7 +49,9 @@ public class PaintUsageDemo {
         //user keeps mouse pressed
         while (mousePressed) {
 
-            paintService.calculateDraw(shape0, mouseExampleCoordinateX, mouseExampleCoordinateY, Action.DRAW, 0);
+            //simulates move of the mouse
+            mouseExampleCoordinateX++;
+            mouseExampleCoordinateY++;
 
         }
 
@@ -61,14 +61,71 @@ public class PaintUsageDemo {
 
         shape0.setEndPoint(mouseExampleCoordinateX, mouseExampleCoordinateY);
 
+        //program draws lines between each added point during mouse press
+        paintService.calculateDraw(shape0, mouseExampleCoordinateX, mouseExampleCoordinateY, Action.DRAW, 0);
+
+
+
+        //New Action
 
         //user want to change color of earlier drawn shape
         paintService.changeColor(paintService.containsPoint(mouseExampleCoordinateX, mouseExampleCoordinateY, 0),
                 Action.COLOR, 0, 45,26,95);
 
 
+
+        //New Action
+
+
         //user do clear action
         paintService.clear(0, paintService.getShapes(0));
+
+
+
+
+
+
+
+        //new Action
+
+
+
+        //user wants to draw straight horizontal help lines
+        ShapeDescriptor shape1 = new ShapeDescriptor(mouseExampleCoordinateX, mouseExampleCoordinateY);
+        shape1.setShapeId(1);
+        shape1.setStraightMode(true);
+
+
+        //example color, should later be the last selected color
+        shape0.setShapeColor(33, 33, 53);
+
+
+        //example thickness, should later be the last selected one
+        shape0.setLineThickness(5.3);
+
+
+
+        //user starts draw by pressing mouse
+        //boolean mousePressed = true;
+        shape1.setStartPoint(mouseExampleCoordinateX, mouseExampleCoordinateY);
+
+
+
+
+
+        //user releases mouse
+       // mousePressed = false;
+        //defines the end of a shape/drawing action
+        shape0.setEndPoint(mouseExampleCoordinateX, mouseExampleCoordinateY);
+
+
+
+        //program draws lines between each start/End-point
+        paintService.calculateDraw(shape1, mouseExampleCoordinateX, mouseExampleCoordinateY, Action.DRAW, 0);
+
+
+
+
 
 
     }
