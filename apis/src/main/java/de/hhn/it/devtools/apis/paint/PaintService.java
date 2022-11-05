@@ -1,7 +1,8 @@
 package de.hhn.it.devtools.apis.paint;
 
 import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
-import java.util.EmptyStackException;
+
+import java.util.ArrayList;
 import java.util.Stack;
 
 
@@ -12,9 +13,9 @@ public interface PaintService {
      * Returns a stack of registered shapes (undo stack) of given board
      * @param boardId defines the board of where the shapes are should be returned
      * @return stack of registered shapes
-     * @throws EmptyStackException if undo stack is empty
+     * @throws IllegalParameterException if board id is invalid or a null reference
      */
-    Stack<ShapeDescriptor> getShapes(int boardId) throws EmptyStackException;
+    ArrayList<ShapeDescriptor> getShapes(int boardId) throws IllegalParameterException;
 
 
     /**
@@ -90,30 +91,20 @@ public interface PaintService {
      */
     void deleteShape(ShapeDescriptor shape, Action action, int boardId) throws IllegalParameterException;
 
-
     /**
      * delete all shapes from the board and push all of them to undo stack
      * @param boardId defines the board that should be cleared
      * @throws IllegalParameterException if y or y coordinates are invalid or null references
      */
-    void clear(int boardId, Stack<ShapeDescriptor> shapeDescriptorStack) throws IllegalParameterException;
+    void clear(int boardId, ArrayList<ShapeDescriptor> shapeDescriptorStack) throws IllegalParameterException;
 
 
-
-
-    /**
-     * determine if shape should be drawn on left or right side of the mouse (not relevant for scribble or eraser)
-     *
-     * @param shapeDescriptor the shape that should be drawn
-     * @throws IllegalParameterException if shape is invalid or a null reference
-     */
-    void checkSide(ShapeDescriptor shapeDescriptor) throws IllegalParameterException;
 
 
     /**
      * Changes the color of an earlier drawing action on a given board
      *
-     * @param shape ehich color should be changed
+     * @param shape which color should be changed
      * @param action define the deleting mode
      * @param boardId defines the board where the shape is
      * @param red proportion of RGB
@@ -141,10 +132,10 @@ public interface PaintService {
      * Undo last drawing action
      *
      * @param boardId defines the board where undo action should be done
-     * @throws EmptyStackException if  undo stack is empty
+     * @throws ArrayIndexOutOfBoundsException if  undo History  is empty
      * @throws IllegalParameterException if boardIs is invalid or does not exist
      */
-    void undo(int boardId) throws EmptyStackException, IllegalParameterException;
+    void undo(int boardId) throws ArrayIndexOutOfBoundsException, IllegalParameterException;
 
 
     /**
@@ -152,10 +143,10 @@ public interface PaintService {
      *
      * @param boardId defines the board where undo action should be done
      *
-     * @throws EmptyStackException if the redo stack is empty
+     * @throws ArrayIndexOutOfBoundsException if the redo History is empty
      * @throws IllegalArgumentException if boardId is invalid or does not exist
      */
-    void redo(int boardId) throws EmptyStackException, IllegalParameterException;
+    void redo(int boardId) throws ArrayIndexOutOfBoundsException, IllegalParameterException;
 
 
 }
