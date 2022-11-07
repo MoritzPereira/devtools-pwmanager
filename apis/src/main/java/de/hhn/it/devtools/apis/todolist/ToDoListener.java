@@ -1,7 +1,6 @@
 package de.hhn.it.devtools.apis.todolist;
 
 import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
-
 import java.util.UUID;
 
 /** Listener callbacks to notify observers for state changes. */
