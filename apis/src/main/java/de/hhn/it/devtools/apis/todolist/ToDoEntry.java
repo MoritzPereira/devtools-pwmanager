@@ -1,7 +1,6 @@
 package de.hhn.it.devtools.apis.todolist;
 
 import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
-import java.time.LocalDate;
 import java.util.UUID;
 
 /**
@@ -37,7 +36,5 @@ public interface ToDoEntry {
 
   /** Loads a file with all the tasks saved on it. */
   void loadList();
-
-  //TODO: imports/exports
 
 }

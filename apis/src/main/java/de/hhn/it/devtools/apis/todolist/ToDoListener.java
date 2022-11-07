@@ -1,7 +1,6 @@
 package de.hhn.it.devtools.apis.todolist;
 
 import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
-import java.util.UUID;
 
 /** Listener callbacks to notify observers for state changes. */
 public interface ToDoListener {
@@ -16,9 +15,9 @@ public interface ToDoListener {
   /**
    * Current task has been deleted.
    *
-   * @param id the ID of the task
+   * @param taskDeleted the task that gets deleted
    */
-  void taskDeleted(UUID id);
+  void taskDeleted(Task taskDeleted);
 
   /**
    * Current task has been edited.
@@ -26,6 +25,16 @@ public interface ToDoListener {
    * @param taskChanged is the task that had its properties changed
    */
   void taskEdited(Task taskChanged);
+
+  /**
+   * All tasks in the current list are saved
+   */
+  void taskListSaved();
+
+  /**
+   * All tasks in the current list are loaded
+   */
+  void taskListLoaded();
 
   /**
    * Informs about change of state of a task.
