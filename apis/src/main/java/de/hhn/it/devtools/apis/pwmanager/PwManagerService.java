@@ -85,6 +85,7 @@ public interface PwManagerService {
   /**
    * Gets the state from the component
    *
+   * @return the state
    * @throws RuntimeException if method takes too much time
    */
   public ArrayList<Entry> getState() throws RuntimeException;
@@ -92,7 +93,7 @@ public interface PwManagerService {
   /**
    * Loads the state in the component.
    *
-   * @return a list with decrypted entries
+   * @throws RuntimeException if method takes too much time
    */
   public void loadState(ArrayList<Entry> state) throws RuntimeException;
 
