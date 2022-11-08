@@ -2,6 +2,9 @@ package de.hhn.it.devtools.apis.pwmanager;
 
 import java.util.ArrayList;
 
+/**
+ * Pw-Manager Service.
+ */
 public interface PwManagerService {
 
   String masterPw = "test";
@@ -11,28 +14,31 @@ public interface PwManagerService {
    * changes the Master Password.
    *
    * @param password the new master password.
-   * @throws RuntimeException if method takes too much time
+   * @throws RuntimeException if method takes too much time.
    */
   void changeMasterPw(String password) throws RuntimeException;
 
   /**
-   * Logs in the user and gives access to the passwords
-   * @param masterPw Master password to get access
-   * @throws RuntimeException if method takes too much time
+   * Logs in the user and gives access to the passwords.
+   *
+   * @param masterPw Master password to get access.
+   * @throws RuntimeException if method takes too much time.
    */
   void login(String masterPw) throws RuntimeException;
 
   /**
-   * Logs out the user
-   * @throws RuntimeException if method takes too much time
+   * Logs out the user.
+   *
+   * @throws RuntimeException if method takes too much time.
    */
   void logout() throws RuntimeException;
 
   /**
    * changes the visibility of a single password.
-   * @param id of the Entry
-   * @return the decrypted password
-   * @throws RuntimeException if method takes too much time
+   *
+   * @param id of the Entry.
+   * @return the decrypted password.
+   * @throws RuntimeException if method takes too much time.
    */
   String changeHidden(int id) throws RuntimeException;
 
@@ -44,11 +50,12 @@ public interface PwManagerService {
    * @param url      for the associated password.
    * @param username for the associated password.
    * @param email    for the associated password.
-   * @param password
+   * @param password for the associated password.
    * @return the created entry.
    * @throws RuntimeException if method takes too much time
    */
-  public Entry addEntry(int id, String url, String username, String email, String password) throws RuntimeException;
+  public Entry addEntry(int id, String url, String username, String email, String password)
+      throws RuntimeException;
 
   /**
    * Changes an entry and loads the entry in the file.
@@ -72,18 +79,22 @@ public interface PwManagerService {
    * @param useUpper signals if uppercase letters
    * @throws RuntimeException if method takes too much time
    */
-  public String generateNewPw(boolean useUpper, boolean useLower, boolean useDigits, boolean useSpecialChars) throws RuntimeException;
+  public String generateNewPw(boolean useUpper, boolean useLower, boolean useDigits,
+                              boolean useSpecialChars) throws RuntimeException;
 
   /**
-   * Encrypts a single entry and loads the entry in the file.
+   * Gets the state from the component
+   *
+   * @return the state
    * @throws RuntimeException if method takes too much time
    */
-  public void exportToFile() throws RuntimeException;
+  public ArrayList<Entry> getState() throws RuntimeException;
 
   /**
-   * Reads the encrypted entries from the file and puts the decrypted entries in the list.
-   * @return a list with decrypted entries
+   * Loads the state in the component.
+   *
+   * @throws RuntimeException if method takes too much time
    */
-  public ArrayList<Entry> importFromFile() throws RuntimeException;
+  public void loadState(ArrayList<Entry> state) throws RuntimeException;
 
 }
