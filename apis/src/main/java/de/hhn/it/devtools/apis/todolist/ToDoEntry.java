@@ -12,32 +12,31 @@ public interface ToDoEntry {
   /**
    * Creates a new task in the ToDo List.
    *
-   * @param title title of the new task
-   * @param description description of the new task
+   * @param title The title of the new task.
+   * @param description The description of the new task.
    */
   Task createTask(String title, String description) throws IllegalParameterException;
 
   /**
-   * Deletes a task of the ToDo List.
+   * Delete the task with the given id.
    *
-   * @param id the ID of the task to delete
+   * @param id The id of the task to be deleted.
    */
   void deleteTask(UUID id);
 
   /**
-   * Edits a task of the ToDo List.
+   * This function edits a task.
    *
-   * @param taskChanged is the task that had its properties changed
+   * @param taskChanged The task that has been changed.
    */
   void editTask(Task taskChanged)
           throws IllegalParameterException;
 
-  /** Saves all open and existing tasks in a file.*/
+  /** This function saves the list of tasks in a file. */
   void saveList();
 
-  /** Loads a file with all the tasks saved on it. */
+  /** This function loads a file with all the tasks saved on it. */
   void loadList();
 
   //TODO: imports/exports
-
 }

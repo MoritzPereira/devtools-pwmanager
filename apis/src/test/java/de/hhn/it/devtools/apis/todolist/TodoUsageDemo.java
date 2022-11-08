@@ -1,7 +1,6 @@
 package de.hhn.it.devtools.apis.todolist;
 
 import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
-
 import java.time.LocalDate;
 
 public class TodoUsageDemo {

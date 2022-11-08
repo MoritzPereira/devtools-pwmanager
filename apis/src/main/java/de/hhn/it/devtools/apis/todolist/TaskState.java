@@ -8,4 +8,4 @@ public enum TaskState {
   INPROGRESS,
   /** Task has been marked as "done". */
   DONE
-}
+} //TODO: vllt noch einen Verspätet Status?

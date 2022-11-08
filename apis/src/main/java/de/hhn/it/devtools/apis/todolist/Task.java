@@ -1,6 +1,7 @@
 package de.hhn.it.devtools.apis.todolist;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**
@@ -18,13 +19,19 @@ public class Task {
   private TaskFrequency frequency;
   private boolean highlighted;
   private TaskState state;
+  //TODO: private ArrayList<Folder> categories;
+  private int size; //TODO: confluence must-have, noch keine methoden
+  //TODO: label -> confluence must-have
 
   /**
-   * Constructor Task for creating new tasks.
+   * Constructor Task for creating new tasks,
+   * with given minimum requirements.
+   * TODO: mehrere constructors für gegebene Attribute?
    *
-   * @param title title of the new task
-   * @param description description of the new task
+   * @param title The title of the new task.
+   * @param description The description of the new task.
    */
+  // The constructor of the class.
   public Task(String title, String description) {
     this.title = title;
     this.description = description;
@@ -33,153 +40,155 @@ public class Task {
   }
 
   /**
-   * Returns the ID of the task.
+   * This function returns the id of the task.
    *
-   * @return id
+   * @return The id of the object.
    */
   public UUID getId() {
     return id;
   }
 
   /**
-   * Returns the title of the task.
+   * This function returns the title of the task.
    *
-   * @return title
+   * @return The title of the task.
    */
   public String getTitle() {
     return title;
   }
 
   /**
-   * Returns description of task.
+   * This function sets the title of the task to the value of the newTitle parameter.
    *
-   * @return description
-   */
-  public String getDescription() {
-    return description;
-  }
-
-  /**
-   * Returns the highlighted state.
-   *
-   * @return highlighted
-   */
-  public boolean getHighlighted() {
-    return highlighted;
-  }
-
-  /**
-   * Returns the start date of the task.
-   *
-   * @return startDate
-   */
-  public LocalDate getStartDate() {
-    return startDate;
-  }
-
-  /**
-   * Returns the end date of the task.
-   *
-   * @return endDate
-   */
-  public LocalDate getEndDate() {
-    return endDate;
-  }
-
-  /**
-   * Returns the priority value of the task.
-   *
-   * @return priority
-   */
-  public int getPriority() {
-    return priority;
-  }
-
-  /**
-   * Returns the frequency of the tasks repeating.
-   *
-   * @return frequency
-   */
-  public TaskFrequency getFrequency() {
-    return frequency;
-  }
-
-  /**
-   * Changes the title of the task.
-   *
-   * @param newTitle is the new title to be set
+   * @param newTitle The new title of the task.
    */
   public void setTitle(String newTitle) {
     this.title = newTitle;
   }
 
   /**
-   * Changes the description of the task.
+   * This function returns the description of the task.
    *
-   * @param newDescription is the new description to be set
+   * @return The description of the item.
+   */
+  public String getDescription() {
+    return description;
+  }
+
+  /**
+   * This function sets the description of the task to the value of newDescription.
+   *
+   * @param newDescription The new description of the task.
    */
   public void setDescription(String newDescription) {
     this.description = newDescription;
   }
 
   /**
-   * Highlights or removes the highlight of a task.
+   * This function returns the start date of the task.
    *
-   * @param newHighlighted true for highlighting a task, false for removing highlight
+   * @return The startDate variable.
    */
-  public void setHighlighted(boolean newHighlighted) {
-    this.highlighted = newHighlighted;
+  public LocalDate getStartDate() {
+    return startDate;
   }
 
   /**
-   * Sets or changes (pre-/postpones) the start date of the task.
+   * This function returns the end date of the task.
    *
-   * @param newStartDate is the new start date of the task
+   * @return The endDate variable.
+   */
+  public LocalDate getEndDate() {
+    return endDate;
+  }
+
+  /**
+   * This function sets the start date of the task to the value of newStartDate.
+   * Not only initial value, also to pre-/postpone a task.
+   *
+   * @param newStartDate The new start date for the task.
    */
   public void setStartDate(LocalDate newStartDate) {
     this.startDate = newStartDate;
   }
 
   /**
-   * Sets or changes (pre-/postpones) the end date of the task.
+   * This function sets the end date of the task to the value of newEndDate.
+   * Not only initial value, also to pre-/postpone a task.
    *
-   * @param newEndDate is the new end date of the task
+   * @param newEndDate The new end date for the project.
    */
   public void setEndDate(LocalDate newEndDate) {
     this.endDate = newEndDate;
   }
 
   /**
-   * Sets or changes the priority of a task.
+   * This function returns the highlighted state of the task.
    *
-   * @param newPriority is the new priority of the task
+   * @return The highlighted status is being returned.
+   */
+  public boolean getHighlighted() {
+    return highlighted;
+  }
+
+  /**
+   * This function sets the highlighted state to the value of the newHighlighted state.
+   *
+   * @param newHighlighted The new highlighted state of the button.
+   */
+  public void setHighlighted(boolean newHighlighted) {
+    this.highlighted = newHighlighted;
+  }
+
+  /**
+   * Returns the priority value of the task.
+   *
+   * @return The priority of the task.
+   */
+  public int getPriority() {
+    return priority;
+  }
+
+  /**
+   * This function sets the priority of the task to the value of newPriority.
+   *
+   * @param newPriority The new priority of the task.
    */
   public void setPriority(int newPriority) {
     this.priority = newPriority;
   }
 
   /**
-   * Sets or changes the frequency of the task interval.
+   * This function returns the repeating frequency of the task.
    *
-   * @param frequency is the new frequency
+   * @return The frequency of the task.
+   */
+  public TaskFrequency getFrequency() {
+    return frequency;
+  }
+
+  /**
+   * This function sets the repeating frequency of the task.
+   *
+   * @param frequency The frequency of the task.
    */
   public void setFrequency(TaskFrequency frequency) {
     this.frequency = frequency;
   }
 
   /**
-   * Sets the state of the task.
+   * This function sets the state of the task.
    *
-   * @param state is the processing state of the task
+   * @param state The state of the task.
    */
   public void setState(final TaskState state) {
     this.state = state;
   }
 
   /**
-   * Returns the state of the task.
+   * This function returns the state of the task.
    *
-   * @return state
+   * @return The state of the task.
    */
   public TaskState getState() {
     return state;

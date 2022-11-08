@@ -7,30 +7,32 @@ import java.util.UUID;
 public interface ToDoListener {
 
   /**
-   * New task has been created.
+   * This function is called when a new task is created.
    *
-   * @param newTask new task
+   * @param newTask The task that was created.
    */
   void taskCreated(Task newTask) throws IllegalParameterException;
 
   /**
-   * Current task has been deleted.
+   * When a task is deleted, remove it from the list of tasks.
    *
-   * @param id the ID of the task
+   * @param id The UUID of the task that was deleted.
    */
   void taskDeleted(UUID id);
 
   /**
-   * Current task has been edited.
+   * When a task is edited, update the task in the database.
    *
-   * @param taskChanged is the task that had its properties changed
+   * @param taskChanged The task that was edited.
    */
   void taskEdited(Task taskChanged);
 
   /**
-   * Informs about change of state of a task.
+   * This function is called when the state of the task changes.
    *
-   * @param state the state of the task
+   * @param state The new state of the task.
    */
   void newState(TaskState state);
+
+
 }
