@@ -309,15 +309,25 @@ public class Folder {
     return array;
   }
 
-  public Task[] sortAlphabetical(){
-    /*Task[] array = this.getContent();
-    for (int i = 1; i < array.length; i++) {
-      for (int j = 0; j < array.length; j++) {
-        if (array[j].getTitle().compareTo(array[j+1].getTitle()) < 0
-                || (array[j].getTitle().compareTo(array[j+1].getTitle()) == 0));
-      }
-    }*/
+  public Task[] sortAlphabetical() {
     Task[] array = this.getContent();
+    List<String> titleArray = new ArrayList<String>();
+
+    for (Task x : array) {
+      titleArray.add(x.getTitle());
+    }
+    Collections.sort(titleArray);
+
+    Task[] sortArray = new Task[array.length];
+    for (int i = 0; i < array.length; i++) {
+      for (int j = 0; j < array.length; j++) {
+        if (titleArray.get(i) == array[j].getTitle()) {
+          sortArray[i] = array[j];
+          break;
+        }
+      }
+    }
+
     Arrays.sort(array);
     return array;
   }

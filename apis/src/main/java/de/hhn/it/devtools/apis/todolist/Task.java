@@ -20,7 +20,7 @@ public class Task {
   private boolean highlighted;
   private TaskState state;
   //TODO: private ArrayList<Folder> categories;
-  private int size;
+  private int estimatedSize;
 
   /**
    * Constructor Task for creating new tasks,
@@ -40,7 +40,7 @@ public class Task {
     this.frequency = frequency;
     this.highlighted = false;
     this.state = state;
-    this.size = size;
+    this.estimatedSize = size;
     id = UUID.randomUUID();
     state = TaskState.NOTSTARTED;
   }
@@ -198,5 +198,23 @@ public class Task {
    */
   public TaskState getState() {
     return state;
+  }
+
+  /**
+   * Returns the estimated effort of the task.
+   *
+   * @return The estimated size of the task.
+   */
+  public int getEstimatedSize() {
+    return estimatedSize;
+  }
+
+  /**
+   * This function sets the estimated size of the task.
+   *
+   * @param size The estimated size of the task.
+   */
+  public void setEstimatedSize(int size) {
+    estimatedSize = size;
   }
 }
