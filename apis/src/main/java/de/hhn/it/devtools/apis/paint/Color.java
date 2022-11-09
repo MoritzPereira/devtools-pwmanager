@@ -9,7 +9,6 @@ public class Color {
     private double green;
     private double blue;
 
-
     private double trancparency;
 
 
