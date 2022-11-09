@@ -96,7 +96,14 @@ public class Folder {
     content.add(x);
   }
 
-  //TODO: deleteContent
+  /**
+   * This function removes a task from the content list.
+   *
+   * @param x The task to be removed from the list
+   */
+  public void removeContent(Task x) {
+    content.remove(x);
+  }
 
   /**
    * This function clears the content of the content variable.
