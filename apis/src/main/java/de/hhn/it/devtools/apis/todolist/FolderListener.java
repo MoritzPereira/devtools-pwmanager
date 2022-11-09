@@ -23,7 +23,19 @@ public interface FolderListener {
    * @param editedFolder The folder that was edited.
    */
   void folderEdited(Folder editedFolder);
-  //TODO: void addedToFolder(Folder newContentFolder);
 
-  //TODO: add task to folder Listener, in welchen Listener?
+
+  /**
+   * This function is called when a new folder is added to the content folder.
+   *
+   * @param newContentFolder The folder that the content was added to.
+   */
+  void addedToFolder(Folder newContentFolder);
+
+  /**
+   * When the folder is cleared, call the folderCleared function.
+   *
+   * @param emptyFolder The folder that was cleared.
+   */
+  void folderCleared(Folder emptyFolder);
 }

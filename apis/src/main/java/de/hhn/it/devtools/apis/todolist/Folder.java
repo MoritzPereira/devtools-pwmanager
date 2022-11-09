@@ -10,7 +10,7 @@ import java.util.UUID;
 public class Folder {
   private final UUID id;
   private String title;
-  private FolderColors color;
+  private Colors color;
   private ArrayList<Task> content;
 
   /**
@@ -20,7 +20,7 @@ public class Folder {
    * @param title The title of the new folder.
    * @param color The color of the new folder.
    */
-  public Folder(String title, FolderColors color) {
+  public Folder(String title, Colors color) {
     id = UUID.randomUUID();
     this.title = title;
     this.color = color;
@@ -58,16 +58,16 @@ public class Folder {
    *
    * @return The color of the folder.
    */
-  public FolderColors getColor() {
+  public Colors getColor() {
     return color;
   }
 
   /**
-   * The function takes in a `FolderColors` object and sets the `color` variable to that object.
+   * The function takes in a `Colors` object and sets the `color` variable to that object.
    *
    * @param c The color to set the folder to.
    */
-  public void setColor(FolderColors c) {
+  public void setColor(Colors c) {
     this.color = c;
   }
 
@@ -93,6 +93,8 @@ public class Folder {
   public void addContent(Task x) {
     content.add(x);
   }
+
+  //TODO: deleteContent
 
   /**
    * This function clears the content of the content variable.
@@ -304,6 +306,5 @@ public class Folder {
     return array;
   }
 
-  //TODO: icons
   //TODO: sort/filter elements by attributes:
 }

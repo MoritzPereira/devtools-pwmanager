@@ -36,6 +36,4 @@ public interface ToDoEntry {
 
   /** This function loads a file with all the tasks saved on it. */
   void loadList();
-
-  //TODO: imports/exports
 }

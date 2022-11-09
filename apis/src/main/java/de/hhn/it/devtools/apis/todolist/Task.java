@@ -21,12 +21,11 @@ public class Task {
   private TaskState state;
   //TODO: private ArrayList<Folder> categories;
   private int size; //TODO: confluence must-have, noch keine methoden
-  //TODO: label -> confluence must-have
 
   /**
    * Constructor Task for creating new tasks,
    * with given minimum requirements.
-   * TODO: mehrere constructors für gegebene Attribute?
+   * //TODO: einen constructor mit allen Parameter
    *
    * @param title The title of the new task.
    * @param description The description of the new task.
