@@ -23,6 +23,7 @@ public interface FolderListener {
    * @param editedFolder The folder that was edited.
    */
   void folderEdited(Folder editedFolder);
+  //TODO: void addedToFolder(Folder newContentFolder);
 
   //TODO: add task to folder Listener, in welchen Listener?
 }
