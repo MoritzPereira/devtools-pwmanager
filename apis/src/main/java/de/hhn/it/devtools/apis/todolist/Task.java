@@ -20,20 +20,27 @@ public class Task {
   private boolean highlighted;
   private TaskState state;
   //TODO: private ArrayList<Folder> categories;
-  private int size; //TODO: confluence must-have, noch keine methoden
+  private int size;
 
   /**
    * Constructor Task for creating new tasks,
    * with given minimum requirements.
-   * //TODO: einen constructor mit allen Parameter
    *
    * @param title The title of the new task.
    * @param description The description of the new task.
    */
   // The constructor of the class.
-  public Task(String title, String description) {
+  public Task(String title, String description, LocalDate startDate, LocalDate endDate, int priority,
+              TaskFrequency frequency, TaskState state, int size) {
     this.title = title;
     this.description = description;
+    this.startDate = startDate;
+    this.endDate = endDate;
+    this.priority = priority;
+    this.frequency = frequency;
+    this.highlighted = false;
+    this.state = state;
+    this.size = size;
     id = UUID.randomUUID();
     state = TaskState.NOTSTARTED;
   }

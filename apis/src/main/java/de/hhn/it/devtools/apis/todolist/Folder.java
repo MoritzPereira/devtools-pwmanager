@@ -26,6 +26,7 @@ public class Folder {
     this.color = color;
   }
 
+
   /**
    * This function returns the id of the object.
    *
@@ -271,6 +272,9 @@ public class Folder {
    */
   private int translateFrequencyToInt(TaskFrequency x) {
     switch (x) {
+      case ONETIME:
+        return 4;
+
       case DAILY:
         return 3;
 
@@ -302,6 +306,17 @@ public class Folder {
       swap = array[j];
       array[j] = array[j + 1];
       array[j + 1] = swap;
+    }
+    return array;
+  }
+
+  public Task[] sortAlphabetical(){
+    Task[] array = this.getContent();
+    for (int i = 1; i < array.length; i++) {
+      for (int j = 0; j < array.length; j++) {
+        if (array[j].getTitle().compareTo(array[j+1].getTitle()) < 0
+                || (array[j].getTitle().compareTo(array[j+1].getTitle()) == 0));
+      }
     }
     return array;
   }

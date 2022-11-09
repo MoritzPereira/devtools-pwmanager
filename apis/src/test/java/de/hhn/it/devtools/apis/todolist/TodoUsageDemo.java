@@ -3,6 +3,10 @@ package de.hhn.it.devtools.apis.todolist;
 import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
 import java.time.LocalDate;
 
+import static de.hhn.it.devtools.apis.todolist.Colors.WHITE;
+import static de.hhn.it.devtools.apis.todolist.TaskFrequency.ONETIME;
+import static de.hhn.it.devtools.apis.todolist.TaskState.NOTSTARTED;
+
 public class TodoUsageDemo {
 
   private static final org.slf4j.Logger logger =
@@ -13,9 +17,11 @@ public class TodoUsageDemo {
     ToDoEntry toDoEntry;
 
     //Create two tasks and notify the listener
-    Task task1 = new Task("TODO 1", "this is a test");
+    Task task1 = new Task("TODO 1", "this is a test", null, null,
+            0, ONETIME, NOTSTARTED, 0);
     toDoListener.taskCreated(task1);
-    Task task2 = new Task("TODO 2", "this is also a test");
+    Task task2 = new Task("TODO 2", "this is also a test",null, null,
+            0, ONETIME, NOTSTARTED, 0);
     toDoListener.taskCreated(task2);
 
     task1.setStartDate(LocalDate.ofEpochDay(30-10-2022));
