@@ -6,25 +6,25 @@ import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
 public interface ToDoListener {
 
   /**
-   * This function is called when a new task is created.
+   * Called when a new task is created.
    *
    * @param newTask The task that was created.
    */
   void taskCreated(Task newTask) throws IllegalParameterException;
 
   /**
-   * When a task is deleted, remove it from the list of tasks.
+   * Called when the task is deleted.
    *
-   * @param taskDeleted The task that was deleted.
+   * @param deletedTask The task that was deleted.
    */
-  void taskDeleted(Task taskDeleted);
+  void taskDeleted(Task deletedTask);
 
   /**
-   * When a task is edited, update the task in the database.
+   * Called when a tasks properties are edited.
    *
-   * @param taskChanged The task that was edited.
+   * @param changedTask The task that was edited.
    */
-  void taskEdited(Task taskChanged);
+  void taskEdited(Task changedTask);
 
   /**
    * All tasks in the current list are saved.
@@ -37,9 +37,9 @@ public interface ToDoListener {
   void taskListLoaded();
 
   /**
-   * This function is called when the state of the task changes.
+   * Called when the state of the task changes.
    *
-   * @param state The new state of the task.
+   * @param newState The new state of the task.
    */
-  void newState(TaskState state);
+  void newState(TaskState newState);
 }

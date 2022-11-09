@@ -1,7 +1,6 @@
 package de.hhn.it.devtools.apis.todolist;
 
 import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
-import java.util.UUID;
 
 /**
  * Interface for managing todos in the Task-List.
@@ -17,19 +16,26 @@ public interface ToDoEntry {
   Task createTask(String title, String description) throws IllegalParameterException;
 
   /**
-   * Delete the task with the given id.
+   * Deletes the task with the given id.
    *
-   * @param id The id of the task to be deleted.
+   * @param editedTask The task to be deleted.
    */
-  void deleteTask(UUID id);
+  void deleteTask(Task editedTask);
 
   /**
-   * This function edits a task.
+   * Edits the tasks properties.
    *
-   * @param taskChanged The task that has been changed.
+   * @param changedTask The task that has been changed.
    */
-  void editTask(Task taskChanged)
+  void editTask(Task changedTask)
           throws IllegalParameterException;
+
+  /**
+   * Changes the state of the task.
+   *
+   * @param newState new TaskState
+   */
+  void changeState(TaskState newState);
 
   /** This function saves the list of tasks in a file. */
   void saveList();
