@@ -309,6 +309,11 @@ public class Folder {
     return array;
   }
 
+  /**
+   * It sorts the tasks in the array alphabetically.
+   *
+   * @return The method is returning an array of tasks that are sorted alphabetically.
+   */
   public Task[] sortAlphabetical() {
     Task[] array = this.getContent();
     List<String> titleArray = new ArrayList<String>();
