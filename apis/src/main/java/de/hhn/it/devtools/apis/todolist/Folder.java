@@ -1,7 +1,6 @@
 package de.hhn.it.devtools.apis.todolist;
 
-import java.util.ArrayList;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Folder Class
@@ -311,13 +310,15 @@ public class Folder {
   }
 
   public Task[] sortAlphabetical(){
-    Task[] array = this.getContent();
+    /*Task[] array = this.getContent();
     for (int i = 1; i < array.length; i++) {
       for (int j = 0; j < array.length; j++) {
         if (array[j].getTitle().compareTo(array[j+1].getTitle()) < 0
                 || (array[j].getTitle().compareTo(array[j+1].getTitle()) == 0));
       }
-    }
+    }*/
+    Task[] array = this.getContent();
+    Arrays.sort(array);
     return array;
   }
 
