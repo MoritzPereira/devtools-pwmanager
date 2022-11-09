@@ -23,11 +23,11 @@ public class TodoUsageDemo {
             0, ONETIME, 0, null);
     toDoListener.taskCreated(task2);
 
-    task1.setStartDate(LocalDateTime.of(30, Month.NOVEMBER, 2022, 18, 0));
+    task1.setStartDate(LocalDateTime.of(2022, Month.NOVEMBER, 30, 18, 0));
     toDoListener.taskEdited(task1);
     logger.debug("" + task1);
 
-    task1.setEndDate(LocalDateTime.of(15, Month.DECEMBER, 2022, 15, 0)); //TODO: better way of writing dates
+    task1.setEndDate(LocalDateTime.of(2022, Month.DECEMBER, 15, 15, 0)); //TODO: better way of writing dates
     toDoListener.taskEdited(task1);
     logger.debug("" + task1);
 

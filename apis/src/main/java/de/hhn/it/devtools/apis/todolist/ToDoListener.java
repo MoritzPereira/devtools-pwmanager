@@ -17,14 +17,14 @@ public interface ToDoListener {
    *
    * @param deletedTask The task that was deleted.
    */
-  void taskDeleted(Task deletedTask);
+  void taskDeleted(Task deletedTask) throws IllegalParameterException;
 
   /**
    * Called when a tasks properties are edited.
    *
    * @param changedTask The task that was edited.
    */
-  void taskEdited(Task changedTask);
+  void taskEdited(Task changedTask) throws IllegalParameterException;
 
   /**
    * All tasks in the current list are saved.
@@ -41,5 +41,5 @@ public interface ToDoListener {
    *
    * @param newState The new state of the task.
    */
-  void newState(TaskState newState);
+  void newState(TaskState newState) throws IllegalParameterException;
 }
