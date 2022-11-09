@@ -336,6 +336,4 @@ public class Folder {
     Arrays.sort(array);
     return array;
   }
-
-  //TODO: sort/filter elements by attributes:
 }
