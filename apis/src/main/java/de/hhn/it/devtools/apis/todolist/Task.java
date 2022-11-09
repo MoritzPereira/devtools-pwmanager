@@ -242,4 +242,10 @@ public class Task {
   public void setCategory(Folder newCategory){
     this.category = newCategory;
   }
+
+  public String toString(){
+    return id + " " + title + " " + description + " " + startDate+ " " + endDate + " "
+            + priority + " " + frequency + " " + highlighted + " " + state
+            + " " + estimatedSize + " " + category;
+  }
 }
