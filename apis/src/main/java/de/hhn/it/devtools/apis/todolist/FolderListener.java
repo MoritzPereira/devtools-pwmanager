@@ -2,8 +2,6 @@ package de.hhn.it.devtools.apis.todolist;
 
 import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
 
-import java.io.IOException;
-
 /** Listener callbacks to notify observers for state changes. */
 public interface FolderListener {
 
