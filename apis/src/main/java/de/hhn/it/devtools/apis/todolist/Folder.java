@@ -16,15 +16,17 @@ public class Folder {
    * The constructor for the Folder class.
    * It takes in a title and a color and sets the id to a random UUID.
    *
-   * @param title The title of the new folder.
-   * @param color The color of the new folder.
+   * @param title The title of the folder.
+   * @param color The color of the folder.
+   * @param content The contents of the folder.
    */
-  public Folder(String title, Colors color) {
-    id = UUID.randomUUID();
+  public Folder(String title, Colors color, ArrayList<Task> content) {
     this.title = title;
     this.color = color;
-  }
+    this.content = content;
 
+    id = UUID.randomUUID();
+  }
 
   /**
    * This function returns the id of the object.

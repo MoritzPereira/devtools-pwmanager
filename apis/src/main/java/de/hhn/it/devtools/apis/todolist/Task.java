@@ -1,7 +1,6 @@
 package de.hhn.it.devtools.apis.todolist;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
@@ -13,34 +12,42 @@ public class Task {
   private final UUID id;
   private String title;
   private String description;
-  private LocalDate startDate;
-  private LocalDate endDate;
+  private LocalDateTime startDate;
+  private LocalDateTime endDate;
   private int priority;
   private TaskFrequency frequency;
   private boolean highlighted;
   private TaskState state;
-  //TODO: private ArrayList<Folder> categories;
   private int estimatedSize;
+  private Folder category;
 
   /**
    * Constructor Task for creating new tasks,
    * with given minimum requirements.
+   * Constructor sets the highlight status to false, generates a random UUID
    *
-   * @param title The title of the new task.
-   * @param description The description of the new task.
+   * @param title The title of the task.
+   * @param description The description of the task.
+   * @param startDate The start date of the task.
+   * @param endDate The end date of the task.
+   * @param priority the priority of the task.
+   * @param frequency the frequency the task repeats at.
+   * @param estimatedSize the size of the task.
+   * @param category the category the task will be set under.
    */
   // The constructor of the class.
-  public Task(String title, String description, LocalDate startDate, LocalDate endDate, int priority,
-              TaskFrequency frequency, TaskState state, int size) {
+  public Task(String title, String description, LocalDateTime startDate, LocalDateTime endDate, int priority,
+              TaskFrequency frequency, int estimatedSize, Folder category) {
     this.title = title;
     this.description = description;
     this.startDate = startDate;
     this.endDate = endDate;
     this.priority = priority;
     this.frequency = frequency;
-    this.highlighted = false;
-    this.state = state;
-    this.estimatedSize = size;
+    this.estimatedSize = estimatedSize;
+    this.category = category;
+
+    highlighted = false;
     id = UUID.randomUUID();
     state = TaskState.NOTSTARTED;
   }
@@ -95,17 +102,8 @@ public class Task {
    *
    * @return The startDate variable.
    */
-  public LocalDate getStartDate() {
+  public LocalDateTime getStartDate() {
     return startDate;
-  }
-
-  /**
-   * This function returns the end date of the task.
-   *
-   * @return The endDate variable.
-   */
-  public LocalDate getEndDate() {
-    return endDate;
   }
 
   /**
@@ -114,8 +112,17 @@ public class Task {
    *
    * @param newStartDate The new start date for the task.
    */
-  public void setStartDate(LocalDate newStartDate) {
+  public void setStartDate(LocalDateTime newStartDate) {
     this.startDate = newStartDate;
+  }
+
+  /**
+   * This function returns the end date of the task.
+   *
+   * @return The endDate variable.
+   */
+  public LocalDateTime getEndDate() {
+    return endDate;
   }
 
   /**
@@ -124,7 +131,7 @@ public class Task {
    *
    * @param newEndDate The new end date for the project.
    */
-  public void setEndDate(LocalDate newEndDate) {
+  public void setEndDate(LocalDateTime newEndDate) {
     this.endDate = newEndDate;
   }
 
@@ -183,21 +190,21 @@ public class Task {
   }
 
   /**
-   * This function sets the state of the task.
-   *
-   * @param state The state of the task.
-   */
-  public void setState(final TaskState state) {
-    this.state = state;
-  }
-
-  /**
    * This function returns the state of the task.
    *
    * @return The state of the task.
    */
   public TaskState getState() {
     return state;
+  }
+
+  /**
+   * This function sets the state of the task.
+   *
+   * @param state The state of the task.
+   */
+  public void setState(final TaskState state) {
+    this.state = state;
   }
 
   /**
@@ -216,5 +223,23 @@ public class Task {
    */
   public void setEstimatedSize(int size) {
     estimatedSize = size;
+  }
+
+  /**
+   * Returns the category of the task.
+   *
+   * @return category
+   */
+  public Folder getCategory(){
+    return category;
+  }
+
+  /**
+   * Sets the category of the task to a new one.
+   *
+   * @param newCategory the new category.
+   **/
+  public void setCategory(Folder newCategory){
+    this.category = newCategory;
   }
 }
