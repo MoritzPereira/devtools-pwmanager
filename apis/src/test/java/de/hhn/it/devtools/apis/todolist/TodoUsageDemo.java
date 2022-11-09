@@ -14,7 +14,7 @@ public class TodoUsageDemo {
 
   public static void main(String[] args) throws IllegalParameterException {
     ToDoListener toDoListener = null; //TODO: issue here null throws a exception, alternatives?
-    ToDoEntry toDoEntry;
+    ToDoEntry toDoEntry = null;
 
     //Create two tasks and notify the listener
     Task task1 = new Task("TODO 1", "this is a test", null, null,
