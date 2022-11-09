@@ -244,8 +244,9 @@ public class Task {
   }
 
   public String toString(){
-    return id + " " + title + " " + description + " " + startDate+ " " + endDate + " "
-            + priority + " " + frequency + " " + highlighted + " " + state
-            + " " + estimatedSize + " " + category;
+    return "{ TASK ID: " + id + "\n TASK TITLE: " + title + "\n TASK DESCRIPTION: " + description + "\n TASK START DATE: "
+            + startDate + "\n TASK END DATE: " + endDate + "\n TASK PRIORITY: "
+            + priority + "\n TASK FREQUENCY: " + frequency + "\n TASK HIGHLIGHTED: " + highlighted + "\n TASK STATE: " + state
+            + "\n TASK SIZE: " + estimatedSize + "\n TASK CATEGORY: " + category + " }";
   }
 }
