@@ -16,12 +16,12 @@ import java.util.ArrayList;
          private Point endPoint;
          private ArrayList<Point> points = new ArrayList<>();
          private Boolean straightMode;
-         private ColorTriplet shapeColor;
+         private Color shapeColor;
 
 
 
          public ShapeDescriptor(int startX, int startY){
-             shapeColor = new ColorTriplet();
+             shapeColor = new Color();
              setStartPoint(startX, startY);
              shapeId = 0;
          }
@@ -140,8 +140,9 @@ import java.util.ArrayList;
           * @param red proportion of RGB
           * @param green proportion of RGB
           * @param blue proportion of RGB
+          * @param transparency defines the transparency of the given shapedescriptor object
           */
-         public void setShapeColor(double red, double green, double blue) {
+         public void setShapeColor(double red, double green, double blue, double transparency) {
              shapeColor.setRed(red);
              shapeColor.setGreen(green);
              shapeColor.setBlue(blue);
@@ -150,7 +151,7 @@ import java.util.ArrayList;
          /**
           * @return color of the shape
           */
-         public ColorTriplet getShapeColor() {
+         public Color getShapeColor() {
              return shapeColor;
          }
 

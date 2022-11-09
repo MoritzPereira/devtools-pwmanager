@@ -11,7 +11,7 @@ public class Board {
   private int boardId;
   private double height;
   private double width;
-  private ColorTriplet colorTriplet;
+  private Color color;
   private ArrayList<ShapeDescriptor> undoHistory;
   private ArrayList<ShapeDescriptor> redoHistory;
 
@@ -56,13 +56,13 @@ public class Board {
   }
 
   public void setBoardColor(double red, double green, double blue) {
-    colorTriplet.setRed(red);
-    colorTriplet.setGreen(green);
-    colorTriplet.setBlue(blue);
+    color.setRed(red);
+    color.setGreen(green);
+    color.setBlue(blue);
   }
 
-  public ColorTriplet getBoardColor() {
-    return colorTriplet;
+  public Color getBoardColor() {
+    return color;
   }
 
 

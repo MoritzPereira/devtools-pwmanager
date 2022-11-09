@@ -3,7 +3,6 @@ package de.hhn.it.devtools.apis.paint;
 import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
 
 import java.util.ArrayList;
-import java.util.Stack;
 
 
 public interface PaintService {
@@ -54,17 +53,17 @@ public interface PaintService {
 
 
     /**
-     * calculate the draw or erase points on the board and adds the shape/action with all his coordinates to the given board
+     * adds the shape (could be drawing action or erase action as well) with all his coordinates to the given board
      *
      * @param shape descriptor of the new shape
-     * @param x x coordinates of the mouse
-     * @param y y coordinates of the mouse
+     * @param xCoordinates x coordinates of the mouse
+     * @param yCoordinates y coordinates of the mouse
      * @param action defining the drawing mode
      * @param boardId defines the board where the shape should be added
      * @throws IllegalParameterException if x, y or boardId values are invalid/does not exist or shape/mode are a null
      *                                   reference
      */
-    void calculateDraw(ShapeDescriptor shape, double x, double y, Action action, int boardId)
+    void addShape(ShapeDescriptor shape, ArrayList<Integer> xCoordinates, ArrayList<Integer> yCoordinates, Action action, int boardId)
             throws IllegalParameterException;
 
 
@@ -110,10 +109,12 @@ public interface PaintService {
      * @param red proportion of RGB
      * @param green proportion of RGB
      * @param blue proportion of RGB
+     * @param transparency defines the transparency of the given shapedescriptor object
      * @throws IllegalParameterException if shape is a null reference or boardId is invalid or does not exist
+     * @throws IndexOutOfBoundsException if the transparency value is less than 0 or greater than 255
      */
-    void changeColor(ShapeDescriptor shape, Action action, int boardId, double red, double green, double blue)
-            throws IllegalParameterException;
+    void changeColor(ShapeDescriptor shape, Action action, int boardId, double red, double green, double blue, double transparency)
+            throws IllegalParameterException, IndexOutOfBoundsException;
 
 
     /**
