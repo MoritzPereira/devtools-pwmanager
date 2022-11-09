@@ -36,8 +36,8 @@ public class Task {
    * @param category the category the task will be set under.
    */
   // The constructor of the class.
-  public Task(String title, String description, LocalDateTime startDate, LocalDateTime endDate, int priority,
-              TaskFrequency frequency, int estimatedSize, Folder category) {
+  public Task(String title, String description, LocalDateTime startDate, LocalDateTime endDate,
+              int priority, TaskFrequency frequency, int estimatedSize, Folder category) {
     this.title = title;
     this.description = description;
     this.startDate = startDate;
@@ -230,7 +230,7 @@ public class Task {
    *
    * @return category
    */
-  public Folder getCategory(){
+  public Folder getCategory() {
     return category;
   }
 
@@ -239,14 +239,20 @@ public class Task {
    *
    * @param newCategory the new category.
    **/
-  public void setCategory(Folder newCategory){
+  public void setCategory(Folder newCategory) {
     this.category = newCategory;
   }
 
-  public String toString(){
-    return "{ TASK ID: " + id + "\n TASK TITLE: " + title + "\n TASK DESCRIPTION: " + description + "\n TASK START DATE: "
-            + startDate + "\n TASK END DATE: " + endDate + "\n TASK PRIORITY: "
-            + priority + "\n TASK FREQUENCY: " + frequency + "\n TASK HIGHLIGHTED: " + highlighted + "\n TASK STATE: " + state
-            + "\n TASK SIZE: " + estimatedSize + "\n TASK CATEGORY: " + category + " }";
+  /**
+   * The toString() function returns a string representation of the object Task.
+   *
+   * @return A string representation of the task object.
+   */
+  public String toString() {
+    return "{ TASK ID: " + id + "\n TASK TITLE: " + title + "\n TASK DESCRIPTION: " + description
+            + "\n TASK START DATE: " + startDate + "\n TASK END DATE: " + endDate
+            + "\n TASK PRIORITY: " + priority + "\n TASK FREQUENCY: " + frequency
+            + "\n TASK HIGHLIGHTED: " + highlighted + "\n TASK STATE: " + state + "\n TASK SIZE: "
+            + estimatedSize + "\n TASK CATEGORY: " + category + " }";
   }
 }
