@@ -16,6 +16,7 @@ import java.util.ArrayList;
          private Point endPoint;
          private ArrayList<Point> points = new ArrayList<>();
          private Boolean straightMode;
+         private Boolean eraseMode;
          private Color shapeColor;
 
 
@@ -96,6 +97,13 @@ import java.util.ArrayList;
          }
 
 
+         /**
+          * @return all points of the shape
+          */
+         public ArrayList<Point> getPoints() {
+             return points;
+         }
+
 
          /**
           * @param straightMode defines if the draw action is free hand or on straight lines
@@ -142,7 +150,7 @@ import java.util.ArrayList;
           * @param blue proportion of RGB
           * @param transparency defines the transparency of the given shapedescriptor object
           */
-         public void setShapeColor(double red, double green, double blue, double transparency) {
+         public void setShapeColor(int red, int green, int blue, double transparency) {
              shapeColor.setRed(red);
              shapeColor.setGreen(green);
              shapeColor.setBlue(blue);
@@ -155,7 +163,22 @@ import java.util.ArrayList;
              return shapeColor;
          }
 
-    }
+
+         /**
+          * @param eraseMode defines if shape should draw or erase
+          */
+         public void setEraseMode(Boolean eraseMode) {
+             this.eraseMode = eraseMode;
+         }
+
+
+         /**
+          * @return boolean expression if shapee draw or erase
+          */
+         public Boolean getEraseMode() {
+             return eraseMode;
+         }
+     }
 
 
 
