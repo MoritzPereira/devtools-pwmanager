@@ -62,6 +62,7 @@ public class PaintUsageDemo {
         }
 
 
+
         //user releases mouse
         mousePressed = false;
 
