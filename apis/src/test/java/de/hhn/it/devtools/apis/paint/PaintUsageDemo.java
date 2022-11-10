@@ -2,8 +2,6 @@ package de.hhn.it.devtools.apis.paint;
 
 import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
 
-import java.util.ArrayList;
-
 /**
  * This usage demo is not runnable because in this module there is no possibility to access the
  * implementation.
@@ -26,16 +24,6 @@ public class PaintUsageDemo {
         int mouseExampleCoordinateY3 = 3;
 
 
-        ArrayList<Integer> mouseExampleCoordinatesX = new ArrayList<>();
-        ArrayList<Integer> mouseExampleCoordinatesY = new ArrayList<>();
-
-        mouseExampleCoordinatesX.add(mouseExampleCoordinateX1);
-        mouseExampleCoordinatesX.add(mouseExampleCoordinateX2);
-        mouseExampleCoordinatesX.add(mouseExampleCoordinateX3);
-
-        mouseExampleCoordinatesY.add(mouseExampleCoordinateY1);
-        mouseExampleCoordinatesY.add(mouseExampleCoordinateY2);
-        mouseExampleCoordinatesY.add(mouseExampleCoordinateY3);
 
 
         Board page1 = new Board(500, 500);
@@ -68,8 +56,8 @@ public class PaintUsageDemo {
         while (mousePressed) {
 
             //simulates move of the mouse
-           mouseExampleCoordinatesX.add(1);
-           mouseExampleCoordinatesY.add(1);
+          shape0.addPoint(mouseExampleCoordinateX2, mouseExampleCoordinateY2);
+
 
         }
 
@@ -81,17 +69,20 @@ public class PaintUsageDemo {
         //defines the end of a shape/drawing action
         shape0.setEndPoint(mouseExampleCoordinateX3, mouseExampleCoordinateY3);
 
-        //program draws lines between each added point during mouse press
-        paintService.addShape(shape0, mouseExampleCoordinatesX, mouseExampleCoordinatesY, Action.DRAW, 0);
+        //program add shape to board
+        paintService.addShape(shape0, 0);
 
 
 
         //New Action
 
         //user want to change color of earlier drawn shape
-        paintService.changeColor(paintService.containsPoint(mouseExampleCoordinateX2, mouseExampleCoordinateY2, 0),
-                Action.COLOR, 0, 45,26,95,255);
+        for (int i = 0; i<paintService.containsPoint(mouseExampleCoordinateX2, mouseExampleCoordinateY2, 0).size(); i++) {
 
+        paintService.changeColor(paintService.containsPoint(mouseExampleCoordinateX2, mouseExampleCoordinateY2, 0).get(i),
+                0, 45,26,95,255);
+
+        }
 
 
         //New Action
@@ -141,7 +132,7 @@ public class PaintUsageDemo {
 
 
         //program draws lines between each start/End-point
-        paintService.addShape(shape1, mouseExampleCoordinatesX, mouseExampleCoordinatesY, Action.DRAW, 0);
+        paintService.addShape(shape1, 0);
 
 
 
