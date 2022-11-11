@@ -66,18 +66,13 @@ public interface PosSystemService {
   void deleteProductFromBill(int id) throws IllegalParameterException, IllegalStateException;
 
   /**
-   * Summarizes the prices of the scanned products.
-   *
-   * @return Total price of scanned products
-   */
-  float sumUpPrices();
-
-  /**
    * Calculates the change for the customer.
    *
    * @param givenMoney amount of money the customer gives the cashier.
    * @return Change for customer
    */
   float calculateChange(float givenMoney) throws IllegalParameterException;
+
+  Bill getBill() throws IllegalStateException;
 
 }

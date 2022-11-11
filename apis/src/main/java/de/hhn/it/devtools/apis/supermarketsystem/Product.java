@@ -5,30 +5,23 @@ package de.hhn.it.devtools.apis.supermarketsystem;
  *
  */
 public class Product {
-
-  private final int id;
   private String name;
   private String manufacturer;
   private float price;
-  private int quantity;
   private boolean isWeighed;
   private ProductCategory category;
 
   // TODO: 20.10.2022 Replace idCount with real unique id generator
-  private static int idCount = 0;
 
   /**
    * Constructor for a new product.
    *
    * @param name     name of the product
    * @param price    price of the product
-   * @param quantity quantity of the product
    */
-  public Product(String name, float price, int quantity) {
-    this.id = idCount++;
+  public Product(String name, float price) {
     this.name = name;
     this.price = price;
-    this.quantity = quantity;
   }
 
   /**
@@ -36,25 +29,13 @@ public class Product {
    *
    * @param name         name of the product
    * @param price        price of the product
-   * @param quantity     quantity of the product
    * @param manufacturer manufacturer of the product
    * @param isWeighed    boolean if the product will be weighed
    */
-  public Product(String name, float price, int quantity, String manufacturer, boolean isWeighed) {
-    this.id = idCount++;
+  public Product(String name, float price, String manufacturer, boolean isWeighed) {
     this.name = name;
     this.price = price;
-    this.quantity = quantity;
     this.manufacturer = manufacturer;
-  }
-
-  /**
-   * Returns the id of the product.
-   *
-   * @return id
-   */
-  public int getId() {
-    return id;
   }
 
   /**
@@ -112,24 +93,6 @@ public class Product {
   }
 
   /**
-   * Returns the quantity of the product.
-   *
-   * @return quantity
-   */
-  public int getQuantity() {
-    return quantity;
-  }
-
-  /**
-   * Changes the quantity of a product.
-   *
-   * @param quantity quantity of product
-   */
-  public void setQuantity(int quantity) {
-    this.quantity = quantity;
-  }
-
-  /**
    * Returns the product category of the product.
    *
    * @return product category
@@ -167,13 +130,11 @@ public class Product {
   @Override
   public String toString() {
     return "Product{"
-        + "id=" + id
         + ", name='" + name
         + '\''
         + ", manufacturer='" + manufacturer
         + '\''
         + ", price=" + price
-        + ", quantity=" + quantity
         + ", category=" + category
         + ", isWeighed=" + isWeighed
         + '}';

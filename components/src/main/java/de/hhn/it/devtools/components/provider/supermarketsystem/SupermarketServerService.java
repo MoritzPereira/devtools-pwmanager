@@ -35,13 +35,12 @@ public class SupermarketServerService implements PosSystemService {
    * @param id id of the product
    * @param name name of the product
    * @param price price of the product
-   * @param quantity quantity of the product
    * @param manufacturer manufacturer of the product
    * @param category category of the product
    */
   public void addProduct(int id, String name, float price,
-                         int quantity, String manufacturer, ProductCategory category) {
-    Product product = new Product(name, price, quantity);
+                         String manufacturer, ProductCategory category) {
+    Product product = new Product(name, price);
 
     if (!manufacturer.isBlank()) {
       product.setManufacturer(manufacturer);
@@ -152,11 +151,6 @@ public class SupermarketServerService implements PosSystemService {
       // Remove entry from bill
       bill.removeEntry(id);
     }
-  }
-
-  @Override
-  public float sumUpPrices() {
-    return bill.getSummary();
   }
 
   @Override

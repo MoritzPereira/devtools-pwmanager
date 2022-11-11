@@ -54,7 +54,7 @@ public class PosSystemServiceUsageDemo {
 
     // shows the total price of the bill.
     System.out.println("Total price: ");
-    System.out.println(posSystemService.sumUpPrices());
+    System.out.println(posSystemService.getBill().getSummary());
 
     // shows the change the customer gets.
     System.out.println("Change for the customer: ");
