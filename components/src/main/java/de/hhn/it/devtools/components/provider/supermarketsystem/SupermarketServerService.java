@@ -58,10 +58,7 @@ public class SupermarketServerService implements PosSystemService {
     return products;
   }
 
-  /** Returns the bill.
-   *
-   * @return bill
-   */
+  @Override
   public Bill getBill() {
     return bill;
   }

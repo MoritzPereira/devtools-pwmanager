@@ -73,6 +73,10 @@ public interface PosSystemService {
    */
   float calculateChange(float givenMoney) throws IllegalParameterException;
 
+  /** Returns the bill.
+   *
+   * @return bill
+   */
   Bill getBill() throws IllegalStateException;
 
 }
