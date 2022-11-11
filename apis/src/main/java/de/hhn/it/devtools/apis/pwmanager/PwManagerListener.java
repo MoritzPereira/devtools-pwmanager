@@ -57,13 +57,13 @@ public interface PwManagerListener {
      *
      * @param pw the generated pw.
      */
-     void showNewPw(String pw);
+    void showNewPw(String pw);
 
     /**
      * gives the sorted List of Entrys.
      *
      * @param entryList sorted list of entrys
      */
-     void showsortedEntryList(ArrayList<Entry> entryList);
+    void showsortedEntryList(ArrayList<Entry> entryList);
 
 }

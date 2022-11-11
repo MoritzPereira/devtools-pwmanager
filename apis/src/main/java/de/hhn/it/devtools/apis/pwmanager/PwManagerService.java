@@ -55,7 +55,7 @@ public interface PwManagerService {
    * @throws RuntimeException if method takes too much time
    */
   public Entry addEntry(int id, String url, String username, String email, String password)
-      throws RuntimeException;
+          throws RuntimeException;
 
   /**
    * Changes an entry and loads the entry in the file.
@@ -83,17 +83,17 @@ public interface PwManagerService {
                               boolean useSpecialChars) throws RuntimeException;
 
   /**
-   * Encrypts a single entry and loads the entry in the file.
+   * Gets the state from the component
+   * @return the state.
+   * @throws RuntimeException if method takes too much time
+   */
+  public ArrayList<Entry> getState() throws RuntimeException;
+
+  /**
+   * Loads the state in the component.
    *
    * @throws RuntimeException if method takes too much time
    */
-  public void exportToFile() throws RuntimeException;
-
-  /**
-   * Reads the encrypted entries from the file and puts the decrypted entries in the list.
-   *
-   * @return a list with decrypted entries
-   */
-  public ArrayList<Entry> importFromFile() throws RuntimeException;
+  public void loadState(ArrayList<Entry> state) throws RuntimeException;
 
 }
