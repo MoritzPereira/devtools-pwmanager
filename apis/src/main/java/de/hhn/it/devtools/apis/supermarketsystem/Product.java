@@ -11,6 +11,7 @@ public class Product {
   private String manufacturer;
   private float price;
   private int quantity;
+  private boolean isWeighed;
   private ProductCategory category;
 
   // TODO: 20.10.2022 Replace idCount with real unique id generator
@@ -37,8 +38,9 @@ public class Product {
    * @param price        price of the product
    * @param quantity     quantity of the product
    * @param manufacturer manufacturer of the product
+   * @param isWeighed    boolean if the product will be weighed
    */
-  public Product(String name, float price, int quantity, String manufacturer) {
+  public Product(String name, float price, int quantity, String manufacturer, boolean isWeighed) {
     this.id = idCount++;
     this.name = name;
     this.price = price;
@@ -145,6 +147,23 @@ public class Product {
     this.category = category;
   }
 
+  /**
+   * Returns if the product will be weighed or not.
+   *
+   * @return isWeighed
+   */
+  public boolean getIsWeighed() {
+    return isWeighed;
+  }
+
+  /**
+   * Changes if the product will be weighed.
+   *
+   * @param isWeighed boolean if the product will be weighed
+   */
+  public void setIsWeighed(boolean isWeighed) {
+    this.isWeighed = isWeighed;
+  }
   @Override
   public String toString() {
     return "Product{"
@@ -156,6 +175,7 @@ public class Product {
         + ", price=" + price
         + ", quantity=" + quantity
         + ", category=" + category
+        + ", isWeighed=" + isWeighed
         + '}';
   }
 }

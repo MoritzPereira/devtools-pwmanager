@@ -1,7 +1,7 @@
 package de.hhn.it.devtools.apis.supermarketsystem;
 
 import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
-import java.util.List;
+import java.util.Map;
 
 /**
  * This PosSystemService is an interface to a bunch of Pos Systems in a supermarket.
@@ -13,14 +13,14 @@ public interface PosSystemService {
    *
    * @return List of all Products
    */
-  List<Product> getProducts();
+  Map<Integer, Product> getProducts();
 
   /**
    * Returns a list of all scanned products.
    *
    * @return All scanned products
    */
-  List<Product> getScannedProducts();
+  Map<Integer, Product> getProductsFromBill();
 
   /**
    * Returns a single product with the given id.
@@ -75,7 +75,9 @@ public interface PosSystemService {
   /**
    * Calculates the change for the customer.
    *
+   * @param givenMoney amount of money the customer gives the cashier.
    * @return Change for customer
    */
-  float calculateChange();
+  float calculateChange(float givenMoney) throws IllegalParameterException;
+
 }

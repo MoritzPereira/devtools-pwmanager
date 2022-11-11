@@ -2,6 +2,7 @@ package de.hhn.it.devtools.apis.supermarketsystem;
 
 import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Demo class to test the POS System Service
@@ -19,7 +20,7 @@ public class PosSystemServiceUsageDemo {
     posSystemService.addProductToBill(3);
 
     // shows a list of all scanned products.
-    List<Product> scannedProducts = posSystemService.getScannedProducts();
+    Map<Integer, Product> scannedProducts = posSystemService.getProductsFromBill();
 
     System.out.println("Scanned products: ");
     for(int i = 0; i < scannedProducts.size(); i++){
@@ -31,7 +32,7 @@ public class PosSystemServiceUsageDemo {
     posSystemService.deleteProductFromBill(3);
 
     // shows a list of all scanned products.
-    posSystemService.getScannedProducts();
+    posSystemService.getProductsFromBill();
 
     System.out.println("Scanned products after delete");
     for(int i = 0; i < scannedProducts.size(); i++){
@@ -40,7 +41,7 @@ public class PosSystemServiceUsageDemo {
     }
 
     // shows a list of all available products.
-    List<Product> availableProducts = posSystemService.getProducts();
+    Map<Integer, Product> availableProducts = posSystemService.getProducts();
 
     System.out.println("Available products at supermarket");
     for(int i= 0; i < availableProducts.size(); i++){
@@ -57,7 +58,7 @@ public class PosSystemServiceUsageDemo {
 
     // shows the change the customer gets.
     System.out.println("Change for the customer: ");
-    System.out.println(posSystemService.calculateChange());
+    System.out.println(posSystemService.calculateChange(50.0F));
 
   }
 }
