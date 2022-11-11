@@ -1,6 +1,8 @@
 package de.hhn.it.devtools.components.provider.supermarketsystem;
 
 import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
+import de.hhn.it.devtools.apis.supermarketsystem.Bill;
+import de.hhn.it.devtools.apis.supermarketsystem.BillEntry;
 import de.hhn.it.devtools.apis.supermarketsystem.PosSystemListener;
 import de.hhn.it.devtools.apis.supermarketsystem.PosSystemService;
 import de.hhn.it.devtools.apis.supermarketsystem.Product;

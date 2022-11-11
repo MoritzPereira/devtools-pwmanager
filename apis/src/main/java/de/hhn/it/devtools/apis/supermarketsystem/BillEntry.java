@@ -1,4 +1,4 @@
-package de.hhn.it.devtools.components.provider.supermarketsystem;
+package de.hhn.it.devtools.apis.supermarketsystem;
 
 import de.hhn.it.devtools.apis.supermarketsystem.Product;
 
