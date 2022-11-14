@@ -12,7 +12,12 @@ public class Color {
     private int transparency;
 
 
-    public Color() {}
+    public Color(int red, int green, int blue, int transparency) {
+        this.red = red;
+        this.green = green;
+        this.blue = blue;
+        this.transparency = transparency;
+    }
 
 
     public void setTransparency(int transparency){
