@@ -1,7 +1,8 @@
 package de.hhn.it.devtools.apis.paint;
 
 
-import java.util.ArrayList;
+
+import java.util.LinkedList;
 
 /**
  * represents und describes a board on which different drawing actions can be done
@@ -12,8 +13,8 @@ public class Board {
   private double height;
   private double width;
   private Color color;
-  private ArrayList<ShapeDescriptor> undoHistory;
-  private ArrayList<ShapeDescriptor> redoHistory;
+  private LinkedList<ShapeDescriptor> undoHistory;
+  private LinkedList<ShapeDescriptor> redoHistory;
 
 
   /**
@@ -26,8 +27,8 @@ public class Board {
     this.height = height;
     this.width = width;
     setBoardColor(255,255,255);
-    undoHistory = new ArrayList<>();
-    redoHistory = new ArrayList<>();
+    undoHistory = new LinkedList<>();
+    redoHistory = new LinkedList<>();
     boardId = 0;
   }
 
@@ -55,7 +56,7 @@ public class Board {
     return width;
   }
 
-  public void setBoardColor(double red, double green, double blue) {
+  public void setBoardColor(int red, int green, int blue) {
     color.setRed(red);
     color.setGreen(green);
     color.setBlue(blue);
@@ -88,7 +89,7 @@ public class Board {
   /**
    * @return a bunch of shapes that earlier be undoed
    */
-  public ArrayList<ShapeDescriptor> getRedoHistory() {
+  public LinkedList<ShapeDescriptor> getRedoHistory() {
     return redoHistory;
   }
 
@@ -96,7 +97,7 @@ public class Board {
   /**
    * @return all shapes and drawing actions of the board
    */
-  public ArrayList<ShapeDescriptor> getUndoStack() {
+  public LinkedList<ShapeDescriptor> getUndoStack() {
     return undoHistory;
   }
 

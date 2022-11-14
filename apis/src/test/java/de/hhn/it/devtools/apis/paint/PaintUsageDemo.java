@@ -2,8 +2,6 @@ package de.hhn.it.devtools.apis.paint;
 
 import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
 
-import java.util.ArrayList;
-
 /**
  * This usage demo is not runnable because in this module there is no possibility to access the
  * implementation.
@@ -26,16 +24,9 @@ public class PaintUsageDemo {
         int mouseExampleCoordinateY3 = 3;
 
 
-        ArrayList<Integer> mouseExampleCoordinatesX = new ArrayList<>();
-        ArrayList<Integer> mouseExampleCoordinatesY = new ArrayList<>();
+        Color exampleColor = new Color(33, 33, 53,255);
 
-        mouseExampleCoordinatesX.add(mouseExampleCoordinateX1);
-        mouseExampleCoordinatesX.add(mouseExampleCoordinateX2);
-        mouseExampleCoordinatesX.add(mouseExampleCoordinateX3);
 
-        mouseExampleCoordinatesY.add(mouseExampleCoordinateY1);
-        mouseExampleCoordinatesY.add(mouseExampleCoordinateY2);
-        mouseExampleCoordinatesY.add(mouseExampleCoordinateY3);
 
 
         Board page1 = new Board(500, 500);
@@ -46,17 +37,10 @@ public class PaintUsageDemo {
 
 
         //user start new drawing action and select scribble as shape type
-        ShapeDescriptor shape0 = new ShapeDescriptor(mouseExampleCoordinateX1, mouseExampleCoordinateY1);
+        ShapeDescriptor shape0 = new ShapeDescriptor(mouseExampleCoordinateX1, mouseExampleCoordinateY1, 5, exampleColor, false, false);
         shape0.setShapeId(0);
-        shape0.setStraightMode(false);
 
 
-        //example color, should later be the last selected color
-        shape0.setShapeColor(33, 33, 53, 255);
-
-
-        //example thickness, should later be the last selected one
-        shape0.setLineThickness(5.3);
 
 
 
@@ -68,8 +52,8 @@ public class PaintUsageDemo {
         while (mousePressed) {
 
             //simulates move of the mouse
-           mouseExampleCoordinatesX.add(1);
-           mouseExampleCoordinatesY.add(1);
+          shape0.addPoint(mouseExampleCoordinateX2, mouseExampleCoordinateY2);
+
 
         }
 
@@ -81,17 +65,22 @@ public class PaintUsageDemo {
         //defines the end of a shape/drawing action
         shape0.setEndPoint(mouseExampleCoordinateX3, mouseExampleCoordinateY3);
 
-        //program draws lines between each added point during mouse press
-        paintService.addShape(shape0, mouseExampleCoordinatesX, mouseExampleCoordinatesY, Action.DRAW, 0);
+        //program add shape to board
+        paintService.addShape(shape0, 0);
 
 
 
         //New Action
 
         //user want to change color of earlier drawn shape
-        paintService.changeColor(paintService.containsPoint(mouseExampleCoordinateX2, mouseExampleCoordinateY2, 0),
-                Action.COLOR, 0, 45,26,95,255);
+        Color newColor = new Color(45,26,95,255);
 
+        for (int i = 0; i<paintService.containsPoint(mouseExampleCoordinateX2, mouseExampleCoordinateY2, 0).size(); i++) {
+
+        paintService.changeColor(paintService.containsPoint(mouseExampleCoordinateX2, mouseExampleCoordinateY2, 0).get(i),
+                0,newColor );
+
+        }
 
 
         //New Action
@@ -111,17 +100,9 @@ public class PaintUsageDemo {
 
 
         //user wants to draw straight horizontal help lines
-        ShapeDescriptor shape1 = new ShapeDescriptor(mouseExampleCoordinateX1, mouseExampleCoordinateY1);
+        ShapeDescriptor shape1 = new ShapeDescriptor(mouseExampleCoordinateX1, mouseExampleCoordinateY1, 5, exampleColor, true , false);
         shape1.setShapeId(1);
-        shape1.setStraightMode(true);
 
-
-        //example color, should later be the last selected color
-        shape0.setShapeColor(33, 33, 53,255);
-
-
-        //example thickness, should later be the last selected one
-        shape0.setLineThickness(5.3);
 
 
 
@@ -141,7 +122,7 @@ public class PaintUsageDemo {
 
 
         //program draws lines between each start/End-point
-        paintService.addShape(shape1, mouseExampleCoordinatesX, mouseExampleCoordinatesY, Action.DRAW, 0);
+        paintService.addShape(shape1, 0);
 
 
 

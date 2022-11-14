@@ -16,14 +16,18 @@ import java.util.ArrayList;
          private Point endPoint;
          private ArrayList<Point> points = new ArrayList<>();
          private Boolean straightMode;
+         private Boolean eraseMode;
          private Color shapeColor;
 
 
 
-         public ShapeDescriptor(int startX, int startY){
-             shapeColor = new Color();
+         public ShapeDescriptor(int startX, int startY, double thickness, Color color, Boolean straightMode, Boolean eraseMode){
+             shapeColor = color;
              setStartPoint(startX, startY);
              shapeId = 0;
+             this.thickness = thickness;
+             this.straightMode = straightMode;
+             this.eraseMode = eraseMode;
          }
 
 
@@ -96,6 +100,13 @@ import java.util.ArrayList;
          }
 
 
+         /**
+          * @return all points of the shape
+          */
+         public ArrayList<Point> getPoints() {
+             return points;
+         }
+
 
          /**
           * @param straightMode defines if the draw action is free hand or on straight lines
@@ -137,15 +148,10 @@ import java.util.ArrayList;
          /**
           * sets the color of a shape
           *
-          * @param red proportion of RGB
-          * @param green proportion of RGB
-          * @param blue proportion of RGB
-          * @param transparency defines the transparency of the given shapedescriptor object
+          * @param color of the shape
           */
-         public void setShapeColor(double red, double green, double blue, double transparency) {
-             shapeColor.setRed(red);
-             shapeColor.setGreen(green);
-             shapeColor.setBlue(blue);
+         public void setShapeColor(Color color) {
+             shapeColor = color;
          }
 
          /**
@@ -155,7 +161,27 @@ import java.util.ArrayList;
              return shapeColor;
          }
 
-    }
+
+         /**
+          * @param eraseMode defines if shape should draw or erase
+          */
+         public void setEraseMode(Boolean eraseMode) {
+             this.eraseMode = eraseMode;
+         }
+
+
+         /**
+          * @return boolean expression if shapee draw or erase
+          */
+         public Boolean getEraseMode() {
+             return eraseMode;
+         }
+
+
+       public double getThickness() {
+         return thickness;
+       }
+     }
 
 
 

@@ -5,45 +5,50 @@ package de.hhn.it.devtools.apis.paint;
  */
 public class Color {
 
-    private double red;
-    private double green;
-    private double blue;
+    private int red;
+    private int green;
+    private int blue;
 
-    private double trancparency;
-
-
-    public Color() {}
+    private int transparency;
 
 
-    public void setTrancparency(double trancparency){
-        this.trancparency = trancparency;
+    public Color(int red, int green, int blue, int transparency) {
+        this.red = red;
+        this.green = green;
+        this.blue = blue;
+        this.transparency = transparency;
     }
 
-    public double getTrancparency() {
-        return trancparency;
+
+    public void setTransparency(int transparency){
+        this.transparency = transparency;
     }
 
-    public void setRed(double red) {
+    public int getTransparency() {
+        return transparency;
+    }
+
+    public void setRed(int red) {
         this.red = red;
     }
 
-    public void setGreen(double green) {
+    public void setGreen(int green) {
         this.green = green;
     }
 
-    public void setBlue(double blue) {
+    public void setBlue(int blue) {
         this.blue = blue;
     }
 
-    public double getRed() {
+    public int getRed() {
         return red;
     }
 
-    public double getGreen() {
+    public int getGreen() {
         return green;
     }
 
-    public double getBlue() {
+    public int getBlue() {
         return blue;
     }
 
