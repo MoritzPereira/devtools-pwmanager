@@ -57,11 +57,10 @@ public interface PaintService {
     /**
      * Deletes one whole drawing action of the given board
      *
-     * @param shape which should be deleted
-     * @param boardId defines the board of the shape
+     * @param shapeId represent the shape which should be deleted
      * @throws IllegalParameterException if the id of the shape or board does not exist or is invalid
      */
-    void deleteShape(ShapeDescriptor shape, int boardId) throws IllegalParameterException;
+    void deleteShape(int shapeId) throws IllegalParameterException;
 
     /**
      * delete all shapes from the board and push all of them to undo stack
@@ -78,19 +77,19 @@ public interface PaintService {
      *
      * @param shape which color should be changed
      * @param boardId defines the board where the shape is
-     * @param red proportion of RGB
-     * @param green proportion of RGB
-     * @param blue proportion of RGB
-     * @param transparency defines the transparency of the given shapedescriptor object
+     * @param color that the shape should get
      * @throws IllegalParameterException if shape is a null reference or boardId is invalid or does not exist
      * @throws IndexOutOfBoundsException if the transparency value is less than 0 or greater than 255
      */
-    void changeColor(ShapeDescriptor shape, int boardId, int red, int green, int blue, int transparency)
+    void changeColor(ShapeDescriptor shape, int boardId, Color color)
             throws IllegalParameterException, IndexOutOfBoundsException;
 
 
     /**
-     * Changes the size of an earlier drawing action on a given board
+     * Changes the size of an earlier drawing action on a given board by deleting the shape
+     * and drawing it in the new size
+     *
+     * the new size should getted via a slider that represent the pencil thickness
      *
      * @param shape which size should be changed
      * @param boardId defines the board where the shape is
@@ -104,10 +103,10 @@ public interface PaintService {
      * Undo last drawing action
      *
      * @param boardId defines the board where undo action should be done
-     * @throws ArrayIndexOutOfBoundsException if  undo History  is empty
+     * @throws IllegalArgumentException if  undo History  is empty
      * @throws IllegalParameterException if boardIs is invalid or does not exist
      */
-    void undo(int boardId) throws ArrayIndexOutOfBoundsException, IllegalParameterException;
+    void undo(int boardId) throws IllegalArgumentException, IllegalParameterException;
 
 
     /**
@@ -115,10 +114,10 @@ public interface PaintService {
      *
      * @param boardId defines the board where undo action should be done
      *
-     * @throws ArrayIndexOutOfBoundsException if the redo History is empty
-     * @throws IllegalArgumentException if boardId is invalid or does not exist
+     * @throws IllegalArgumentException if the redo History is empty
+     * @throws IllegalParameterException if boardId is invalid or does not exist
      */
-    void redo(int boardId) throws ArrayIndexOutOfBoundsException, IllegalParameterException;
+    void redo(int boardId) throws IllegalArgumentException, IllegalParameterException;
 
 
 }

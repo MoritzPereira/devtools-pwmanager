@@ -21,10 +21,13 @@ import java.util.ArrayList;
 
 
 
-         public ShapeDescriptor(int startX, int startY){
-             shapeColor = new Color();
+         public ShapeDescriptor(int startX, int startY, double thickness, Color color, Boolean straightMode, Boolean eraseMode){
+             shapeColor = color;
              setStartPoint(startX, startY);
              shapeId = 0;
+             this.thickness = thickness;
+             this.straightMode = straightMode;
+             this.eraseMode = eraseMode;
          }
 
 
@@ -145,15 +148,10 @@ import java.util.ArrayList;
          /**
           * sets the color of a shape
           *
-          * @param red proportion of RGB
-          * @param green proportion of RGB
-          * @param blue proportion of RGB
-          * @param transparency defines the transparency of the given shapedescriptor object
+          * @param color of the shape
           */
-         public void setShapeColor(int red, int green, int blue, double transparency) {
-             shapeColor.setRed(red);
-             shapeColor.setGreen(green);
-             shapeColor.setBlue(blue);
+         public void setShapeColor(Color color) {
+             shapeColor = color;
          }
 
          /**
@@ -178,6 +176,11 @@ import java.util.ArrayList;
          public Boolean getEraseMode() {
              return eraseMode;
          }
+
+
+       public double getThickness() {
+         return thickness;
+       }
      }
 
 

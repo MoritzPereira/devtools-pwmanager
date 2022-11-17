@@ -24,6 +24,9 @@ public class PaintUsageDemo {
         int mouseExampleCoordinateY3 = 3;
 
 
+        Color exampleColor = new Color(33, 33, 53,255);
+
+
 
 
         Board page1 = new Board(500, 500);
@@ -34,17 +37,10 @@ public class PaintUsageDemo {
 
 
         //user start new drawing action and select scribble as shape type
-        ShapeDescriptor shape0 = new ShapeDescriptor(mouseExampleCoordinateX1, mouseExampleCoordinateY1);
+        ShapeDescriptor shape0 = new ShapeDescriptor(mouseExampleCoordinateX1, mouseExampleCoordinateY1, 5, exampleColor, false, false);
         shape0.setShapeId(0);
-        shape0.setStraightMode(false);
 
 
-        //example color, should later be the last selected color
-        shape0.setShapeColor(33, 33, 53, 255);
-
-
-        //example thickness, should later be the last selected one
-        shape0.setLineThickness(5.3);
 
 
 
@@ -78,10 +74,12 @@ public class PaintUsageDemo {
         //New Action
 
         //user want to change color of earlier drawn shape
+        Color newColor = new Color(45,26,95,255);
+
         for (int i = 0; i<paintService.containsPoint(mouseExampleCoordinateX2, mouseExampleCoordinateY2, 0).size(); i++) {
 
         paintService.changeColor(paintService.containsPoint(mouseExampleCoordinateX2, mouseExampleCoordinateY2, 0).get(i),
-                0, 45,26,95,255);
+                0,newColor );
 
         }
 
@@ -103,17 +101,9 @@ public class PaintUsageDemo {
 
 
         //user wants to draw straight horizontal help lines
-        ShapeDescriptor shape1 = new ShapeDescriptor(mouseExampleCoordinateX1, mouseExampleCoordinateY1);
+        ShapeDescriptor shape1 = new ShapeDescriptor(mouseExampleCoordinateX1, mouseExampleCoordinateY1, 5, exampleColor, true , false);
         shape1.setShapeId(1);
-        shape1.setStraightMode(true);
 
-
-        //example color, should later be the last selected color
-        shape0.setShapeColor(33, 33, 53,255);
-
-
-        //example thickness, should later be the last selected one
-        shape0.setLineThickness(5.3);
 
 
 
