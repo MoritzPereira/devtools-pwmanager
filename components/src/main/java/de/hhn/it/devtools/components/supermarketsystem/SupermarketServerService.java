@@ -1,4 +1,4 @@
-package de.hhn.it.devtools.components.provider.supermarketsystem;
+package de.hhn.it.devtools.components.supermarketsystem;
 
 import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
 import de.hhn.it.devtools.apis.supermarketsystem.Bill;
