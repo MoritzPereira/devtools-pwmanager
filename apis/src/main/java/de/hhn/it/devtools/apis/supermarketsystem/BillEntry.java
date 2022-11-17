@@ -1,7 +1,5 @@
 package de.hhn.it.devtools.apis.supermarketsystem;
 
-import de.hhn.it.devtools.apis.supermarketsystem.Product;
-
 /** Represents a single entry of the bill.
  *
  */
@@ -18,7 +16,6 @@ public class BillEntry {
    */
   public BillEntry(Product product) {
     this.product = product;
-    this.quantity = product.getQuantity();
     this.price = product.getPrice();
   }
 
