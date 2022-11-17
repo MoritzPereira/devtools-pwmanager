@@ -2,49 +2,40 @@ package de.hhn.it.devtools.apis.pwmanager;
 
 public class Entry {
 
-    private int id;
+    private int entryId;
     private String url;
     private String username;
     private String email;
     private String password;
 
     public Entry(int id, String url, String username, String email, String password){
-
-        this.id = id;
+        this.entryId = id;
         this.url = url;
         this.username = username;
         this.email = email;
-        this.password = encrypt(password);
-        
+        this.password = password;
     }
 
-    public void changeUrl(String url){
-
-    }
-    public void changeUsername(String username){
-
-    }
-    public void changeEmail(String email){
-
-    }
-    public void changePassword(String password){
-
+    public void setUrl(String url){
+        this.url=url;
     }
 
-    private String encrypt(String password){
-        return "HASHEDPW";
+    public void setUsername(String username){
+        this.username=username;
     }
-
-    private String decrypt(String password){
-        return "NORMALPW";
+    public void setEmail(String email){
+        this.email = email;
+    }
+    public void setPassword(String password){
+        this.password=password;
     }
 
     public String getPassword() {
-        return decrypt(password);
+        return password;
     }
 
-    public int getId(){
-        return id;
+    public int getEntryId(){
+        return entryId;
     }
 
     public String getUrl() {
@@ -58,4 +49,41 @@ public class Entry {
     public String getEmail() {
         return email;
     }
+
+    public void encryptAll(){
+        entryId = Integer.parseInt(encrypt(String.valueOf(entryId)));
+        url = encrypt(url);
+        username = encrypt(username);
+        email = encrypt(email);
+        password = encrypt(password);
+    }
+
+    public void decryptAll(){
+        entryId = Integer.parseInt(decrypt(String.valueOf(entryId)));
+        url = decrypt(url);
+        username = decrypt(username);
+        email = decrypt(email);
+        password = decrypt(password);
+    }
+
+    private String encrypt(String text){
+        StringBuilder hashedString = new StringBuilder();
+        char[]        chars        = text.toCharArray();
+        for (char c : chars) {
+            c += 15;
+            hashedString.append(c);
+        }
+        return hashedString.toString();
+    }
+
+    private String decrypt(String text){
+        StringBuilder result = new StringBuilder();
+        char[]        chars  = text.toCharArray();
+        for (char c : chars) {
+            c -= 15;
+            result.append(c);
+        }
+        return result.toString();
+    }
+
 }
