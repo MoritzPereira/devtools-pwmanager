@@ -5,6 +5,7 @@ import java.util.ArrayList;
 /**
  * Listener of the Password-Manager tool.
  *
+ *
  */
 public interface PwManagerListener {
 

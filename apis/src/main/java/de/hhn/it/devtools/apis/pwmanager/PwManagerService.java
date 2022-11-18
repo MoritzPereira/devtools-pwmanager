@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * Pw-Manager Service.
+ *
  */
 public interface PwManagerService {
 

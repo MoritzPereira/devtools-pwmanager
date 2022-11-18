@@ -9,6 +9,7 @@ public class Entry {
     private String password;
 
     public Entry(int id, String url, String username, String email, String password){
+
         this.entryId = id;
         this.url = url;
         this.username = username;
