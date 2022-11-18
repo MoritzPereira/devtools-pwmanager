@@ -1,22 +1,25 @@
 package de.hhn.it.devtools.apis.pwmanager;
 
+import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
+import de.hhn.it.devtools.apis.pwmanager.exceptions.IllegalMasterPasswordException;
+
 public class PwManagerUsageDemo {
 
     private static final org.slf4j.Logger logger =
-            org.slf4j.LoggerFactory.getLogger(PwManagerUsageDemo.class);
+        org.slf4j.LoggerFactory.getLogger(PwManagerUsageDemo.class);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IllegalMasterPasswordException, IllegalParameterException {
 
         // Set up PwManager
         PwManagerService pwManagerService = null;
         PwManagerListener pwManagerListener = null;
 
         //login to PwManager
-        pwManagerService.login("test");
+        pwManagerService.login("admin");
         logger.info("Logged in");
 
         //changes the master password
-        pwManagerService.changeMasterPw("Thatsthemasterpw");
+        pwManagerService.changeMasterPw("Thatsthemasterpw", "admin");
         logger.info("Master password changed");
 
         //Adds an Entry
@@ -31,11 +34,11 @@ public class PwManagerUsageDemo {
         String newpw = pwManagerService.generateNewPw(true, true, true, true);
         entry.setPassword(newpw);
         logger.info("Changed the password of the entry - id:"+ entry.getEntryId());
-        pwManagerService.changeEntry(entry);
+        pwManagerService.changeEntry(entry, "Thatsthemasterpw");
         logger.info("Loads the changed entry in the file");
 
         //Delete an Entry
-        pwManagerService.deleteEntry(2);
+        pwManagerService.deleteEntry(2, "Thatsthemasterpw");
         logger.info("Deletes the entry - id:"+entry.getEntryId());
 
         //Logout
