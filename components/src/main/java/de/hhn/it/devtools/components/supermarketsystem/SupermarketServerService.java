@@ -118,6 +118,8 @@ public class SupermarketServerService implements PosSystemService {
       BillEntry billEntry = new BillEntry(product);
 
       bill.addBillEntry(id, billEntry);
+
+      bill.recalculate();
     }
   }
 
@@ -147,6 +149,8 @@ public class SupermarketServerService implements PosSystemService {
 
       // Remove entry from bill
       bill.removeEntry(id);
+
+      bill.recalculate();
     }
   }
 
