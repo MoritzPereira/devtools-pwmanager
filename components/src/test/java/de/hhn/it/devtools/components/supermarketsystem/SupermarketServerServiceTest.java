@@ -2,10 +2,10 @@ package de.hhn.it.devtools.components.supermarketsystem;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -15,7 +15,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
 import de.hhn.it.devtools.apis.supermarketsystem.Bill;
-import de.hhn.it.devtools.apis.supermarketsystem.BillEntry;
 import de.hhn.it.devtools.apis.supermarketsystem.PosSystemListener;
 import de.hhn.it.devtools.apis.supermarketsystem.PosSystemState;
 import de.hhn.it.devtools.apis.supermarketsystem.Product;
@@ -26,14 +25,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.function.Executable;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class SupermarketServerServiceTest {
@@ -41,7 +38,6 @@ class SupermarketServerServiceTest {
       org.slf4j.LoggerFactory.getLogger(SupermarketServerServiceTest.class);
 
   private SupermarketServerService supermarketServerService;
-  private Bill bill;
 
   @BeforeAll
   @Description("Adds Products to System for Test")
@@ -95,20 +91,18 @@ class SupermarketServerServiceTest {
 
   @Test
   public void getProduct_InstanceOfProduct() throws IllegalParameterException {
-    assertInstanceOf(HashMap.class, supermarketServerService.getProduct(1));
+    assertInstanceOf(Product.class, supermarketServerService.getProduct(1));
     // assertInstanceOf Product -> getProduct (id has to be valid) + add throws to method
   }
 
   @Test
   public void addProductToBill_CheckIfAddedToBill() throws IllegalParameterException {
     // save size of supermarket bill list
-    final HashMap<Integer, BillEntry> productList;
-    productList = (HashMap<Integer, BillEntry>) bill.getList();
-    int size = productList.size();
+    int size = supermarketServerService.getBill().getList().size();
     // addProductToBill + add throws to method
     supermarketServerService.addProductToBill(1);
     // assertTrue size before < size of bill now
-    assertTrue(size > productList.size());
+    assertTrue(size < supermarketServerService.getBill().getList().size());
     // assertNotNull getBill().getEntry with same id
     assertNotNull(supermarketServerService.getBill().getEntry(1));
   }
@@ -146,13 +140,12 @@ class SupermarketServerServiceTest {
   public void getProduct_WithExistingProductAndInstanceOf() throws IllegalParameterException{
     assertDoesNotThrow(() -> supermarketServerService.getProduct(1));
     // assertDoesNotThrow getProduct(1)
-    assertInstanceOf(HashMap.class, supermarketServerService.getProduct(1));
+    assertInstanceOf(Product.class, supermarketServerService.getProduct(1));
     // assertInstanceOf Product -> getProduct(1)
   }
 
   @Test
   public void getBill_InstanceOfBill() {
-    assertInstanceOf(SupermarketServerService.class, supermarketServerService.getBill());
     //assertInstanceOf(supermarketServerService.class, () -> supermarketServerService.getBill());
     assertInstanceOf(Bill.class, supermarketServerService.getBill());
     // assertInstanceOf Bill class -> getBill
@@ -160,7 +153,7 @@ class SupermarketServerServiceTest {
 
   @Test
   public void getBill_IsEmpty() {
-    assertNull(supermarketServerService.getBill());
+    assertFalse(supermarketServerService.getBill().getList().isEmpty());
     // assertTrue -> check if getBill().getList is empty
   }
 
@@ -168,7 +161,7 @@ class SupermarketServerServiceTest {
   public void getBill_HasValues() throws IllegalParameterException{
 
     supermarketServerService.addProductToBill(1);
-    assertNotNull(bill.getList());
+    assertFalse(supermarketServerService.getBill().getList().isEmpty());
     // add products to bill
     // assertTrue -> check if getBill.getList has entries
   }
@@ -178,7 +171,7 @@ class SupermarketServerServiceTest {
     //Product product = supermarketServerService.getProduct(id);
     //final HashMap<Integer, BillEntry> productList;
     //productList = new HashMap<>();
-    assertNull(supermarketServerService.getProductsFromBill());
+    assertTrue(supermarketServerService.getProductsFromBill().isEmpty());
     // assertTrue getProductsFromBill is empty
   }
 
@@ -193,7 +186,7 @@ class SupermarketServerServiceTest {
 
   @Test
   public void getProductsFromBill_NotThrowsException()  {
-    assertDoesNotThrow((Executable) supermarketServerService.getProductsFromBill());
+    assertDoesNotThrow(() -> supermarketServerService.getProductsFromBill());
     // assertDoesNotThrow -> getProductsFromBill
   }
 
@@ -287,7 +280,7 @@ class SupermarketServerServiceTest {
   /**
    * Inner class as a CoffeeMakerListener.
    */
-  class SimplePosSystemListener implements PosSystemListener {
+  static class SimplePosSystemListener implements PosSystemListener {
 
     public List<PosSystemState> states;
 
