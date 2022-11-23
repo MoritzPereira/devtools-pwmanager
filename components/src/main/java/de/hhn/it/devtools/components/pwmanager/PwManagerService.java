@@ -4,6 +4,7 @@ import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
 import de.hhn.it.devtools.apis.pwmanager.Entry;
 import de.hhn.it.devtools.apis.pwmanager.exceptions.IllegalMasterPasswordException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -11,6 +12,9 @@ public class PwManagerService implements de.hhn.it.devtools.apis.pwmanager.PwMan
 
     private String masterPw = "admin";
     private boolean loggenIn = false;
+    private boolean hidePws = true;
+    private ArrayList<Entry> listOfEntrys;
+
 
     @Override
     public void changeMasterPw(String newPassword, String oldPassword) throws IllegalMasterPasswordException, IllegalParameterException {
@@ -23,6 +27,9 @@ public class PwManagerService implements de.hhn.it.devtools.apis.pwmanager.PwMan
         }
 
         //Weitere Überprüfung auf Sonderzeichen
+        //Überprüfung obs net des gleiche ist
+        //Überprüfung auf bestimmte Länge
+        //all in all: Überprüfung auf Mindestanforderung
 
     }
 
