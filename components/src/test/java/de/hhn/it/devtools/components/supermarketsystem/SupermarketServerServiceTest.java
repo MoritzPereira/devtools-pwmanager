@@ -144,7 +144,7 @@ class SupermarketServerServiceTest {
 
   @Test
   public void getProduct_WithExistingProductAndInstanceOf() throws IllegalParameterException{
-    assertDoesNotThrow((Executable) supermarketServerService.getProduct(1));
+    assertDoesNotThrow(() -> supermarketServerService.getProduct(1));
     // assertDoesNotThrow getProduct(1)
     assertInstanceOf(HashMap.class, supermarketServerService.getProduct(1));
     // assertInstanceOf Product -> getProduct(1)
