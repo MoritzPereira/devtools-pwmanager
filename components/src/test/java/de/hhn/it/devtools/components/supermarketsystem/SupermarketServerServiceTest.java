@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -38,6 +39,12 @@ class SupermarketServerServiceTest {
       org.slf4j.LoggerFactory.getLogger(SupermarketServerServiceTest.class);
 
   private SupermarketServerService supermarketServerService;
+
+  @BeforeEach
+  @Description("Clears the product list of the bill before each test.")
+  public void setup() {
+    supermarketServerService.clearBill();
+  }
 
   @BeforeAll
   @Description("Adds Products to System for Test")
@@ -153,7 +160,7 @@ class SupermarketServerServiceTest {
 
   @Test
   public void getBill_IsEmpty() {
-    assertFalse(supermarketServerService.getBill().getList().isEmpty());
+    assertTrue(supermarketServerService.getBill().getList().isEmpty());
     // assertTrue -> check if getBill().getList is empty
   }
 

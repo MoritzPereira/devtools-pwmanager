@@ -83,6 +83,14 @@ public class Bill {
     }
   }
 
+  /** Clears the product list and sets the summary to zero.
+   *
+   */
+  public void clear() {
+    productList.clear();
+    summary = 0F;
+  }
+
   @Override
   public String toString() {
     return "Bill:\n"
