@@ -90,15 +90,15 @@ public interface PwManagerService {
   /**
    * Gets the state from the component
    * @return the state.
-   * @throws RuntimeException if method takes too much time
+   * @throws NullPointerException if list doesn't exist
    */
-  public List<Entry> getState() throws RuntimeException;
+  public List<Entry> getState() throws NullPointerException;
 
   /**
    * Loads the state in the component.
    *
-   * @throws RuntimeException if method takes too much time
+   * @throws NullPointerException if list doesn't exist
    */
-  public void loadState(List<Entry> state) throws RuntimeException;
+  public void loadState(List<Entry> state) throws NullPointerException;
 
 }
