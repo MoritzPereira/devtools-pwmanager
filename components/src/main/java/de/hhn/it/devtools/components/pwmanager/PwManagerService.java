@@ -17,21 +17,70 @@ public class PwManagerService implements de.hhn.it.devtools.apis.pwmanager.PwMan
   private boolean hidePws = true;
   private ArrayList<Entry> listOfEntrys = new ArrayList<>();
 
+  private boolean checkPassword(String password) {
+
+    int length = 8;
+    if (password.length() == length) {
+      return false;
+    } else {
+      return true;
+    }
+
+  }
+
+  private boolean checkEmail(String email) {
+
+    boolean foundA = false; //@
+    boolean foundB = false; //.
+
+    for (int i = 0; i < email.length(); i++) {
+
+      char ch = email.charAt(i);
+      if (ch == '@') {
+        foundA = true;
+      } else if (ch == '.') {
+        foundB = true;
+      }
+
+    }
+
+    if (foundA && foundB) {
+      return true;
+    } else {
+      return false;
+    }
+
+  }
+
+  private boolean checkUrl(String url) {
+
+    for (int i = 0; i < url.length(); i++) {
+
+      char ch = url.charAt(i);
+      if (ch == '.') {
+        return true;
+      }
+
+    }
+
+    return false;
+
+  }
 
   @Override
   public void changeMasterPw(String newPassword, String oldPassword)
       throws IllegalMasterPasswordException, IllegalParameterException {
 
-        if (Objects.equals(this.masterPw, oldPassword)) {
-            this.masterPw = newPassword;
-        } else {
-            throw new IllegalMasterPasswordException();
-        }
+    if (!Objects.equals(this.masterPw, oldPassword)) {
+      throw new IllegalMasterPasswordException();
+    } else if (Objects.equals(newPassword, oldPassword)) {
+      throw new IllegalParameterException("Dont use the same password again");
+    } else if (!checkPassword(newPassword)) {
+      throw new IllegalParameterException("Password is too weak");
+    }
 
-        //Weitere Überprüfung auf Sonderzeichen
-        //Überprüfung obs net des gleiche ist
-        //Überprüfung auf bestimmte Länge
-        //all in all: Überprüfung auf Mindestanforderung
+    //Weitere Überprüfung auf Sonderzeichen
+    //all in all: Überprüfung auf Mindestanforderung
 
   }
 
@@ -52,7 +101,8 @@ public class PwManagerService implements de.hhn.it.devtools.apis.pwmanager.PwMan
   @Override
   public String changeHidden(int id) throws IllegalParameterException {
 
-        String output = " ";
+    String output = "";
+    boolean foundId = false;
 
     for (Entry i : listOfEntrys) {
       if (i.getEntryId() == id) {
@@ -76,9 +126,16 @@ public class PwManagerService implements de.hhn.it.devtools.apis.pwmanager.PwMan
   public Entry addEntry(int id, String url, String username, String email, String password)
       throws IllegalParameterException {
 
-        Entry newEntry = new Entry(id, url, username, email, password);
-        listOfEntrys.add(newEntry);
-        return newEntry;
+    if (!checkEmail(email)) {
+      throw new IllegalParameterException("Email is not valid");
+    }
+    if (!checkUrl(url)) {
+      throw new IllegalParameterException("Url is not valid");
+    }
+
+    Entry newEntry = new Entry(id, url, username, email, password);
+    listOfEntrys.add(newEntry);
+    return newEntry;
 
   }
 
@@ -86,7 +143,27 @@ public class PwManagerService implements de.hhn.it.devtools.apis.pwmanager.PwMan
   public void changeEntry(Entry entry, String masterPw)
       throws IllegalParameterException, IllegalMasterPasswordException {
 
+    boolean found = false;
+
+    if (!Objects.equals(this.masterPw, masterPw)) {
+      throw new IllegalMasterPasswordException();
     }
+
+    for (Entry i : listOfEntrys) {
+      if (i.getEntryId() == entry.getEntryId()) {
+        found = true;
+        i.setUrl(entry.getUrl());
+        i.setUsername(entry.getUsername());
+        i.setEmail(entry.getPassword());
+        i.setPassword(entry.getPassword());
+      }
+    }
+
+    if (!found) {
+      throw new IllegalParameterException("Entry not found");
+    }
+
+  }
 
   @Override
   public void deleteEntry(int id, String masterPw)
