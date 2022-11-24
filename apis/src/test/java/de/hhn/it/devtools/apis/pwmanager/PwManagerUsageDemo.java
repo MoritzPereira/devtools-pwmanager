@@ -31,7 +31,7 @@ public class PwManagerUsageDemo {
         logger.info("Visibility of the password of entry:" + entry.getEntryId() + "changed");
 
         // Generate new Pw and change Entry
-        String newpw = pwManagerService.generateNewPw(true, true, true, true);
+        String newpw = pwManagerService.generateNewPw(true, true, true, true, 8);
         entry.setPassword(newpw);
         logger.info("Changed the password of the entry - id:"+ entry.getEntryId());
         pwManagerService.changeEntry(entry, "Thatsthemasterpw");
