@@ -2,6 +2,7 @@ package de.hhn.it.devtools.components.pwmanager;
 
 import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
 import de.hhn.it.devtools.apis.pwmanager.Entry;
+import de.hhn.it.devtools.apis.pwmanager.PwManagerListener;
 import de.hhn.it.devtools.apis.pwmanager.exceptions.IllegalMasterPasswordException;
 
 import java.util.ArrayList;
@@ -16,6 +17,16 @@ public class PwManagerService implements de.hhn.it.devtools.apis.pwmanager.PwMan
   private boolean loggenIn = false;
   private boolean hidePws = true;
   private ArrayList<Entry> listOfEntrys = new ArrayList<>();
+  public PwManagerListener listener = null;
+
+  public void addListener(PwManagerListener listener){
+    if(listener != null){
+      this.listener = listener;
+    }
+    else{
+      throw new NullPointerException("Listener doesn't exist");
+    }
+  }
 
   private boolean checkPassword(String password) {
 
@@ -88,6 +99,7 @@ public class PwManagerService implements de.hhn.it.devtools.apis.pwmanager.PwMan
   public void login(String masterPw) throws IllegalMasterPasswordException {
     if (Objects.equals(this.masterPw, masterPw)) {
       loggenIn = true;
+      listener.loggedin();
     } else {
       throw new IllegalMasterPasswordException();
     }
@@ -96,6 +108,7 @@ public class PwManagerService implements de.hhn.it.devtools.apis.pwmanager.PwMan
   @Override
   public void logout() {
     loggenIn = false;
+    listener.loggedout();
   }
 
   @Override
@@ -135,6 +148,7 @@ public class PwManagerService implements de.hhn.it.devtools.apis.pwmanager.PwMan
 
     Entry newEntry = new Entry(id, url, username, email, password);
     listOfEntrys.add(newEntry);
+    listener.entryAdded(newEntry);
     return newEntry;
 
   }
@@ -162,6 +176,9 @@ public class PwManagerService implements de.hhn.it.devtools.apis.pwmanager.PwMan
     if (!found) {
       throw new IllegalParameterException("Entry not found");
     }
+    else{
+      listener.entryChanged(entry);
+    }
 
   }
 
@@ -181,6 +198,7 @@ public class PwManagerService implements de.hhn.it.devtools.apis.pwmanager.PwMan
       if (id == entry.getEntryId()) {
         foundId = true;
         it.remove();
+        listener.entryDeleted(entry);
         break;
       }
     }
@@ -228,12 +246,14 @@ public class PwManagerService implements de.hhn.it.devtools.apis.pwmanager.PwMan
       password += charCategories.get(random.nextInt(charCategories.size()));
     }
 
+    listener.showNewPw(password);
     return password;
   }
 
   @Override
   public List<Entry> getState() throws RuntimeException {
     if (this.listOfEntrys != null) {
+      listener.showsortedEntryList(listOfEntrys);
       return this.listOfEntrys;
     } else {
       throw new NullPointerException();

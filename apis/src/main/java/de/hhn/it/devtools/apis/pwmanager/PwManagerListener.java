@@ -14,9 +14,19 @@ public interface PwManagerListener {
     void loggingin(String masterPw);
 
     /**
+     * Status from components.
+     */
+    void loggedin();
+
+    /**
      * Updates the log-status to "logged out".
      */
     void logout();
+
+    /**
+     * Status from components.
+     */
+    void loggedout();
 
     /**
      * Add a new Entry to the entry-list.
