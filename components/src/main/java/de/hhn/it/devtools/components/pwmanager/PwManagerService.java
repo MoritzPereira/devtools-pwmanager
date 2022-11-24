@@ -42,9 +42,7 @@ public class PwManagerService implements de.hhn.it.devtools.apis.pwmanager.PwMan
 
     @Override
     public void logout() {
-
         loggenIn = false;
-
     }
 
     @Override
@@ -88,12 +86,22 @@ public class PwManagerService implements de.hhn.it.devtools.apis.pwmanager.PwMan
 
     @Override
     public List<Entry> getState() throws RuntimeException {
-        return null;
+        if (this.listOfEntrys!=null){
+            return this.listOfEntrys;
+        }else {
+            throw new NullPointerException();
+        }
     }
 
     @Override
-    public void loadState(List<Entry> state) throws RuntimeException {
-
+    public void loadState(List<Entry> state) throws NullPointerException {
+        if (state != null){
+            this.listOfEntrys= (ArrayList<Entry>) state;
+        }else {
+            throw new NullPointerException();
+        }
     }
+
+
 
 }
