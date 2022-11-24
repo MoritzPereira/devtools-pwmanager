@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * Pw-Manager Service.
+ *
  */
 public interface PwManagerService {
 
@@ -20,9 +21,10 @@ public interface PwManagerService {
    * @param newPassword the new master password
    * @param oldPassword to check if user is authenticated to change master password
    * @throws IllegalMasterPasswordException if user is not authenticated (oldPassword != masterPw)
-   * @throws IllegalParameterException if the oldPassword and newPassword are equal
+   * @throws IllegalParameterException      if the oldPassword and newPassword are equal
    */
-  void changeMasterPw(String newPassword, String oldPassword) throws IllegalMasterPasswordException, IllegalParameterException;
+  void changeMasterPw(String newPassword, String oldPassword)
+      throws IllegalMasterPasswordException, IllegalParameterException;
 
   /**
    * Logs in the user and gives access to the passwords.
@@ -65,19 +67,21 @@ public interface PwManagerService {
    * Changes an entry and loads the entry in the file.
    *
    * @param entry that will be changed
-   * @throws IllegalParameterException if the chosen entry does not exist
+   * @throws IllegalParameterException      if the chosen entry does not exist
    * @throws IllegalMasterPasswordException if user is not authenticated
    */
-  public void changeEntry(Entry entry, String masterPw) throws IllegalParameterException, IllegalMasterPasswordException;
+  public void changeEntry(Entry entry, String masterPw)
+      throws IllegalParameterException, IllegalMasterPasswordException;
 
   /**
    * Deletes an entry.
    *
    * @param id of the entry that will be deleted
-   * @throws IllegalParameterException if the chosen id does not exist
+   * @throws IllegalParameterException      if the chosen id does not exist
    * @throws IllegalMasterPasswordException if user is not authenticated
    */
-  public void deleteEntry(int id, String masterPw) throws IllegalParameterException, IllegalMasterPasswordException;
+  public void deleteEntry(int id, String masterPw)
+      throws IllegalParameterException, IllegalMasterPasswordException;
 
   /**
    * Generates a new password with the given specs.
@@ -85,20 +89,21 @@ public interface PwManagerService {
    * @param useUpper signals if uppercase letters
    */
   public String generateNewPw(boolean useUpper, boolean useLower, boolean useDigits,
-                              boolean useSpecialChars);
+                              boolean useSpecialChars, int length) throws IllegalParameterException;
 
   /**
    * Gets the state from the component
+   *
    * @return the state.
-   * @throws RuntimeException if method takes too much time
+   * @throws NullPointerException if list doesn't exist
    */
-  public List<Entry> getState() throws RuntimeException;
+  public List<Entry> getState() throws NullPointerException;
 
   /**
    * Loads the state in the component.
    *
-   * @throws RuntimeException if method takes too much time
+   * @throws NullPointerException if list doesn't exist
    */
-  public void loadState(List<Entry> state) throws RuntimeException;
+  public void loadState(List<Entry> state) throws NullPointerException;
 
 }

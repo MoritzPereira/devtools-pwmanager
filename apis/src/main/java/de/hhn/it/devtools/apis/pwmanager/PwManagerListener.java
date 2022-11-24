@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 /**
  * Listener of the Password-Manager tool.
- *
  */
 public interface PwManagerListener {
 
@@ -14,20 +13,30 @@ public interface PwManagerListener {
     void loggingin(String masterPw);
 
     /**
+     * Status from components.
+     */
+    void loggedin();
+
+    /**
      * Updates the log-status to "logged out".
      */
     void logout();
 
     /**
-     * Add a new Entry to the entry-list.
+     * Status from components.
+     */
+    void loggedout();
 
+    /**
+     * Add a new Entry to the entry-list.
+     *
      * @param newEntry with the given attributes
      */
     void entryAdded(Entry newEntry);
 
     /**
      * Deletes the current entry.
-
+     *
      * @param currentEntry the entry which should be deleted.
      */
     void entryDeleted(Entry currentEntry);
