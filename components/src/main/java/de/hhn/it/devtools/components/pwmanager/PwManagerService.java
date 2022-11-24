@@ -13,16 +13,15 @@ public class PwManagerService implements de.hhn.it.devtools.apis.pwmanager.PwMan
     private String masterPw = "admin";
     private boolean loggenIn = false;
     private boolean hidePws = true;
-    private ArrayList<Entry> listOfEntrys;
+    private ArrayList<Entry> listOfEntrys = new ArrayList<>();
 
 
     @Override
     public void changeMasterPw(String newPassword, String oldPassword) throws IllegalMasterPasswordException, IllegalParameterException {
 
-        if(Objects.equals(this.masterPw, oldPassword)){
+        if (Objects.equals(this.masterPw, oldPassword)) {
             this.masterPw = newPassword;
-        }
-        else{
+        } else {
             throw new IllegalMasterPasswordException();
         }
 
@@ -36,7 +35,7 @@ public class PwManagerService implements de.hhn.it.devtools.apis.pwmanager.PwMan
     @Override
     public void login(String masterPw) throws IllegalMasterPasswordException {
 
-        if(Objects.equals(this.masterPw, masterPw)){
+        if (Objects.equals(this.masterPw, masterPw)) {
             loggenIn = true;
         }
     }
@@ -50,12 +49,26 @@ public class PwManagerService implements de.hhn.it.devtools.apis.pwmanager.PwMan
 
     @Override
     public String changeHidden(int id) throws IllegalParameterException {
-        return null;
+
+        String output = " ";
+
+        for (Entry i : listOfEntrys) {
+            if (i.getEntryId() == id) {
+                output = i.getEntryId() + "," + i.getUrl() + "," + i.getUsername() + "," + i.getEmail() + "," + i.getPassword();
+                break;
+            }
+        }
+        return output;
+
     }
 
     @Override
     public Entry addEntry(int id, String url, String username, String email, String password) throws IllegalParameterException {
-        return null;
+
+        Entry newEntry = new Entry(id, url, username, email, password);
+        listOfEntrys.add(newEntry);
+        return newEntry;
+
     }
 
     @Override
