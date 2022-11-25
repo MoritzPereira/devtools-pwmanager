@@ -1,3 +1,5 @@
+import de.hhn.it.devtools.components.pwmanager.provider.SimplePwManagerService;
+
 module devtools.components {
   exports de.hhn.it.devtools.components.example.coffeemakerservice.provider;
   requires org.slf4j;
@@ -7,6 +9,6 @@ module devtools.components {
   provides  de.hhn.it.devtools.apis.examples.coffeemakerservice.AdminCoffeeMakerService
           with de.hhn.it.devtools.components.example.coffeemakerservice.provider.WnckCoffeeMakerService;
   provides de.hhn.it.devtools.apis.pwmanager.PwManagerService
-          with de.hhn.it.devtools.components.pwmanager.PwManagerService;
+          with SimplePwManagerService;
         }
 

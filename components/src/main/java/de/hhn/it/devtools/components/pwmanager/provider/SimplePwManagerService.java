@@ -1,4 +1,4 @@
-package de.hhn.it.devtools.components.pwmanager;
+package de.hhn.it.devtools.components.pwmanager.provider;
 
 import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
 import de.hhn.it.devtools.apis.pwmanager.Entry;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
-public class PwManagerService implements de.hhn.it.devtools.apis.pwmanager.PwManagerService {
+public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager.PwManagerService {
 
   private String masterPw = "admin";
   private boolean loggenIn = false;
@@ -20,7 +20,7 @@ public class PwManagerService implements de.hhn.it.devtools.apis.pwmanager.PwMan
   public PwManagerListener listener = null;
 
   private static final org.slf4j.Logger logger =
-          org.slf4j.LoggerFactory.getLogger(PwManagerService.class);
+          org.slf4j.LoggerFactory.getLogger(SimplePwManagerService.class);
 
   public void addListener(PwManagerListener listener) {
     if (listener != null) {
