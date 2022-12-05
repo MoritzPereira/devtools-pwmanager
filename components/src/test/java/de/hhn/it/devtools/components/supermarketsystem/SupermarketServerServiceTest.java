@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -42,6 +43,12 @@ class SupermarketServerServiceTest {
 
   private SupermarketServerService supermarketServerService;
   private Bill bill;
+
+  @BeforeEach
+  @Description("Clears the bill before each test")
+  public void setup() {
+    supermarketServerService.clearBill();
+  }
 
   @BeforeAll
   @Description("Adds Products to System for Test")
@@ -144,7 +151,7 @@ class SupermarketServerServiceTest {
 
   @Test
   public void getProduct_WithExistingProductAndInstanceOf() throws IllegalParameterException{
-    assertDoesNotThrow((Executable) supermarketServerService.getProduct(1));
+    assertDoesNotThrow(() -> supermarketServerService.getProduct(1));
     // assertDoesNotThrow getProduct(1)
     assertInstanceOf(HashMap.class, supermarketServerService.getProduct(1));
     // assertInstanceOf Product -> getProduct(1)

@@ -83,6 +83,11 @@ public class Bill {
     }
   }
 
+  public void clear() {
+    productList.clear();
+    summary = 0F;
+  }
+
   @Override
   public String toString() {
     return "Bill:\n"

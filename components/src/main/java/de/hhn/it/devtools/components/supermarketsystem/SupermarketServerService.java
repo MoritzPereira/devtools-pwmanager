@@ -154,6 +154,10 @@ public class SupermarketServerService implements PosSystemService {
     }
   }
 
+  public void clearBill() {
+    bill.clear();
+  }
+
   @Override
   public float calculateChange(float givenMoney) {
     return givenMoney - bill.getSummary();
