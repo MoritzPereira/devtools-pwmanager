@@ -8,7 +8,7 @@ public class Entry {
     private String email;
     private String password;
 
-    public Entry(int id, String url, String username, String email, String password){
+    public Entry(int id, String url, String username, String email, String password) {
         this.entryId = id;
         this.url = url;
         this.username = username;
@@ -16,25 +16,27 @@ public class Entry {
         this.password = password;
     }
 
-    public void setUrl(String url){
-        this.url=url;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public void setUsername(String username){
-        this.username=username;
+    public void setUsername(String username) {
+        this.username = username;
     }
-    public void setEmail(String email){
+
+    public void setEmail(String email) {
         this.email = email;
     }
-    public void setPassword(String password){
-        this.password=password;
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public int getEntryId(){
+    public int getEntryId() {
         return entryId;
     }
 
@@ -50,7 +52,7 @@ public class Entry {
         return email;
     }
 
-    public void encryptAll(){
+    public void encryptAll() {
         entryId = Integer.parseInt(encrypt(String.valueOf(entryId)));
         url = encrypt(url);
         username = encrypt(username);
@@ -58,7 +60,7 @@ public class Entry {
         password = encrypt(password);
     }
 
-    public void decryptAll(){
+    public void decryptAll() {
         entryId = Integer.parseInt(decrypt(String.valueOf(entryId)));
         url = decrypt(url);
         username = decrypt(username);
@@ -66,9 +68,9 @@ public class Entry {
         password = decrypt(password);
     }
 
-    private String encrypt(String text){
+    private String encrypt(String text) {
         StringBuilder hashedString = new StringBuilder();
-        char[]        chars        = text.toCharArray();
+        char[] chars = text.toCharArray();
         for (char c : chars) {
             c += 15;
             hashedString.append(c);
@@ -76,9 +78,9 @@ public class Entry {
         return hashedString.toString();
     }
 
-    private String decrypt(String text){
+    private String decrypt(String text) {
         StringBuilder result = new StringBuilder();
-        char[]        chars  = text.toCharArray();
+        char[] chars = text.toCharArray();
         for (char c : chars) {
             c -= 15;
             result.append(c);

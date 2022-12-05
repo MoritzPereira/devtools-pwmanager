@@ -1,46 +1,52 @@
 package de.hhn.it.devtools.apis.pwmanager;
 
+import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
+import de.hhn.it.devtools.apis.pwmanager.exceptions.IllegalMasterPasswordException;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Pw-Manager Service.
+ *
  */
 public interface PwManagerService {
 
-  String masterPw = "test";
+  String masterPw = "admin";
   boolean hidepws = true;
 
   /**
    * changes the Master Password.
    *
-   * @param password the new master password.
-   * @throws RuntimeException if method takes too much time.
+   * @param newPassword the new master password
+   * @param oldPassword to check if user is authenticated to change master password
+   * @throws IllegalMasterPasswordException if user is not authenticated (oldPassword != masterPw)
+   * @throws IllegalParameterException      if the oldPassword and newPassword are equal
    */
-  void changeMasterPw(String password) throws RuntimeException;
+  void changeMasterPw(String newPassword, String oldPassword)
+      throws IllegalMasterPasswordException, IllegalParameterException;
 
   /**
    * Logs in the user and gives access to the passwords.
    *
-   * @param masterPw Master password to get access.
-   * @throws RuntimeException if method takes too much time.
+   * @param masterPw Master password to get access
+   * @throws IllegalMasterPasswordException if user is not authenticated
    */
-  void login(String masterPw) throws RuntimeException;
+  void login(String masterPw) throws IllegalMasterPasswordException;
 
   /**
    * Logs out the user.
-   *
-   * @throws RuntimeException if method takes too much time.
    */
-  void logout() throws RuntimeException;
+  void logout();
 
   /**
    * changes the visibility of a single password.
    *
-   * @param id of the Entry.
-   * @return the decrypted password.
-   * @throws RuntimeException if method takes too much time.
+   * @param id of the Entry
+   * @return the decrypted password
+   * @throws IllegalParameterException if the id does not exist
    */
-  String changeHidden(int id) throws RuntimeException;
+  String changeHidden(int id) throws IllegalParameterException;
 
 
   /**
@@ -52,49 +58,52 @@ public interface PwManagerService {
    * @param email    for the associated password.
    * @param password for the associated password.
    * @return the created entry.
-   * @throws RuntimeException if method takes too much time
+   * @throws IllegalParameterException if any attributs are invalid
    */
   public Entry addEntry(int id, String url, String username, String email, String password)
-      throws RuntimeException;
+      throws IllegalParameterException;
 
   /**
    * Changes an entry and loads the entry in the file.
    *
    * @param entry that will be changed
-   * @throws RuntimeException if method takes too much time
+   * @throws IllegalParameterException      if the chosen entry does not exist
+   * @throws IllegalMasterPasswordException if user is not authenticated
    */
-  public void changeEntry(Entry entry) throws RuntimeException;
+  public void changeEntry(Entry entry, String masterPw)
+      throws IllegalParameterException, IllegalMasterPasswordException;
 
   /**
    * Deletes an entry.
    *
-   * @param id of the entry that will be deleted.
-   * @throws RuntimeException if method takes too much time
+   * @param id of the entry that will be deleted
+   * @throws IllegalParameterException      if the chosen id does not exist
+   * @throws IllegalMasterPasswordException if user is not authenticated
    */
-  public void deleteEntry(int id) throws RuntimeException;
+  public void deleteEntry(int id, String masterPw)
+      throws IllegalParameterException, IllegalMasterPasswordException;
 
   /**
    * Generates a new password with the given specs.
    *
    * @param useUpper signals if uppercase letters
-   * @throws RuntimeException if method takes too much time
    */
   public String generateNewPw(boolean useUpper, boolean useLower, boolean useDigits,
-                              boolean useSpecialChars) throws RuntimeException;
+                              boolean useSpecialChars, int length) throws IllegalParameterException;
 
   /**
    * Gets the state from the component
    *
-   * @return the state
-   * @throws RuntimeException if method takes too much time
+   * @return the state.
+   * @throws NullPointerException if list doesn't exist
    */
-  public ArrayList<Entry> getState() throws RuntimeException;
+  public List<Entry> getState() throws NullPointerException;
 
   /**
    * Loads the state in the component.
    *
-   * @throws RuntimeException if method takes too much time
+   * @throws NullPointerException if list doesn't exist
    */
-  public void loadState(ArrayList<Entry> state) throws RuntimeException;
+  public void loadState(List<Entry> state) throws NullPointerException;
 
 }
