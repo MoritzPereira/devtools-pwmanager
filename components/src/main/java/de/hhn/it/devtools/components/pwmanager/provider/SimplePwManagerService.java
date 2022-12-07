@@ -19,6 +19,8 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
   private ArrayList<Entry> listOfEntrys = new ArrayList<>();
   public PwManagerListener listener = null;
 
+  //was ist mit konstruktor?
+
   private static final org.slf4j.Logger logger =
           org.slf4j.LoggerFactory.getLogger(SimplePwManagerService.class);
 
