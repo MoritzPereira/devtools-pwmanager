@@ -26,31 +26,8 @@ public class SupermarketServerService implements PosSystemService {
    */
   SupermarketServerService() {
     this.products = new HashMap<>();
-    this.bill = new Bill();
+    this.bill = new BillImpl();
     this.listeners = new ArrayList<>();
-  }
-
-  /** Adds a product to the product list.
-   *
-   * @param id id of the product
-   * @param name name of the product
-   * @param price price of the product
-   * @param manufacturer manufacturer of the product
-   * @param category category of the product
-   */
-  public void addProduct(int id, String name, float price,
-                         String manufacturer, ProductCategory category) {
-    Product product = new Product(name, price);
-
-    if (!manufacturer.isBlank()) {
-      product.setManufacturer(manufacturer);
-    }
-
-    if (category != null) {
-      product.setCategory(category);
-    }
-
-    products.put(id, product);
   }
 
   @Override
@@ -115,7 +92,7 @@ public class SupermarketServerService implements PosSystemService {
 
       bill.recalculate();
     } else {
-      BillEntry billEntry = new BillEntry(product);
+      BillEntry billEntry = new BillEntryImpl(product);
 
       bill.addBillEntry(id, billEntry);
 
