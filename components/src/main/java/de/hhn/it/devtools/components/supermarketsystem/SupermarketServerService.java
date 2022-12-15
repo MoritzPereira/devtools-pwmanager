@@ -6,7 +6,6 @@ import de.hhn.it.devtools.apis.supermarketsystem.BillEntry;
 import de.hhn.it.devtools.apis.supermarketsystem.PosSystemListener;
 import de.hhn.it.devtools.apis.supermarketsystem.PosSystemService;
 import de.hhn.it.devtools.apis.supermarketsystem.Product;
-import de.hhn.it.devtools.apis.supermarketsystem.ProductCategory;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +27,21 @@ public class SupermarketServerService implements PosSystemService {
     this.products = new HashMap<>();
     this.bill = new BillImpl();
     this.listeners = new ArrayList<>();
+  }
+
+  /**
+   * Adds a list of products to the service.
+   *
+   * @param productList List of products
+   */
+  public void addProducts(List<Product> productList) throws IllegalParameterException {
+    if (productList.isEmpty()) {
+      throw new IllegalParameterException("Given productList is empty");
+    }
+
+    for (Product product : productList) {
+      products.put(product.getId(), product);
+    }
   }
 
   @Override
