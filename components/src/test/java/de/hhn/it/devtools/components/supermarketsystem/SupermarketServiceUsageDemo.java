@@ -14,10 +14,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
+import java.util.logging.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SupermarketServiceUsageDemo {
 
   static SupermarketServerService supermarketServerService;
+  private static final org.slf4j.Logger logger
+      = LoggerFactory.getLogger(SupermarketServiceUsageDemo.class);
 
   public static void main(String[] args) throws IllegalParameterException, IllegalStateException {
     // sets up the SupermarketServerService.
