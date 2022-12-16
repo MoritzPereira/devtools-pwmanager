@@ -3,11 +3,15 @@ package de.hhn.it.devtools.apis.supermarketsystem;
 import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.LoggerFactory;
 
 /**
  * Demo class to test the POS System Service
  */
 public class PosSystemServiceUsageDemo {
+
+  private static final org.slf4j.Logger logger
+      = LoggerFactory.getLogger(PosSystemServiceUsageDemo.class);
   public static void main (String[] args) throws IllegalParameterException, IllegalStateException {
 
     // sets up the PosSystemService.
@@ -22,10 +26,9 @@ public class PosSystemServiceUsageDemo {
     // shows a list of all scanned products.
     Map<Integer, Product> scannedProducts = posSystemService.getProductsFromBill();
 
-    System.out.println("Scanned products: ");
+    logger.info("Scanned products: ");
     for(int i = 0; i < scannedProducts.size(); i++){
-      System.out.println(scannedProducts.get(i));
-      System.out.println("---------");
+      logger.info("" + scannedProducts.get(i) + "\n");
     }
 
     // deletes a product from the bill.
@@ -34,31 +37,29 @@ public class PosSystemServiceUsageDemo {
     // shows a list of all scanned products.
     posSystemService.getProductsFromBill();
 
-    System.out.println("Scanned products after delete");
+    logger.info("Scanned products after delete: ");
     for(int i = 0; i < scannedProducts.size(); i++){
-      System.out.println(scannedProducts.get(i));
-      System.out.println("---------");
+      logger.info("" + scannedProducts.get(i) + "\n");
     }
 
     // shows a list of all available products.
     Map<Integer, Product> availableProducts = posSystemService.getProducts();
 
-    System.out.println("Available products at supermarket");
+    logger.info("Available products at supermarket\n");
     for(int i= 0; i < availableProducts.size(); i++){
-      System.out.println(availableProducts.get(i));
-      System.out.println("--------");
+      logger.info("" + availableProducts.get(i) + "\n");
     }
 
     // Shows information about a specific product.
-    System.out.println(posSystemService.getProduct(2));
+    logger.info("" + posSystemService.getProduct(2) + "\n");
 
     // shows the total price of the bill.
-    System.out.println("Total price: ");
-    System.out.println(posSystemService.getBill().getSummary());
+    float price = posSystemService.getBill().getSummary();
+    logger.info("Total price: " + price + "\n");
 
     // shows the change the customer gets.
-    System.out.println("Change for the customer: ");
-    System.out.println(posSystemService.calculateChange(50.0F));
+    float change = posSystemService.calculateChange(50.0F);
+    logger.info("Change for the customer: " + change + "\n");
 
   }
 }

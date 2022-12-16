@@ -47,15 +47,11 @@ public class SupermarketServiceUsageDemo {
     //all Products on the bill
     Map<Integer, BillEntry> scannedProducts = supermarketServerService.getBill().getList();
 
-    System.out.println();
-
-    System.out.println("Scanned products: ");
+    logger.info("Scanned Products" + scannedProducts);
     for(BillEntry billEntry : scannedProducts.values()) {
-      System.out.println(billEntry);
-      System.out.println("---------");
+      logger.info("" + billEntry + "\n");
+      logger.info("---------\n");
     }
-
-    System.out.println();
 
     // deletes a product from the bill.
     supermarketServerService.deleteProductFromBill(3);
@@ -63,47 +59,42 @@ public class SupermarketServiceUsageDemo {
     // shows a list of all scanned products after deletion
     supermarketServerService.getProductsFromBill();
 
-    System.out.println("Scanned products after delete");
+    logger.info("Scanned products after delete" + scannedProducts);
     for(BillEntry billEntry : scannedProducts.values()) {
-      System.out.println(billEntry);
-      System.out.println("---------");
+      logger.info("" + billEntry + "\n");
+      logger.info("---------\n");
     }
 
-    System.out.println();
 
     // shows a list of all available products.
     Map<Integer, Product> availableProducts = supermarketServerService.getProducts();
 
-    System.out.println("Available products at supermarket");
+    logger.info("Available products at supermarket");
     for(Product product : availableProducts.values()) {
-      System.out.println(product);
-      System.out.println("---------");
+      logger.info("" + product + "\n");
+      logger.info("---------\n");
     }
 
-    System.out.println();
-
     // Shows information about a specific product.
-    System.out.println("Display product with id 6");
-    System.out.println(supermarketServerService.getProduct(6));
+    logger.info("Display product with id: 6 \n" + supermarketServerService.getProduct(6) + "\n");
 
     // adds that Product to bill
     supermarketServerService.addProductToBill(6);
 
-    System.out.println();
 
     // shows the total price of the bill.
-    System.out.println("Total price: ");
-    System.out.println(supermarketServerService.getBill().getSummary());
+    float price = supermarketServerService.getBill().getSummary();
+    logger.info("Total price: " + price + "\n");
 
     // shows the change the customer gets.
-    System.out.println("Change for the customer: ");
-    System.out.println(supermarketServerService.calculateChange(50.0F));
+    float change = supermarketServerService.calculateChange(50.0F);
+    System.out.println("Change for the customer: " + change + "\n");
 
   }
   public static void addProductsToSystem() {
     supermarketServerService = new SupermarketServerService();
 
-    System.out.println("Prepare Products");
+    logger.info("Prepare Products\n");
     try {
       // Read File from System
       Path filePath = Paths.get("./components/src/test/java/de/hhn/it/devtools/components/supermarketsystem/Products.json");
@@ -125,14 +116,13 @@ public class SupermarketServiceUsageDemo {
 
         // Add product to service
         supermarketServerService.addProduct(id, name, price, manufacturer, productCategory);
-
-        System.out.println("Adding product: " + name);
+        logger.info("Adding product: " + name + "\n");
       }
 
-      System.out.println("All products added to the store");
+      logger.info("All products added to the store.\n");
     } catch (IOException ioException) {
-      System.out.println("File not found");
-      System.out.println(ioException.getMessage());
+      logger.warn("File not found!\n");
+      logger.warn("" + ioException.getMessage());
     }
   }
 }
