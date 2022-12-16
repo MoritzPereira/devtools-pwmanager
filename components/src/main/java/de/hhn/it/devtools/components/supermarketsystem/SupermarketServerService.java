@@ -6,7 +6,6 @@ import de.hhn.it.devtools.apis.supermarketsystem.BillEntry;
 import de.hhn.it.devtools.apis.supermarketsystem.PosSystemListener;
 import de.hhn.it.devtools.apis.supermarketsystem.PosSystemService;
 import de.hhn.it.devtools.apis.supermarketsystem.Product;
-import de.hhn.it.devtools.apis.supermarketsystem.ProductCategory;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,31 +25,23 @@ public class SupermarketServerService implements PosSystemService {
    */
   SupermarketServerService() {
     this.products = new HashMap<>();
-    this.bill = new Bill();
+    this.bill = new BillImpl();
     this.listeners = new ArrayList<>();
   }
 
-  /** Adds a product to the product list.
+  /**
+   * Adds a list of products to the service.
    *
-   * @param id id of the product
-   * @param name name of the product
-   * @param price price of the product
-   * @param manufacturer manufacturer of the product
-   * @param category category of the product
+   * @param productList List of products
    */
-  public void addProduct(int id, String name, float price,
-                         String manufacturer, ProductCategory category) {
-    Product product = new Product(name, price);
-
-    if (!manufacturer.isBlank()) {
-      product.setManufacturer(manufacturer);
+  public void addProducts(List<Product> productList) throws IllegalParameterException {
+    if (productList.isEmpty()) {
+      throw new IllegalParameterException("Given productList is empty");
     }
 
-    if (category != null) {
-      product.setCategory(category);
+    for (Product product : productList) {
+      products.put(product.getId(), product);
     }
-
-    products.put(id, product);
   }
 
   @Override
@@ -115,7 +106,7 @@ public class SupermarketServerService implements PosSystemService {
 
       bill.recalculate();
     } else {
-      BillEntry billEntry = new BillEntry(product);
+      BillEntry billEntry = new BillEntryImpl(product);
 
       bill.addBillEntry(id, billEntry);
 

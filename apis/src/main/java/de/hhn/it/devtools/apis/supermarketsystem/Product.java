@@ -5,6 +5,7 @@ package de.hhn.it.devtools.apis.supermarketsystem;
  *
  */
 public class Product {
+  private int id;
   private String name;
   private String manufacturer;
   private float price;
@@ -32,10 +33,20 @@ public class Product {
    * @param manufacturer manufacturer of the product
    * @param isWeighed    boolean if the product will be weighed
    */
-  public Product(String name, float price, String manufacturer, boolean isWeighed) {
+  public Product(final int id, String name, float price, String manufacturer, boolean isWeighed) {
+    this.id = id;
     this.name = name;
     this.price = price;
     this.manufacturer = manufacturer;
+    this.isWeighed = isWeighed;
+  }
+
+  /** Returns the name of the product.
+   *
+   * @return id
+   */
+  public int getId() {
+    return id;
   }
 
   /**
@@ -127,6 +138,7 @@ public class Product {
   public void setIsWeighed(boolean isWeighed) {
     this.isWeighed = isWeighed;
   }
+  
   @Override
   public String toString() {
     return "Product{"
