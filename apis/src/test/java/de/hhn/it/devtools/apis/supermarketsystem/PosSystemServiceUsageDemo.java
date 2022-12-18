@@ -26,7 +26,7 @@ public class PosSystemServiceUsageDemo {
     // shows a list of all scanned products.
     Map<Integer, Product> scannedProducts = posSystemService.getProductsFromBill();
 
-    logger.info("Scanned products: ");
+    logger.info("Scanned products:\n");
     for(int i = 0; i < scannedProducts.size(); i++){
       logger.info("" + scannedProducts.get(i) + "\n");
     }
@@ -37,7 +37,7 @@ public class PosSystemServiceUsageDemo {
     // shows a list of all scanned products.
     posSystemService.getProductsFromBill();
 
-    logger.info("Scanned products after delete: ");
+    logger.info("Scanned products after delete:\n");
     for(int i = 0; i < scannedProducts.size(); i++){
       logger.info("" + scannedProducts.get(i) + "\n");
     }
@@ -45,7 +45,7 @@ public class PosSystemServiceUsageDemo {
     // shows a list of all available products.
     Map<Integer, Product> availableProducts = posSystemService.getProducts();
 
-    logger.info("Available products at supermarket\n");
+    logger.info("Available products at supermarket:\n");
     for(int i= 0; i < availableProducts.size(); i++){
       logger.info("" + availableProducts.get(i) + "\n");
     }

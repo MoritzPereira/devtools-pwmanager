@@ -20,16 +20,6 @@ public class SupermarketServiceUsageDemo {
     List<Product> productList = ProductGenerator.getSampleProductList(true);
     supermarketServerService.addProducts(productList);
 
-    /*
-    -> Produkte werden zum Kassenzettel hinzugefügt
-    -> Kunde möchte ein Produkt doch nicht haben => Produkt wird entfernt
-    -> Kunde will vlt noch Preis von einem Produkt wissen => Produkt wird abgefragt
-    -> Kunde entschließt sich das Produkt zu kaufen => Produkt wird hinzugefügt
-    -> Kunde hat keine Ware mehr im Einkaufkorb und will nichts mehr haben => Kassenzettel ausgeben/
-       anzeigen
-    -> Kunde sieht Betrag von x,xx€ (Bsp. 23,86€) und bezahlt x,xx€ (Bsp. 50€) => Wechselgeld wird
-       berechnet und ausgegeben
-     */
 
     //add Product to bill
     supermarketServerService.addProductToBill(1);
@@ -40,15 +30,10 @@ public class SupermarketServiceUsageDemo {
     //all Products on the bill
     Map<Integer, BillEntry> scannedProducts = supermarketServerService.getBill().getList();
 
-    System.out.println();
-
-    System.out.println("Scanned products: ");
+    logger.info("Scanned products:\n");
     for(BillEntry billEntry : scannedProducts.values()) {
-      System.out.println(billEntry);
-      System.out.println("---------");
+      logger.info("" + billEntry + "\n");
     }
-
-    System.out.println();
 
     // deletes a product from the bill.
     supermarketServerService.deleteProductFromBill(3);
@@ -56,41 +41,33 @@ public class SupermarketServiceUsageDemo {
     // shows a list of all scanned products after deletion
     supermarketServerService.getProductsFromBill();
 
-    System.out.println("Scanned products after delete");
+    logger.info("Scanned products after delete:\n");
     for(BillEntry billEntry : scannedProducts.values()) {
-      System.out.println(billEntry);
-      System.out.println("---------");
+      logger.info("" + billEntry + "\n");
     }
-
-    System.out.println();
 
     // shows a list of all available products.
     Map<Integer, Product> availableProducts = supermarketServerService.getProducts();
 
-    System.out.println("Available products at supermarket");
+    logger.info("Available products at supermarket:\n");
     for(Product product : availableProducts.values()) {
-      System.out.println(product);
-      System.out.println("---------");
+      logger.info("" + product + "\n");
     }
 
-    System.out.println();
-
     // Shows information about a specific product.
-    System.out.println("Display product with id 6");
-    System.out.println(supermarketServerService.getProduct(6));
+    logger.info("Display product with id 6:\n");
+    logger.info("" + supermarketServerService.getProduct(6) + "\n");
 
     // adds that Product to bill
     supermarketServerService.addProductToBill(6);
 
-    System.out.println();
-
     // shows the total price of the bill.
-    System.out.println("Total price: ");
-    System.out.println(supermarketServerService.getBill().getSummary());
+    logger.info("Total price: \n");
+    logger.info("" + supermarketServerService.getBill().getSummary() + "\n");
 
     // shows the change the customer gets.
-    System.out.println("Change for the customer: ");
-    System.out.println(supermarketServerService.calculateChange(50.0F));
+    logger.info("Change for the customer:\n");
+    logger.info("" + supermarketServerService.calculateChange(50.0F) + "\n");
 
   }
 }
