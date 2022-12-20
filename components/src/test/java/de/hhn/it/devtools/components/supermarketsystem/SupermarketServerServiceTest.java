@@ -33,7 +33,7 @@ class SupermarketServerServiceTest {
   }
 
   @BeforeAll
-  @DisplayName("Adds Products to System for Test")
+  @DisplayName("Adds Products to System for Test.")
   public void addProductsToSystem() {
     supermarketServerService = new SupermarketServerService();
 
@@ -48,14 +48,14 @@ class SupermarketServerServiceTest {
   }
 
   @Test
-  @DisplayName("Get Product list")
-  public void CheckProductList() {
+  @DisplayName("Get Product list.")
+  public void checkProductList() {
     assertDoesNotThrow(() -> supermarketServerService.getProducts());
   }
 
   @Test
-  @DisplayName("Product from bill compared with product with same id")
-  public void CheckIfProductFromBillEqualsProduct() throws IllegalParameterException {
+  @DisplayName("Product from bill compared with product with same id.")
+  public void checkIfProductFromBillEqualsProduct() throws IllegalParameterException {
     supermarketServerService.addProductToBill(1);
 
     assertEquals(supermarketServerService.getBill().getEntry(1).getProduct(),
@@ -63,8 +63,8 @@ class SupermarketServerServiceTest {
   }
 
   @Test
-  @DisplayName("Add products to bill")
-  public void CheckIfProductIsAddedToBill() throws IllegalParameterException {
+  @DisplayName("Try to add products to bill.")
+  public void checkIfProductIsAddedToBill() throws IllegalParameterException {
     int previousBillSize = supermarketServerService.getBill().getList().size();
 
     supermarketServerService.addProductToBill(1);
@@ -74,15 +74,15 @@ class SupermarketServerServiceTest {
   }
 
   @Test
-  @DisplayName("Try to add a none existing Product to bill")
-  public void CheckAddToBillWithNonExistingProduct() {
+  @DisplayName("Try to add a none existing Product to bill.")
+  public void addToBillWithNonExistingProduct() {
     assertThrows(IllegalParameterException.class,
         () -> supermarketServerService.addProductToBill(26));
   }
 
   @Test
-  @DisplayName("Add a second product with the same id to the bill")
-  public void CheckAddSameIdToBill() throws IllegalParameterException {
+  @DisplayName("Adds a second product with the same id to the bill.")
+  public void addSameIdToBill() throws IllegalParameterException {
     supermarketServerService.addProductToBill(1);
 
     assertDoesNotThrow(() -> supermarketServerService.addProductToBill(1));
@@ -91,8 +91,8 @@ class SupermarketServerServiceTest {
   }
 
   @Test
-  @DisplayName("Remove a second product with the same id to the bill")
-  public void CheckRemoveSameIdToBill() throws IllegalParameterException {
+  @DisplayName("Removes a second product with the same id to the bill.")
+  public void removeSameIdFromBill() throws IllegalParameterException {
     supermarketServerService.addProductToBill(1);
     supermarketServerService.addProductToBill(1);
 
@@ -102,47 +102,53 @@ class SupermarketServerServiceTest {
   }
 
   @Test
-  @DisplayName("Try to add a product with a negative id to bill")
-  public void CheckAddToBillWithNegativeProductId() {
+  @DisplayName("Try to add a product with a negative id to bill.")
+  public void addProductWithNegativeId() {
     assertThrows(IllegalParameterException.class,
         () -> supermarketServerService.addProductToBill(-1));
   }
 
   @Test
-  @DisplayName("Try to get a none existing product")
-  public void CheckProductWithNonExistingProduct() {
+  @DisplayName("Try to get a none existing product.")
+  public void addProductWithNonExistingProduct() {
     assertThrows(IllegalParameterException.class,
         () -> supermarketServerService.getProduct(200));
   }
 
   @Test
-  @DisplayName("Try to get a product with a negative id")
-  public void CheckProductWithNegativeProductId() {
+  @DisplayName("Try to add multiple products")
+  public void addProductWithHigherAmount() {
+    
+  }
+
+  @Test
+  @DisplayName("Try to get a product with a negative id.")
+  public void getProductWithNegativeProductId() {
     assertThrows(IllegalParameterException.class, () -> supermarketServerService.getProduct(-1));
   }
 
   @Test
-  @DisplayName("Bill must be empty")
-  public void CheckBillIsEmpty() {
+  @DisplayName("Check if Bill is empty.")
+  public void checkIfBillIsEmpty() {
     assertTrue(supermarketServerService.getBill().getList().isEmpty());
   }
 
   @Test
-  @DisplayName("Bill must has values")
-  public void CheckBillHasValues() throws IllegalParameterException {
+  @DisplayName("Check if Bill has values.")
+  public void checkIfBillHasValues() throws IllegalParameterException {
     supermarketServerService.addProductToBill(1);
     assertFalse(supermarketServerService.getBill().getList().isEmpty());
   }
 
   @Test
-  @DisplayName("No Products in empty Bill")
+  @DisplayName("Check if Products in bill are empty.")
   public void getProductsFromBillCheckIsEmpty() {
     assertTrue(supermarketServerService.getProductsFromBill().isEmpty());
   }
 
   @Test
-  @DisplayName("Adds products to bill and checks if bill has values")
-  public void CheckProductsFromBillHasValues() throws IllegalParameterException {
+  @DisplayName("Adds products to bill and checks if bill has values.")
+  public void checkIfProductsFromBillHasValues() throws IllegalParameterException {
     supermarketServerService.addProductToBill(1);
 
     assertTrue(supermarketServerService.getProductsFromBill().size() > 0);
@@ -150,35 +156,35 @@ class SupermarketServerServiceTest {
   }
 
   @Test
-  @DisplayName("Return products from bill should not throw exception")
-  public void CheckProductsFromBillNotThrowsException() {
+  @DisplayName("Return products from bill should not throw exception.")
+  public void checkProductsFromBillNotThrowsException() {
     assertDoesNotThrow(() -> supermarketServerService.getProductsFromBill());
   }
 
   @Test
-  @DisplayName("Delete a none existing product from the bill")
-  public void CheckDeleteProductFromBillWithNonExistingProduct() {
+  @DisplayName("Delete a none existing product from the bill.")
+  public void deleteProductFromBillWithNonExistingProduct() {
     assertThrows(IllegalParameterException.class,
         () -> supermarketServerService.deleteProductFromBill(26));
   }
 
   @Test
-  @DisplayName("Delete a product from the bill with negative id")
-  public void CheckDeleteProductFromBillWithNegativeProductId() {
+  @DisplayName("Delete a product from the bill with negative id.")
+  public void deleteProductFromBillWithNegativeProductId() {
     assertThrows(IllegalParameterException.class,
         () -> supermarketServerService.deleteProductFromBill(-2));
   }
 
   @Test
-  @DisplayName("Delete a product that is not in bill")
-  public void CheckDeleteProductFromBillWithProductNotInBill() {
+  @DisplayName("Delete a product that is not in bill.")
+  public void deleteProductFromBillWithProductNotInBill() {
     assertThrows(IllegalParameterException.class,
         () -> supermarketServerService.deleteProductFromBill(1));
   }
 
   @Test
-  @DisplayName("Try to delete a product twice from the bill")
-  public void CheckDeleteProductFromBillTwice() throws IllegalParameterException {
+  @DisplayName("Try to delete a product twice from the bill.")
+  public void deleteProductFromBillTwice() throws IllegalParameterException {
     supermarketServerService.addProductToBill(3);
     supermarketServerService.deleteProductFromBill(3);
 
@@ -187,15 +193,15 @@ class SupermarketServerServiceTest {
   }
 
   @Test
-  @DisplayName("Calculate change with empty bill")
-  public void CheckChangeChangeEqualsGivenMoney() {
+  @DisplayName("Calculate change with empty bill.")
+  public void checkChangeEqualsGivenMoney() {
     assertEquals(500, supermarketServerService.calculateChange(500),
         "Bill is empty so full amount returned");
   }
 
   @Test
-  @DisplayName("Calculate correct change")
-  public void CheckChangeEqualsRightAmount() throws IllegalParameterException {
+  @DisplayName("Tries to calculate change and compares to correct amount.")
+  public void checkChangeEqualsCorrectAmount() throws IllegalParameterException {
     supermarketServerService.addProductToBill(1);
 
     Product product = supermarketServerService.getProduct(1);
@@ -208,8 +214,8 @@ class SupermarketServerServiceTest {
   }
 
   @Test
-  @DisplayName("Register a listener, get states, remove listeners")
-  public void CheckRegisterAndRemoveCallback() throws IllegalParameterException {
+  @DisplayName("Register a listener, get states, remove listeners.")
+  public void checkRegisterAndRemoveCallback() throws IllegalParameterException {
     SimplePosSystemListener listener = new SimplePosSystemListener();
 
     supermarketServerService.addCallback(listener);
@@ -221,7 +227,7 @@ class SupermarketServerServiceTest {
 
   @Test
   @DisplayName("You cannot register the same listener twice.")
-  public void CheckAddCallbackRegisterListenerTwice() throws IllegalParameterException {
+  public void addCallbackRegisterListenerTwice() throws IllegalParameterException {
     SimplePosSystemListener listener = new SimplePosSystemListener();
     supermarketServerService.addCallback(listener);
 
@@ -239,15 +245,15 @@ class SupermarketServerServiceTest {
   }
 
   @Test
-  @DisplayName("You cannot register a null reference as listener")
-  public void addCallbackRegisterNullReferenceAsListener() {
+  @DisplayName("You cannot register a null reference as listener.")
+  public void addCallbackRegisterWithNullReferenceAsListener() {
     assertThrows(IllegalParameterException.class,
         () -> supermarketServerService.addCallback(null));
   }
 
   @Test
-  @DisplayName("You cannot remove a null reference as listener")
-  public void removeCallbackRemoveNullReferenceAsListener() {
+  @DisplayName("You cannot remove a null reference as listener.")
+  public void removeCallbackWithNullReferenceAsListener() {
     assertThrows(IllegalParameterException.class,
         () -> supermarketServerService.removeCallback(null));
   }
