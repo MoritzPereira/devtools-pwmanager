@@ -33,12 +33,14 @@ public class Product {
    * @param manufacturer manufacturer of the product
    * @param isWeighed    boolean if the product will be weighed
    */
-  public Product(final int id, String name, float price, String manufacturer, boolean isWeighed) {
+  public Product(final int id, String name, float price,
+                 String manufacturer, boolean isWeighed, ProductCategory category) {
     this.id = id;
     this.name = name;
     this.price = price;
     this.manufacturer = manufacturer;
     this.isWeighed = isWeighed;
+    this.category = category;
   }
 
   /** Returns the name of the product.
