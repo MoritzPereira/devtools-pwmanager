@@ -8,5 +8,7 @@ module devtools.components {
       with de.hhn.it.devtools.components.example.coffeemakerservice.provider.WnckCoffeeMakerService;
   provides de.hhn.it.devtools.apis.pwmanager.PwManagerService
       with de.hhn.it.devtools.components.pwmanager.PwManagerService;
+  provides de.hhn.it.devtools.apis.supermarketsystem.PosSystemService
+      with de.hhn.it.devtools.components.supermarketsystem.SupermarketServerService;
 }
 

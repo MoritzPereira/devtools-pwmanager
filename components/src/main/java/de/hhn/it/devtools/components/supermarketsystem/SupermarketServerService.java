@@ -23,7 +23,7 @@ public class SupermarketServerService implements PosSystemService {
   /** Constructor for the SupermarketServerService.
    *
    */
-  SupermarketServerService() {
+  public SupermarketServerService() {
     this.products = new HashMap<>();
     this.bill = new BillImpl();
     this.listeners = new ArrayList<>();
