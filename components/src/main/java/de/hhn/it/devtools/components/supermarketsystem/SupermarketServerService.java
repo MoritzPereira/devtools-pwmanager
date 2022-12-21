@@ -20,8 +20,8 @@ public class SupermarketServerService implements PosSystemService {
   private final List<PosSystemListener> listeners;
   private final Bill bill;
 
-  /** Constructor for the SupermarketServerService.
-   *
+  /**
+   * Constructor for the SupermarketServerService.
    */
   public SupermarketServerService() {
     this.products = new HashMap<>();
@@ -115,6 +115,28 @@ public class SupermarketServerService implements PosSystemService {
   }
 
   @Override
+  public void addProductToBill(int id, int amount)
+      throws IllegalParameterException, IllegalStateException, IllegalArgumentException {
+
+    if (amount < 1) {
+      throw new IllegalArgumentException("The given amount is less than one.");
+    }
+
+    addProductToBill(id);
+
+    // Reduce amount by once, due to previous deletion of product
+    amount = amount - 1;
+
+    BillEntry entry = bill.getEntry(id);
+
+    if (amount > 0) {
+      entry.addQuantity(amount);
+
+      bill.recalculate();
+    }
+  }
+
+  @Override
   public void deleteProductFromBill(int id)
       throws IllegalParameterException, IllegalStateException {
 
@@ -140,6 +162,28 @@ public class SupermarketServerService implements PosSystemService {
 
       // Remove entry from bill
       bill.removeEntry(id);
+
+      bill.recalculate();
+    }
+  }
+
+  @Override
+  public void deleteProductFromBill(int id, int amount)
+      throws IllegalParameterException, IllegalStateException, IllegalArgumentException {
+
+    if (amount < 1) {
+      throw new IllegalArgumentException("The given amount is less than one.");
+    }
+
+    deleteProductFromBill(id);
+
+    // Reduce amount by once, due to previous deletion of product
+    amount = amount - 1;
+
+    BillEntry entry = bill.getEntry(id);
+
+    if (amount > 0) {
+      entry.reduceQuantity(amount);
 
       bill.recalculate();
     }

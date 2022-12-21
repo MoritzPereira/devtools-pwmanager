@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -116,9 +117,21 @@ class SupermarketServerServiceTest {
   }
 
   @Test
-  @DisplayName("Try to add multiple products")
-  public void addProductWithHigherAmount() {
-    
+  @DisplayName("Try to add a product with amount")
+  public void addProductWithAmount() {
+    assertDoesNotThrow(() -> supermarketServerService.addProductToBill(1, 3));
+
+    assertEquals(3, supermarketServerService.getBill().getEntry(1).getQuantity());
+  }
+
+  @Test
+  @DisplayName("Try to add a product with an invalid amount")
+  public void addProductWithInvalidAmount() {
+    assertThrows(IllegalArgumentException.class,
+        () -> supermarketServerService.addProductToBill(1, -1));
+
+    // Product should not be added to bill
+    assertNull(supermarketServerService.getBill().getEntry(1));
   }
 
   @Test
@@ -185,11 +198,39 @@ class SupermarketServerServiceTest {
   @Test
   @DisplayName("Try to delete a product twice from the bill.")
   public void deleteProductFromBillTwice() throws IllegalParameterException {
-    supermarketServerService.addProductToBill(3);
-    supermarketServerService.deleteProductFromBill(3);
+    final int productId = 3;
+
+    supermarketServerService.addProductToBill(productId);
+    supermarketServerService.deleteProductFromBill(productId);
 
     assertThrows(IllegalParameterException.class,
-        () -> supermarketServerService.deleteProductFromBill(3));
+        () -> supermarketServerService.deleteProductFromBill(productId));
+  }
+
+  @Test
+  @DisplayName("Try to delte a product with amount")
+  public void deleteProductWithAmount() throws IllegalParameterException {
+    final int productId = 1;
+
+    supermarketServerService.addProductToBill(productId, 5);
+
+    assertDoesNotThrow(() -> supermarketServerService.deleteProductFromBill(productId, 3));
+
+    assertEquals(2, supermarketServerService.getBill().getEntry(productId).getQuantity());
+  }
+
+  @Test
+  @DisplayName("Try to add a product with an invalid amount")
+  public void deleteProductWithInvalidAmount() throws IllegalParameterException {
+    final int productId = 3;
+
+    supermarketServerService.addProductToBill(productId, 2);
+
+    assertThrows(IllegalArgumentException.class,
+        () -> supermarketServerService.deleteProductFromBill(productId, -1));
+
+    // Product quantity should be unchanged
+    assertEquals(2, supermarketServerService.getBill().getEntry(productId).getQuantity());
   }
 
   @Test
