@@ -10,12 +10,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.LoggerFactory;
 
 /**
  * Implementation of the PosSystemService interface.
  */
 public class SupermarketServerService implements PosSystemService {
 
+  private static final org.slf4j.Logger logger
+      = LoggerFactory.getLogger(SupermarketServerService.class);
   private final HashMap<Integer, Product> products;
   private final List<PosSystemListener> listeners;
   private final Bill bill;
@@ -24,6 +27,7 @@ public class SupermarketServerService implements PosSystemService {
    * Constructor for the SupermarketServerService.
    */
   public SupermarketServerService() {
+    logger.info("Constructor\n");
     this.products = new HashMap<>();
     this.bill = new BillImpl();
     this.listeners = new ArrayList<>();
@@ -35,6 +39,7 @@ public class SupermarketServerService implements PosSystemService {
    * @param productList List of products
    */
   public void addProducts(List<Product> productList) throws IllegalParameterException {
+    logger.info("addProducts: ", productList + "\n");
     if (productList.isEmpty()) {
       throw new IllegalParameterException("Given productList is empty");
     }
@@ -46,21 +51,26 @@ public class SupermarketServerService implements PosSystemService {
 
   @Override
   public Map<Integer, Product> getProducts() {
+    logger.info("getProducts");
     return products;
   }
 
   @Override
   public Bill getBill() {
+    logger.info("getBill");
     return bill;
   }
 
   @Override
   public Map<Integer, Product> getProductsFromBill() {
+    logger.info("getProductsFromBill\n");
     return bill.getProducts();
   }
 
   @Override
   public Product getProduct(int id) throws IllegalParameterException {
+
+    logger.info("getProduct: ", id);
 
     if (!products.containsKey(id)) {
       throw new IllegalParameterException("Product with id '" + id + "' not found");
@@ -97,6 +107,7 @@ public class SupermarketServerService implements PosSystemService {
 
   @Override
   public void addProductToBill(int id) throws IllegalParameterException, IllegalStateException {
+    logger.info("addProductToBill: ", id + "\n");
     Product product = getProduct(id);
 
     if (bill.containsKey(id)) {
@@ -117,6 +128,8 @@ public class SupermarketServerService implements PosSystemService {
   @Override
   public void addProductToBill(int id, int amount)
       throws IllegalParameterException, IllegalStateException, IllegalArgumentException {
+
+    logger.info("addProductToBill: ", id, amount + "\n");
 
     if (amount < 1) {
       throw new IllegalArgumentException("The given amount is less than one.");
@@ -139,6 +152,7 @@ public class SupermarketServerService implements PosSystemService {
   @Override
   public void deleteProductFromBill(int id)
       throws IllegalParameterException, IllegalStateException {
+    logger.info("deleteProductFromBill: ", id + "\n");
 
     // Check if product list contains product id
     if (!products.containsKey(id)) {
@@ -171,6 +185,8 @@ public class SupermarketServerService implements PosSystemService {
   public void deleteProductFromBill(int id, int amount)
       throws IllegalParameterException, IllegalStateException, IllegalArgumentException {
 
+    logger.info("deleteProductFromBill: ", id, amount + "\n");
+
     if (amount < 1) {
       throw new IllegalArgumentException("The given amount is less than one.");
     }
@@ -190,11 +206,13 @@ public class SupermarketServerService implements PosSystemService {
   }
 
   public void clearBill() {
+    logger.info("clearBill");
     bill.clear();
   }
 
   @Override
   public float calculateChange(float givenMoney) {
+    logger.info("calculateChange: ", givenMoney);
     return givenMoney - bill.getSummary();
   }
 }
