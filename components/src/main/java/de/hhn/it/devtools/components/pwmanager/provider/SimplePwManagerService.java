@@ -258,8 +258,13 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     }
 
     // Build the password.
-    for (int i = 0; i < length; i++) {
-      password += charCategories.get(random.nextInt(charCategories.size()));
+    for (int x = 0; x < length; x++) {
+      //random of the given charcategories
+      int y = random.nextInt(charCategories.size());
+      //random char of the on y related string
+      char z = charCategories.get(y).charAt(random.nextInt(charCategories.get(y).length()));
+      //add the random char to the password
+      password += z;
     }
 
     logger.info("New password generated: " + password);
