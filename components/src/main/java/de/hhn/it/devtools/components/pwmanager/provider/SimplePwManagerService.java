@@ -17,7 +17,8 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
   public boolean loggenIn = false;
   private boolean hidePws = true;
   public ArrayList<Entry> listOfEntrys = new ArrayList<>();
-  public PwManagerListener listener = null;
+  private final ArrayList<PwManagerListener> listeners = new ArrayList<>();
+
 
   //was ist mit konstruktor?
 
@@ -26,7 +27,15 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
 
   public void addListener(PwManagerListener listener) {
     if (listener != null) {
-      this.listener = listener;
+      listeners.add(listener);
+    } else {
+      throw new NullPointerException("Listener doesn't exist");
+    }
+  }
+
+  public void removeListener(PwManagerListener listener) {
+    if (listener != null) {
+      listeners.remove(listener);
     } else {
       throw new NullPointerException("Listener doesn't exist");
     }
@@ -96,7 +105,10 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     if (Objects.equals(this.masterPw, masterPw)) {
       loggenIn = true;
       logger.info("Logged in");
-      listener.loggedin();
+      for (PwManagerListener listener : listeners) {
+        listener.loggedin();
+      }
+      //listener.loggedin();
     } else {
       throw new IllegalMasterPasswordException();
     }
@@ -106,7 +118,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
   public void logout() {
     loggenIn = false;
     logger.info("Logged out");
-    listener.loggedout();
+    //listener.loggedout();
   }
 
 
@@ -125,7 +137,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     Entry newEntry = new Entry(id, url, username, email, password);
     logger.info("New entry {id: " + id + " } added");
     listOfEntrys.add(newEntry);
-    listener.entryAdded(newEntry);
+    //listener.entryAdded(newEntry);
     return newEntry;
 
   }
@@ -156,7 +168,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
       throw new IllegalParameterException("Entry not found");
     } else {
       logger.info("Entry {id: " + id + " } changed");
-      listener.entryChanged(entry);
+      //listener.entryChanged(entry);
     }
   }
 
@@ -177,7 +189,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
         foundId = true;
         it.remove();
         logger.info("Entry {id: " + id + " } deleted");
-        listener.entryDeleted(entry);
+        //listener.entryDeleted(entry);
         break;
       }
     }
@@ -251,14 +263,14 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     }
 
     logger.info("New password generated: " + password);
-    listener.showNewPw(password);
+    //listener.showNewPw(password);
     return password;
   }
 
   @Override
   public List<Entry> getState() throws RuntimeException {
     if (this.listOfEntrys != null) {
-      listener.showsortedEntryList(listOfEntrys);
+      //listener.showsortedEntryList(listOfEntrys);
       return this.listOfEntrys;
     } else {
       throw new NullPointerException();
