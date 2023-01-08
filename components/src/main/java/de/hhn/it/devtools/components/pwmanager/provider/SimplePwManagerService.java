@@ -13,10 +13,10 @@ import java.util.Random;
 
 public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager.PwManagerService {
 
-  private String masterPw = "admin";
-  private boolean loggenIn = false;
+  public String masterPw = "admin";
+  public boolean loggenIn = false;
   private boolean hidePws = true;
-  private ArrayList<Entry> listOfEntrys = new ArrayList<>();
+  public ArrayList<Entry> listOfEntrys = new ArrayList<>();
   public PwManagerListener listener = null;
 
   //was ist mit konstruktor?
@@ -32,10 +32,10 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     }
   }
 
-  private boolean checkPassword(String password) {
-
-    int length = 8;
-    if (password.length() == length) {
+  public boolean checkPassword(String password) {
+//bissle mehr überprüfungen so weisch
+    int length = 4;
+    if (password.length() < length) {
       return false;
     } else {
       return true;
@@ -43,20 +43,18 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
 
   }
 
-  private boolean checkEmail(String email) {
+  public boolean checkEmail(String email) {
 
     boolean foundA = false; //@
     boolean foundB = false; //.
 
     for (int i = 0; i < email.length(); i++) {
-
       char ch = email.charAt(i);
       if (ch == '@') {
         foundA = true;
       } else if (ch == '.') {
         foundB = true;
       }
-
     }
 
     if (foundA && foundB) {
@@ -64,22 +62,17 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     } else {
       return false;
     }
-
   }
 
-  private boolean checkUrl(String url) {
+  public boolean checkUrl(String url) {
 
     for (int i = 0; i < url.length(); i++) {
-
       char ch = url.charAt(i);
       if (ch == '.') {
         return true;
       }
-
     }
-
     return false;
-
   }
 
   @Override
@@ -88,15 +81,14 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
 
     if (!Objects.equals(this.masterPw, oldPassword)) {
       throw new IllegalMasterPasswordException();
+    } else if(newPassword == null){
+      throw new NullPointerException("Password is null");
     } else if (Objects.equals(newPassword, oldPassword)) {
       throw new IllegalParameterException("Dont use the same password again");
     } else if (!checkPassword(newPassword)) {
       throw new IllegalParameterException("Password is too weak");
     }
-
-    //Weitere Überprüfung auf Sonderzeichen
-    //all in all: Überprüfung auf Mindestanforderung
-
+    this.masterPw = newPassword;
   }
 
   @Override
@@ -117,30 +109,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     listener.loggedout();
   }
 
-  @Override
-  public String changeHidden(int id) throws IllegalParameterException {
 
-    String output = "";
-    boolean foundId = false;
-
-    for (Entry i : listOfEntrys) {
-      if (i.getEntryId() == id) {
-        output =
-            i.getEntryId() + "," + i.getUrl() + "," + i.getUsername() + "," + i.getEmail() + "," +
-                i.getPassword();
-        foundId = true;
-        break;
-      }
-    }
-
-    //Check if the id exist
-    if (!foundId) {
-      throw new IllegalParameterException("Given id not found");
-    }
-
-    logger.info("Hidden changed from id - " + id);
-    return output;
-  }
 
   @Override
   public Entry addEntry(int id, String url, String username, String email, String password)
@@ -189,7 +158,6 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
       logger.info("Entry {id: " + id + " } changed");
       listener.entryChanged(entry);
     }
-
   }
 
   @Override
@@ -218,6 +186,31 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
       throw new IllegalParameterException("Entry not found");
     }
 
+  }
+
+  @Override
+  public String changeHidden(int id) throws IllegalParameterException {
+
+    String output = "";
+    boolean foundId = false;
+
+    for (Entry i : listOfEntrys) {
+      if (i.getEntryId() == id) {
+        output =
+            i.getEntryId() + "," + i.getUrl() + "," + i.getUsername() + "," + i.getEmail() + "," +
+                i.getPassword();
+        foundId = true;
+        break;
+      }
+    }
+
+    //Check if the id exist
+    if (!foundId) {
+      throw new IllegalParameterException("Given id not found");
+    }
+
+    logger.info("Hidden changed from id - " + id);
+    return output;
   }
 
   @Override
