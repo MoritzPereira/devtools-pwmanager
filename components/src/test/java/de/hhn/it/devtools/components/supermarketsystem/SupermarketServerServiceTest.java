@@ -39,8 +39,7 @@ class SupermarketServerServiceTest {
     supermarketServerService = new SupermarketServerService();
 
     try {
-      List<Product> productList = ProductGenerator.getSampleProductList(false);
-      supermarketServerService.addProducts(productList);
+      List<Product> productList = ProductGenerator.getSampleProductList();
 
       logger.info("All products added to the store");
     } catch (Exception exception) {
@@ -208,7 +207,7 @@ class SupermarketServerServiceTest {
   }
 
   @Test
-  @DisplayName("Try to delte a product with amount")
+  @DisplayName("Try to delete a product with amount")
   public void deleteProductWithAmount() throws IllegalParameterException {
     final int productId = 1;
 

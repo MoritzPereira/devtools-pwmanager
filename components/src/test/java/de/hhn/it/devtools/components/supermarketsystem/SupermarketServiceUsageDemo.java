@@ -3,6 +3,7 @@ package de.hhn.it.devtools.components.supermarketsystem;
 import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
 import de.hhn.it.devtools.apis.supermarketsystem.BillEntry;
 import de.hhn.it.devtools.apis.supermarketsystem.Product;
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Map;
 import org.slf4j.LoggerFactory;
@@ -13,12 +14,13 @@ public class SupermarketServiceUsageDemo {
   private static final org.slf4j.Logger logger
       = LoggerFactory.getLogger(SupermarketServiceUsageDemo.class);
 
-  public static void main(String[] args) throws IllegalParameterException, IllegalStateException {
+  public static void main(String[] args) throws IllegalParameterException, IllegalStateException,
+      FileNotFoundException {
+
     // sets up the SupermarketServerService.
     supermarketServerService = new SupermarketServerService();
 
-    List<Product> productList = ProductGenerator.getSampleProductList(true);
-    supermarketServerService.addProducts(productList);
+    List<Product> productList = ProductGenerator.getSampleProductList();
 
 
     //add Product to bill
