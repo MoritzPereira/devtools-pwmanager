@@ -254,6 +254,20 @@ class SupermarketServerServiceTest {
   }
 
   @Test
+  @DisplayName("Calculates change with not enough given money.")
+  public void checkChangeHowMuchIsLeft () throws IllegalParameterException {
+    supermarketServerService.addProductToBill(1);
+
+    Product product = supermarketServerService.getProduct(1);
+
+    final float givenMoney = 1F;
+    final float correctChange = givenMoney - product.getPrice();
+
+    assertEquals(correctChange,
+        supermarketServerService.calculateChange(givenMoney));
+  }
+
+  @Test
   @DisplayName("Register a listener, get states, remove listeners.")
   public void checkRegisterAndRemoveCallback() throws IllegalParameterException {
     SimplePosSystemListener listener = new SimplePosSystemListener();
