@@ -23,14 +23,17 @@ public class BillEntryImpl implements BillEntry {
     this.quantity = 1;
   }
 
+  @Override
   public Product getProduct() {
     return product;
   }
 
+  @Override
   public float getPrice() {
     return price;
   }
 
+  @Override
   public int getQuantity() {
     return quantity;
   }
@@ -39,6 +42,7 @@ public class BillEntryImpl implements BillEntry {
     this.quantity++;
   }
 
+  @Override
   public void addQuantity(int quantity) {
     this.quantity += quantity;
   }
@@ -52,10 +56,11 @@ public class BillEntryImpl implements BillEntry {
     this.quantity--;
   }
 
+  @Override
   public void reduceQuantity(int quantity) {
 
-    if (this.quantity - quantity < 0) {
-      throw new IllegalStateException("BillEntry quantity is lower then 0");
+    if (this.quantity - quantity <= 0) {
+      throw new IllegalStateException("BillEntry quantity is lower then or equal to 0");
     }
 
     this.quantity -= quantity;

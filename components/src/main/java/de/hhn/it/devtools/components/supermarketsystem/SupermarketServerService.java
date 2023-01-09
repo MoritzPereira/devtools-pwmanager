@@ -39,6 +39,10 @@ public class SupermarketServerService implements PosSystemService {
       throw new IllegalParameterException("Given productList is empty");
     }
 
+    if (productList == null) {
+      throw new IllegalParameterException("Given productList is null");
+    }
+
     for (Product product : productList) {
       products.put(product.getId(), product);
     }
@@ -195,6 +199,9 @@ public class SupermarketServerService implements PosSystemService {
 
   @Override
   public float calculateChange(float givenMoney) {
+    if (givenMoney - bill.getSummary() < 0) {
+      System.out.println(givenMoney - bill.getSummary() + " is left to pay");
+    }
     return givenMoney - bill.getSummary();
   }
 }

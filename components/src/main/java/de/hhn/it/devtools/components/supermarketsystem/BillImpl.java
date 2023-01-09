@@ -24,10 +24,12 @@ public class BillImpl implements Bill {
     return productList;
   }
 
+  @Override
   public float getSummary() {
     return summary;
   }
 
+  @Override
   public Map<Integer, Product> getProducts() {
     return ((HashMap<Integer, BillEntry>) productList.clone())
         .entrySet()
@@ -36,22 +38,27 @@ public class BillImpl implements Bill {
         .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().getProduct()));
   }
 
+  @Override
   public void addBillEntry(int id, BillEntry billEntry) {
     productList.put(id, billEntry);
   }
 
+  @Override
   public void removeEntry(int id) {
     productList.remove(id);
   }
 
+  @Override
   public boolean containsKey(int id) {
     return productList.containsKey(id);
   }
 
+  @Override
   public BillEntry getEntry(int id) {
     return productList.get(id);
   }
 
+  @Override
   public void recalculate() {
     summary = 0F;
 
@@ -60,6 +67,7 @@ public class BillImpl implements Bill {
     }
   }
 
+  @Override
   public void clear() {
     productList.clear();
     summary = 0F;
