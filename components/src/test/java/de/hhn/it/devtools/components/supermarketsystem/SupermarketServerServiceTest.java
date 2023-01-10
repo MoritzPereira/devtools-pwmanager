@@ -14,11 +14,16 @@ import de.hhn.it.devtools.apis.supermarketsystem.PosSystemState;
 import de.hhn.it.devtools.apis.supermarketsystem.Product;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class SupermarketServerServiceTest {
@@ -41,6 +46,8 @@ class SupermarketServerServiceTest {
     try {
       List<Product> productList = ProductGenerator.getSampleProductList();
 
+      supermarketServerService.addProducts(productList);
+
       logger.info("All products added to the store");
     } catch (Exception exception) {
       logger.warn(exception.getMessage());
@@ -53,90 +60,100 @@ class SupermarketServerServiceTest {
     assertDoesNotThrow(() -> supermarketServerService.getProducts());
   }
 
-  @Test
+  @ParameterizedTest
   @DisplayName("Product from bill compared with product with same id.")
-  public void checkIfProductFromBillEqualsProduct() throws IllegalParameterException {
-    supermarketServerService.addProductToBill(1);
+  @ValueSource(ints = {1, 3, 5, 7, 12, 13, 16, 20, 23, 25})
+  public void checkIfProductFromBillEqualsProduct(int id) throws IllegalParameterException {
+    supermarketServerService.addProductToBill(id);
 
-    assertEquals(supermarketServerService.getBill().getEntry(1).getProduct(),
-        supermarketServerService.getProduct(1));
+    assertEquals(supermarketServerService.getBill().getEntry(id).getProduct(),
+        supermarketServerService.getProduct(id));
   }
 
-  @Test
+  @ParameterizedTest
   @DisplayName("Try to add products to bill.")
-  public void checkIfProductIsAddedToBill() throws IllegalParameterException {
+  @ValueSource(ints = {1, 3, 5, 7, 12, 13, 16, 20, 23, 25})
+  public void checkIfProductIsAddedToBill(int id) throws IllegalParameterException {
     int previousBillSize = supermarketServerService.getBill().getList().size();
 
-    supermarketServerService.addProductToBill(1);
+    supermarketServerService.addProductToBill(id);
 
     assertTrue(previousBillSize < supermarketServerService.getBill().getList().size());
-    assertNotNull(supermarketServerService.getBill().getEntry(1));
+    assertNotNull(supermarketServerService.getBill().getEntry(id));
   }
 
-  @Test
+  @ParameterizedTest
   @DisplayName("Try to add a none existing Product to bill.")
-  public void addToBillWithNonExistingProduct() {
+  @ValueSource(ints = {26, 30, 200, Integer.MAX_VALUE})
+  public void addToBillWithNonExistingProduct(int id) {
     assertThrows(IllegalParameterException.class,
-        () -> supermarketServerService.addProductToBill(26));
+        () -> supermarketServerService.addProductToBill(id));
   }
 
-  @Test
+  @ParameterizedTest
   @DisplayName("Adds a second product with the same id to the bill.")
-  public void addSameIdToBill() throws IllegalParameterException {
-    supermarketServerService.addProductToBill(1);
+  @ValueSource(ints = {1, 3, 5, 7, 12, 13, 16, 20, 23, 25})
+  public void addSameIdToBill(int id) throws IllegalParameterException {
+    supermarketServerService.addProductToBill(id);
 
-    assertDoesNotThrow(() -> supermarketServerService.addProductToBill(1));
+    assertDoesNotThrow(() -> supermarketServerService.addProductToBill(id));
 
-    assertEquals(supermarketServerService.getBill().getEntry(1).getQuantity(), 2);
+    assertEquals(supermarketServerService.getBill().getEntry(id).getQuantity(), 2);
   }
 
-  @Test
+  @ParameterizedTest
   @DisplayName("Removes a second product with the same id to the bill.")
-  public void removeSameIdFromBill() throws IllegalParameterException {
-    supermarketServerService.addProductToBill(1);
-    supermarketServerService.addProductToBill(1);
+  @ValueSource(ints = {1, 3, 5, 7, 12, 13, 16, 20, 23, 25})
+  public void removeSameIdFromBill(int id) throws IllegalParameterException {
+    supermarketServerService.addProductToBill(id);
+    supermarketServerService.addProductToBill(id);
 
-    assertDoesNotThrow(() -> supermarketServerService.deleteProductFromBill(1));
+    assertDoesNotThrow(() -> supermarketServerService.deleteProductFromBill(id));
 
-    assertEquals(supermarketServerService.getBill().getEntry(1).getQuantity(), 1);
+    assertEquals(supermarketServerService.getBill().getEntry(id).getQuantity(), 1);
   }
 
-  @Test
+  @ParameterizedTest
   @DisplayName("Try to add a product with a negative id to bill.")
-  public void addProductWithNegativeId() {
+  @ValueSource(ints = {-1, -3, -5, -40, -300, -1000, Integer.MIN_VALUE})
+  public void addProductWithNegativeId(int id) {
     assertThrows(IllegalParameterException.class,
-        () -> supermarketServerService.addProductToBill(-1));
+        () -> supermarketServerService.addProductToBill(id));
   }
 
-  @Test
+  @ParameterizedTest
   @DisplayName("Try to get a none existing product.")
-  public void addProductWithNonExistingProduct() {
+  @ValueSource(ints = {30, 40, 41, 93, 100, Integer.MAX_VALUE})
+  public void addProductWithNonExistingProduct(int id) {
     assertThrows(IllegalParameterException.class,
-        () -> supermarketServerService.getProduct(200));
+        () -> supermarketServerService.getProduct(id));
   }
 
-  @Test
+  @ParameterizedTest
   @DisplayName("Try to add a product with amount")
-  public void addProductWithAmount() {
-    assertDoesNotThrow(() -> supermarketServerService.addProductToBill(1, 3));
+  @ValueSource(ints = {1, 3, 5, 7, 12, 13, 16, 20, 23, 25})
+  public void addProductWithAmount(int id) {
+    assertDoesNotThrow(() -> supermarketServerService.addProductToBill(id, 3));
 
-    assertEquals(3, supermarketServerService.getBill().getEntry(1).getQuantity());
+    assertEquals(3, supermarketServerService.getBill().getEntry(id).getQuantity());
   }
 
-  @Test
+  @ParameterizedTest
   @DisplayName("Try to add a product with an invalid amount")
-  public void addProductWithInvalidAmount() {
+  @ValueSource(ints = {1, 3, 5, 7, 12, 13, 16, 20, 23, 25})
+  public void addProductWithInvalidAmount(int id) {
     assertThrows(IllegalArgumentException.class,
-        () -> supermarketServerService.addProductToBill(1, -1));
+        () -> supermarketServerService.addProductToBill(id, -1));
 
     // Product should not be added to bill
-    assertNull(supermarketServerService.getBill().getEntry(1));
+    assertNull(supermarketServerService.getBill().getEntry(id));
   }
 
-  @Test
+  @ParameterizedTest
   @DisplayName("Try to get a product with a negative id.")
-  public void getProductWithNegativeProductId() {
-    assertThrows(IllegalParameterException.class, () -> supermarketServerService.getProduct(-1));
+  @ValueSource(ints = {-1, -3, -5, -40, -300, -1000, Integer.MIN_VALUE})
+  public void getProductWithNegativeProductId(int id) {
+    assertThrows(IllegalParameterException.class, () -> supermarketServerService.getProduct(id));
   }
 
   @Test
@@ -145,10 +162,11 @@ class SupermarketServerServiceTest {
     assertTrue(supermarketServerService.getBill().getList().isEmpty());
   }
 
-  @Test
+  @ParameterizedTest
   @DisplayName("Check if Bill has values.")
-  public void checkIfBillHasValues() throws IllegalParameterException {
-    supermarketServerService.addProductToBill(1);
+  @ValueSource(ints = {1, 3, 5, 7, 12, 13, 16, 20, 23, 25})
+  public void checkIfBillHasValues(int id) throws IllegalParameterException {
+    supermarketServerService.addProductToBill(id);
     assertFalse(supermarketServerService.getBill().getList().isEmpty());
   }
 
@@ -158,10 +176,11 @@ class SupermarketServerServiceTest {
     assertTrue(supermarketServerService.getProductsFromBill().isEmpty());
   }
 
-  @Test
+  @ParameterizedTest
   @DisplayName("Adds products to bill and checks if bill has values.")
-  public void checkIfProductsFromBillHasValues() throws IllegalParameterException {
-    supermarketServerService.addProductToBill(1);
+  @ValueSource(ints = {1, 3, 5, 7, 12, 13, 16, 20, 23, 25})
+  public void checkIfProductsFromBillHasValues(int id) throws IllegalParameterException {
+    supermarketServerService.addProductToBill(id);
 
     assertTrue(supermarketServerService.getProductsFromBill().size() > 0);
     assertNotNull(supermarketServerService.getProductsFromBill());
@@ -173,98 +192,98 @@ class SupermarketServerServiceTest {
     assertDoesNotThrow(() -> supermarketServerService.getProductsFromBill());
   }
 
-  @Test
+  @ParameterizedTest
   @DisplayName("Delete a none existing product from the bill.")
-  public void deleteProductFromBillWithNonExistingProduct() {
+  @ValueSource(ints = {30, 40, 41, 93, 100, Integer.MAX_VALUE})
+  public void deleteProductFromBillWithNonExistingProduct(int id) {
     assertThrows(IllegalParameterException.class,
-        () -> supermarketServerService.deleteProductFromBill(26));
+        () -> supermarketServerService.deleteProductFromBill(id));
   }
 
-  @Test
+  @ParameterizedTest
   @DisplayName("Delete a product from the bill with negative id.")
-  public void deleteProductFromBillWithNegativeProductId() {
+  @ValueSource(ints = {-1, -3, -5, -40, -300, -1000, Integer.MIN_VALUE})
+  public void deleteProductFromBillWithNegativeProductId(int id) {
     assertThrows(IllegalParameterException.class,
-        () -> supermarketServerService.deleteProductFromBill(-2));
+        () -> supermarketServerService.deleteProductFromBill(id));
   }
 
-  @Test
+  @ParameterizedTest
   @DisplayName("Delete a product that is not in bill.")
-  public void deleteProductFromBillWithProductNotInBill() {
+  @ValueSource(ints = {1, 3, 5, 7, 12, 13, 16, 20, 23, 25})
+  public void deleteProductFromBillWithProductNotInBill(int id) {
     assertThrows(IllegalParameterException.class,
-        () -> supermarketServerService.deleteProductFromBill(1));
+        () -> supermarketServerService.deleteProductFromBill(id));
   }
 
-  @Test
+  @ParameterizedTest
   @DisplayName("Try to delete a product twice from the bill.")
-  public void deleteProductFromBillTwice() throws IllegalParameterException {
-    final int productId = 3;
+  @ValueSource(ints = {1, 3, 5, 7, 12, 13, 16, 20, 23, 25})
+  public void deleteProductFromBillTwice(int id) throws IllegalParameterException {
 
-    supermarketServerService.addProductToBill(productId);
-    supermarketServerService.deleteProductFromBill(productId);
+    supermarketServerService.addProductToBill(id);
+    supermarketServerService.deleteProductFromBill(id);
 
     assertThrows(IllegalParameterException.class,
-        () -> supermarketServerService.deleteProductFromBill(productId));
+        () -> supermarketServerService.deleteProductFromBill(id));
   }
 
-  @Test
+  @ParameterizedTest
   @DisplayName("Try to delete a product with amount")
-  public void deleteProductWithAmount() throws IllegalParameterException {
-    final int productId = 1;
+  @MethodSource("provideProductIdsAndAmount")
+  public void deleteProductWithAmount(int id, int addAmount, int removeAmount) throws IllegalParameterException {
 
-    supermarketServerService.addProductToBill(productId, 5);
+    supermarketServerService.addProductToBill(id, addAmount);
 
-    assertDoesNotThrow(() -> supermarketServerService.deleteProductFromBill(productId, 3));
+    assertDoesNotThrow(() -> supermarketServerService.deleteProductFromBill(id, removeAmount));
 
-    assertEquals(2, supermarketServerService.getBill().getEntry(productId).getQuantity());
+    assertEquals((addAmount-removeAmount), supermarketServerService.getBill().getEntry(id).getQuantity());
   }
 
-  @Test
+  @ParameterizedTest
   @DisplayName("Try to add a product with an invalid amount")
-  public void deleteProductWithInvalidAmount() throws IllegalParameterException {
-    final int productId = 3;
+  @ValueSource(ints = {1, 3, 5, 7, 12, 13, 16, 20, 23, 25})
+  public void deleteProductWithInvalidAmount(int id) throws IllegalParameterException {
 
-    supermarketServerService.addProductToBill(productId, 2);
+    supermarketServerService.addProductToBill(id, 2);
 
     assertThrows(IllegalArgumentException.class,
-        () -> supermarketServerService.deleteProductFromBill(productId, -1));
+        () -> supermarketServerService.deleteProductFromBill(id, -1));
 
     // Product quantity should be unchanged
-    assertEquals(2, supermarketServerService.getBill().getEntry(productId).getQuantity());
+    assertEquals(2, supermarketServerService.getBill().getEntry(id).getQuantity());
   }
 
-  @Test
+  @ParameterizedTest
   @DisplayName("Calculate change with empty bill.")
-  public void checkChangeEqualsGivenMoney() {
-    assertEquals(500, supermarketServerService.calculateChange(500),
+  @ValueSource(floats = {20F, 43F, 102F, 200F, 1000F, Float.MAX_VALUE})
+  public void checkChangeEqualsGivenMoney(float change) {
+    assertEquals(change, supermarketServerService.calculateChange(change),
         "Bill is empty so full amount returned");
   }
 
-  @Test
+  @ParameterizedTest
   @DisplayName("Tries to calculate change and compares to correct amount.")
-  public void checkChangeEqualsCorrectAmount() throws IllegalParameterException {
-    supermarketServerService.addProductToBill(1);
+  @MethodSource("provideProductIdsAndChange")
+  public void checkChangeEqualsCorrectAmount(int id, float givenMoney) throws IllegalParameterException {
+    supermarketServerService.addProductToBill(id);
 
-    Product product = supermarketServerService.getProduct(1);
+    Product product = supermarketServerService.getProduct(id);
 
-    final float givenMoney = 30F;
     final float correctChange = givenMoney - product.getPrice();
 
     assertEquals(correctChange,
         supermarketServerService.calculateChange(givenMoney));
   }
 
-  @Test
+  @ParameterizedTest
   @DisplayName("Calculates change with not enough given money.")
-  public void checkChangeHowMuchIsLeft () throws IllegalParameterException {
-    supermarketServerService.addProductToBill(1);
+  @MethodSource("provideProductIdsAndNegativeChange")
+  public void checkChangeWithNegativeChange (int id, float givenMoney) throws IllegalParameterException {
+    supermarketServerService.addProductToBill(id);
 
-    Product product = supermarketServerService.getProduct(1);
-
-    final float givenMoney = 1F;
-    final float correctChange = givenMoney - product.getPrice();
-
-    assertEquals(correctChange,
-        supermarketServerService.calculateChange(givenMoney));
+    assertThrows(IllegalArgumentException.class,
+        () -> supermarketServerService.calculateChange(givenMoney));
   }
 
   @Test
@@ -310,6 +329,48 @@ class SupermarketServerServiceTest {
   public void removeCallbackWithNullReferenceAsListener() {
     assertThrows(IllegalParameterException.class,
         () -> supermarketServerService.removeCallback(null));
+  }
+
+  private static Stream<Arguments> provideProductIdsAndChange() {
+    return Stream.of(
+      Arguments.of(1, 10F),
+        Arguments.of(3, 35F),
+        Arguments.of(5, 50F),
+        Arguments.of(7, 6F),
+        Arguments.of(12, 350F),
+        Arguments.of(13, 100F),
+        Arguments.of(16, 60F),
+        Arguments.of(20, 75F),
+        Arguments.of(25, 500F)
+    );
+  }
+
+  private static Stream<Arguments> provideProductIdsAndNegativeChange() {
+    return Stream.of(
+        Arguments.of(1, -1F),
+        Arguments.of(3, -35F),
+        Arguments.of(5, -50F),
+        Arguments.of(7, -6F),
+        Arguments.of(12, -350F),
+        Arguments.of(13, -100F),
+        Arguments.of(16, -60F),
+        Arguments.of(20, -75F),
+        Arguments.of(25, -500F)
+    );
+  }
+
+  private static Stream<Arguments> provideProductIdsAndAmount() {
+    return Stream.of(
+        Arguments.of(1, 5, 3),
+        Arguments.of(3, 10, 1),
+        Arguments.of(5, 8, 7),
+        Arguments.of(7, 3, 1),
+        Arguments.of(12, 5, 1),
+        Arguments.of(13, 15, 6),
+        Arguments.of(16, 8, 3),
+        Arguments.of(20, 8, 7),
+        Arguments.of(25, 20, 3)
+    );
   }
 
   /**

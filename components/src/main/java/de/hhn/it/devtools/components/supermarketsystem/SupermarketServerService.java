@@ -212,7 +212,12 @@ public class SupermarketServerService implements PosSystemService {
 
   @Override
   public float calculateChange(float givenMoney) {
-    logger.info("calculateChange: ", givenMoney);
+    logger.info("calculateChange: %f", givenMoney);
+
+    if (givenMoney < 0) {
+      throw new IllegalArgumentException("The given Change is negative");
+    }
+
     return givenMoney - bill.getSummary();
   }
 }

@@ -17,12 +17,16 @@ public class BillImpl implements Bill {
 
   private float summary;
 
+  /** Constructor for the Bill.
+   *
+   */
   public BillImpl() {
     logger.info("Constructor\n");
     this.productList = new HashMap<>();
     summary = 0F;
   }
 
+  @Override
   public Map<Integer, BillEntry> getList() {
     logger.info("getList\n");
     return productList;
