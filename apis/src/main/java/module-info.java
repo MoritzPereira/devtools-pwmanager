@@ -4,4 +4,5 @@ module devtools.apis{
         exports de.hhn.it.devtools.apis.exceptions;
         exports de.hhn.it.devtools.apis.pwmanager.exceptions;
         exports de.hhn.it.devtools.apis.pwmanager;
-        }
+  exports de.hhn.it.devtools.apis.supermarketsystem;
+}

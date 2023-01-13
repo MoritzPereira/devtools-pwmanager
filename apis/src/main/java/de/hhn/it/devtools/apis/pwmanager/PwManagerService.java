@@ -3,6 +3,7 @@ package de.hhn.it.devtools.apis.pwmanager;
 import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
 import de.hhn.it.devtools.apis.pwmanager.exceptions.IllegalMasterPasswordException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,13 +98,13 @@ public interface PwManagerService {
    * @return the state.
    * @throws NullPointerException if list doesn't exist
    */
-  public List<Entry> getState() throws NullPointerException;
+  public void getState(List<Entry> state) throws NullPointerException, IOException;
 
   /**
    * Loads the state in the component.
    *
    * @throws NullPointerException if list doesn't exist
    */
-  public void loadState(List<Entry> state) throws NullPointerException;
+  public List<Entry> loadState() throws NullPointerException;
 
 }

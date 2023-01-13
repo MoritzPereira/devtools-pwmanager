@@ -52,40 +52,12 @@ public class Entry {
     return email;
   }
 
-  public void encryptAll() {
-    entryId = Integer.parseInt(encrypt(String.valueOf(entryId)));
-    url = encrypt(url);
-    username = encrypt(username);
-    email = encrypt(email);
-    password = encrypt(password);
-  }
 
-  public void decryptAll() {
-    entryId = Integer.parseInt(decrypt(String.valueOf(entryId)));
-    url = decrypt(url);
-    username = decrypt(username);
-    email = decrypt(email);
-    password = decrypt(password);
-  }
 
-  private String encrypt(String text) {
-    StringBuilder hashedString = new StringBuilder();
-    char[] chars = text.toCharArray();
-    for (char c : chars) {
-      c += 15;
-      hashedString.append(c);
-    }
-    return hashedString.toString();
-  }
 
-  private String decrypt(String text) {
-    StringBuilder result = new StringBuilder();
-    char[] chars = text.toCharArray();
-    for (char c : chars) {
-      c -= 15;
-      result.append(c);
-    }
-    return result.toString();
-  }
+
+
+
+
 
 }

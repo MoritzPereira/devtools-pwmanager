@@ -2,9 +2,7 @@ package de.hhn.it.devtools.components.pwmanager;
 
 import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
 import de.hhn.it.devtools.apis.pwmanager.Entry;
-import de.hhn.it.devtools.apis.pwmanager.PwManagerListener;
 import de.hhn.it.devtools.apis.pwmanager.exceptions.IllegalMasterPasswordException;
-import de.hhn.it.devtools.components.pwmanager.provider.SimplePwManagerService;
 
 public class PwManagerServiceUsageDemo {
 
