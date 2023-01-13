@@ -14,6 +14,8 @@ import java.util.Random;
 public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager.PwManagerService {
 
   public String masterPw = "admin";
+
+  int idstatus = 0;
   public boolean loggenIn = false;
   private boolean hidePws = true;
   public ArrayList<Entry> listOfEntrys = new ArrayList<>();
@@ -121,7 +123,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     //listener.loggedout();
   }
 
-
+  //Methode welche checkt welche id drankommt bei addEntry
 
   @Override
   public Entry addEntry(int id, String url, String username, String email, String password)
@@ -133,10 +135,15 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     if (!checkUrl(url)) {
       throw new IllegalParameterException("Url is not valid");
     }
+    if (!checkPassword(password)) {
+      throw new IllegalParameterException("Password is not valid");
+    }
 
-    Entry newEntry = new Entry(id, url, username, email, password);
+    Entry newEntry = new Entry(idstatus, url, username, email, password);
+    idstatus++;
     logger.info("New entry {id: " + id + " } added");
     listOfEntrys.add(newEntry);
+
     //listener.entryAdded(newEntry);
     return newEntry;
 
