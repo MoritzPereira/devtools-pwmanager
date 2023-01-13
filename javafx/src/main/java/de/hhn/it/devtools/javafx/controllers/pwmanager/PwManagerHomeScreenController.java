@@ -18,6 +18,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
@@ -40,6 +41,9 @@ public class PwManagerHomeScreenController extends Controller implements Initial
     private Button buttonChangeMasterpassword;
 
     @FXML
+    private Button buttonPassword;
+
+    @FXML
     private AnchorPane controlAnchorPane;
 
     public PwManagerHomeScreenController() throws IllegalParameterException {
@@ -60,6 +64,9 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         }
         else if(buttonChangeMasterpassword == event.getSource()){
             openContextMenuChangeMasterPW();
+        }
+        else if(buttonPassword == event.getSource()){
+            openContextRandomPassword();
         }
 
     }
@@ -196,6 +203,77 @@ public class PwManagerHomeScreenController extends Controller implements Initial
             return null;
         });
 
+        dialog.showAndWait();
+
+    }
+
+    public void openContextRandomPassword(){
+
+        Dialog dialog = new Dialog();
+        dialog.setTitle("Generate password");
+        //dialog.setHeaderText("Adds an new entry to the system");
+
+        ButtonType loginButton = new ButtonType("Generate", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(loginButton, ButtonType.CANCEL);
+
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+
+        Label useuppercaseLabel = new Label("Use uppercase");
+        Label uselowercaseLabel = new Label("Use lowercase");
+        Label usenumbersLabel = new Label("Use numbers");
+        Label usespecialsLabel = new Label("Use specials");
+        Label numbersLabel = new Label("Numbers:");
+        CheckBox useuppercaseBox = new CheckBox();
+        CheckBox uselowercaseBox = new CheckBox();
+        CheckBox usenumbersBox = new CheckBox();
+        CheckBox usespecialsBox = new CheckBox();
+        TextField generatedPassword = new TextField("");
+        TextField numbersText = new TextField("");
+        generatedPassword.setDisable(true);
+        Button copiePasswordButton = new Button("Copy");
+        Slider slider = new Slider(0,10,5);
+
+
+        grid.add(generatedPassword, 1,0);
+        grid.add(copiePasswordButton, 2,0);
+        //grid.add(slider, 0,1);
+        grid.add(numbersLabel, 0,1);
+        grid.add(numbersText, 1,1);
+        grid.add(useuppercaseBox, 0, 2);
+        grid.add(useuppercaseLabel, 1, 2);
+        grid.add(uselowercaseBox, 0, 3);
+        grid.add(uselowercaseLabel, 1, 3);
+        grid.add(usenumbersBox, 0, 4);
+        grid.add(usenumbersLabel, 1, 4);
+        grid.add(usespecialsBox, 0, 5);
+        grid.add(usespecialsLabel, 1, 5);
+
+        dialog.getDialogPane().setContent(slider);
+        dialog.getDialogPane().setContent(grid);
+
+        final Button btOk = (Button) dialog.getDialogPane().lookupButton(loginButton);
+        btOk.addEventFilter(
+                ActionEvent.ACTION,
+                event -> {
+                    if(Integer.parseInt(numbersText.getText()) <= 4 ){
+                        dialog.setHeaderText("Invalid password length");
+                    }
+                    else{
+                        String password = null;
+                        try {
+                            password = pwManagerService.generateNewPw(useuppercaseBox.isSelected(), uselowercaseBox.isSelected(), usenumbersBox.isSelected(), usespecialsBox.isSelected(), Integer.parseInt(numbersText.getText()));
+                            System.out.println(password);
+                        } catch (IllegalParameterException e) {
+                            e.printStackTrace();
+                        }
+                        generatedPassword.setText(password);
+                    }
+                    event.consume();
+                }
+        );
         dialog.showAndWait();
 
     }
