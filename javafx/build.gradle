@@ -21,6 +21,11 @@ java { modularity.inferModulePath = true }
 modularity.disableEffectiveArgumentsAdjustment()
 
 dependencies {
+
+
+    implementation 'javax.inject:javax.inject:1'
+    implementation 'javax.servlet:servlet-api:2.5'
+    implementation 'javax.servlet:javax.servlet-api:4.0.1'
     implementation project (":apis")
     implementation project (":components")
     // see also the dependencies in build.gradle (root)

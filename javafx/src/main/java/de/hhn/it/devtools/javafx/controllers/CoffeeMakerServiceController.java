@@ -24,6 +24,8 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 
+
+
 public class CoffeeMakerServiceController extends Controller implements Initializable {
   private static final org.slf4j.Logger logger =
           org.slf4j.LoggerFactory.getLogger(CoffeeMakerServiceController.class);

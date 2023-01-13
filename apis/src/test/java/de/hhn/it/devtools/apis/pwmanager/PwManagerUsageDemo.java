@@ -6,7 +6,7 @@ import de.hhn.it.devtools.apis.pwmanager.exceptions.IllegalMasterPasswordExcepti
 public class PwManagerUsageDemo {
 
     private static final org.slf4j.Logger logger =
-            org.slf4j.LoggerFactory.getLogger(PwManagerUsageDemo.class);
+        org.slf4j.LoggerFactory.getLogger(PwManagerUsageDemo.class);
 
     public static void main(String[] args) throws IllegalMasterPasswordException, IllegalParameterException {
 
