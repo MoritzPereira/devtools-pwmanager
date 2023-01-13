@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface PwManagerService {
 
-  String masterPw = "admin";
+  public String masterPw = "admin";
   boolean hidepws = true;
 
   /**
