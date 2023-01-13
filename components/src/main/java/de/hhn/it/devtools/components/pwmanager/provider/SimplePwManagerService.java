@@ -1,17 +1,14 @@
-package de.hhn.it.devtools.components.pwmanager;
+package de.hhn.it.devtools.components.pwmanager.provider;
 
 import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
 import de.hhn.it.devtools.apis.pwmanager.Entry;
 import de.hhn.it.devtools.apis.pwmanager.PwManagerListener;
 import de.hhn.it.devtools.apis.pwmanager.exceptions.IllegalMasterPasswordException;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.file.Path;
@@ -30,7 +27,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
   public boolean loggenIn = false;
   private boolean hidePws = true;
   public ArrayList<Entry> listOfEntrys = new ArrayList<>();
-  private final ArrayList<PwManagerListener> listeners = new ArrayList<>();
+  private List<PwManagerListener> listeners = new ArrayList<>();
 
 
   //was ist mit konstruktor?
@@ -38,20 +35,41 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
   private static final org.slf4j.Logger logger =
           org.slf4j.LoggerFactory.getLogger(SimplePwManagerService.class);
 
-  public void addListener(PwManagerListener listener) {
-    if (listener != null) {
+  public void addListener(final PwManagerListener listener) throws IllegalParameterException {
+    /*if (listener != null) {
       listeners.add(listener);
     } else {
       throw new NullPointerException("Listener doesn't exist");
+    }*/
+
+    if (listener == null) {
+      throw new IllegalParameterException("Listener was null reference.");
     }
+
+    if (listeners.contains(listener)) {
+      throw new IllegalParameterException("Listener already registered.");
+    }
+
+    listeners.add(listener);
+
   }
 
-  public void removeListener(PwManagerListener listener) {
-    if (listener != null) {
+  public void removeListener(final PwManagerListener listener) throws IllegalParameterException {
+    /*if (listener != null) {
       listeners.remove(listener);
     } else {
       throw new NullPointerException("Listener doesn't exist");
+    }*/
+
+    if (listener == null) {
+      throw new IllegalParameterException("Listener was null reference.");
     }
+
+    if (!listeners.contains(listener)) {
+      throw new IllegalParameterException("Listener is not registered:" + listener);
+    }
+
+    listeners.remove(listener);
   }
 
   public boolean checkPassword(String password) {
@@ -137,8 +155,8 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
   //Methode welche checkt welche id drankommt bei addEntry
 
   @Override
-  public Entry addEntry(int id, String url, String username, String email, String password)
-      throws IllegalParameterException {
+  public Entry addEntry(String url, String username, String email, String password)
+          throws IllegalParameterException {
 
     if (!checkEmail(email)) {
       throw new IllegalParameterException("Email is not valid");
@@ -152,17 +170,18 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
 
     Entry newEntry = new Entry(idstatus, url, username, email, password);
     idstatus++;
-    logger.info("New entry {id: " + id + " } added");
+    logger.info("New entry {id: " + idstatus + " } added");
     listOfEntrys.add(newEntry);
 
     //listener.entryAdded(newEntry);
+    listeners.forEach((listener) -> listener.entryAdded(newEntry));
     return newEntry;
 
   }
 
   @Override
   public void changeEntry(Entry entry, String masterPw)
-      throws IllegalParameterException, IllegalMasterPasswordException {
+          throws IllegalParameterException, IllegalMasterPasswordException {
 
     boolean found = false;
     int id = 0;
@@ -180,6 +199,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
         i.setEmail(entry.getPassword());
         i.setPassword(entry.getPassword());
       }
+      listeners.forEach((listener) -> listener.entryChanged(entry));
     }
 
     if (!found) {
@@ -192,7 +212,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
 
   @Override
   public void deleteEntry(int id, String masterPw)
-      throws IllegalParameterException, IllegalMasterPasswordException {
+          throws IllegalParameterException, IllegalMasterPasswordException {
 
     boolean foundId = false;
 
@@ -207,7 +227,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
         foundId = true;
         it.remove();
         logger.info("Entry {id: " + id + " } deleted");
-        //listener.entryDeleted(entry);
+        //listeners.forEach((listener) -> listener.entryDeleted(id));
         break;
       }
     }

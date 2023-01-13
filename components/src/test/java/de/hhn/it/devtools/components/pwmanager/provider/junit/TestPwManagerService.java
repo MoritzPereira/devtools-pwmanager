@@ -1,12 +1,12 @@
-package de.hhn.it.devtools.components.pwmanager.junit;
+package de.hhn.it.devtools.components.pwmanager.provider.junit;
 
 import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
 import de.hhn.it.devtools.apis.pwmanager.Entry;
 import de.hhn.it.devtools.apis.pwmanager.PwManagerService;
 import de.hhn.it.devtools.apis.pwmanager.exceptions.IllegalMasterPasswordException;
-import de.hhn.it.devtools.components.pwmanager.SimplePwManagerService;
+import de.hhn.it.devtools.components.pwmanager.provider.SimplePwManagerService;
 import java.io.IOException;
-import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

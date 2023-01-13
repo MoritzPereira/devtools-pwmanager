@@ -102,9 +102,9 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         dialog.setResultConverter(dialogButton -> {
             if(dialogButton == loginButton){
                 try {
-                    pwManagerService.addEntry(1,"test123.de", "testusername", "test@web.de", "12345");
+                    pwManagerService.addEntry(urlText.getText(), usernameText.getText(), emailText.getText(), passwordText.getText());
                 } catch (IllegalParameterException e) {
-                    e.printStackTrace();
+                    System.out.println("wdw");
                 }
             }
             return null;

@@ -61,7 +61,7 @@ public interface PwManagerService {
    * @return the created entry.
    * @throws IllegalParameterException if any attributs are invalid
    */
-  public Entry addEntry(int id, String url, String username, String email, String password)
+  public Entry addEntry(String url, String username, String email, String password)
       throws IllegalParameterException;
 
   /**

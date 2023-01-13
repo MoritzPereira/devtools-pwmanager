@@ -1,4 +1,4 @@
-package de.hhn.it.devtools.components.pwmanager.junit;
+package de.hhn.it.devtools.components.pwmanager.provider.junit;
 
 import de.hhn.it.devtools.apis.pwmanager.Entry;
 import de.hhn.it.devtools.apis.pwmanager.PwManagerListener;
