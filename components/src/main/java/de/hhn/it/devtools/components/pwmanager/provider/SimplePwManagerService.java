@@ -5,14 +5,18 @@ import de.hhn.it.devtools.apis.pwmanager.Entry;
 import de.hhn.it.devtools.apis.pwmanager.PwManagerListener;
 import de.hhn.it.devtools.apis.pwmanager.exceptions.IllegalMasterPasswordException;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -319,22 +323,25 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
   public void getState(List<Entry> listOfEntries) throws RuntimeException, IOException {
 
     if (listOfEntries != null) {
+
       String osPath = System.getProperty("user.dir");
       osPath += "/src/main/entries.txt";
       File file = new File(osPath);
       Path filePath = Paths.get(osPath);
+      Files.newBufferedWriter(filePath, StandardOpenOption.TRUNCATE_EXISTING);
 
       String s = "";
       //foreach entry in listofentries build a single string
       for (Entry entry: listOfEntries) {
-        s = "" + entry.getEntryId() + entry.getUrl() + entry.getUsername() + entry.getEmail() + entry.getPassword();
-        String outs = this.encrypt(s);
-        String ss = this.decrypt(outs);
+        s = "" + entry.getEntryId() + "," + entry.getUrl() + "," + entry.getUsername() + "," + entry.getEmail() + "," + entry.getPassword();
+        String outs = encrypt(s);
+        String decryptedstring = this.decrypt(outs);
 
         try {
           BufferedWriter writer =
               new BufferedWriter(new OutputStreamWriter(new FileOutputStream(String.valueOf(filePath), true)));
-          writer.write(outs + "  ;  " + ss);
+
+          writer.write(outs);
           writer.newLine();
           writer.close();
         } catch (FileNotFoundException e) {
@@ -358,14 +365,29 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
 
   @Override
   public List<Entry> loadState() throws NullPointerException {
+
+    int length = 0;
+    String osPath = System.getProperty("user.dir");
+    osPath += "/src/main/entries.txt";
+    File file = new File(osPath);
+    Path filePath = Paths.get(osPath);
+    BufferedReader br = null;
+    try {
+      br = new BufferedReader(new FileReader(file));
+      length = (int) Files.lines(filePath).count();
+      Files.lines(filePath).close();
+
+      for (int i = 0; i < length; i++) {
+        String line = br.readLine();
+        String linedecrypted = decrypt(line);
+        String[] splitline = linedecrypted.split(",");
+        //this.addEntry(splitline[0],splitline[1],splitline[2],splitline[3]);
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     //if extern file does not exist throw new exception
 
-    //while readline from externfile not equals null
-    //String entry = externfile.readline
-    //decrypt the String
-    //make variables for new entry with substring(comma)
-    //add new entry
-    //end while
 
     return null;
   }
