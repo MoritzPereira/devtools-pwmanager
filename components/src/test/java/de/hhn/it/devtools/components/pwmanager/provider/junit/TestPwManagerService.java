@@ -32,12 +32,14 @@ public class TestPwManagerService {
    * Tests if listeners get added correctly.
    */
   void testAddListener() throws IllegalParameterException {
-    //Good Case
-    pwManagerService.addListener(pwManagerListener);
+    //Bad Cases
 
-    //Bad Case
+    Assertions.assertThrows(IllegalParameterException.class, () -> {
+      pwManagerService.addListener(pwManagerListener);
+    });
+
     pwManagerListener = null;
-    Assertions.assertThrows(NullPointerException.class, () -> {
+    Assertions.assertThrows(IllegalParameterException.class, () -> {
       pwManagerService.addListener(pwManagerListener);
     });
   }
