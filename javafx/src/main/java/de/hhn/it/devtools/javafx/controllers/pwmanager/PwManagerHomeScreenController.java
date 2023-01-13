@@ -8,10 +8,12 @@ import de.hhn.it.devtools.components.pwmanager.provider.SimplePwManagerService;
 import de.hhn.it.devtools.javafx.Main;
 import de.hhn.it.devtools.javafx.controllers.Controller;
 import de.hhn.it.devtools.javafx.controllers.template.ScreenController;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -20,6 +22,8 @@ import javafx.scene.layout.GridPane;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class PwManagerHomeScreenController extends Controller implements Initializable{
@@ -83,7 +87,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         emailText.setPromptText("E-Mail");
         PasswordField passwordText = new PasswordField();
         passwordText.setPromptText("Password");
-        TextField rpasswordText = new TextField();
+        PasswordField rpasswordText = new PasswordField();
         rpasswordText.setPromptText("Repeat password");
 
         grid.add(new Label("Username:"), 0, 0);
@@ -99,7 +103,10 @@ public class PwManagerHomeScreenController extends Controller implements Initial
 
         dialog.getDialogPane().setContent(grid);
 
-        dialog.setResultConverter(dialogButton -> {
+        Node loginButtonNode = dialog.getDialogPane().lookupButton(loginButton);
+        loginButtonNode.setDisable(false);
+
+        /*dialog.setResultConverter(dialogButton -> {
             if(dialogButton == loginButton){
                 try {
                     pwManagerService.addEntry(urlText.getText(), usernameText.getText(), emailText.getText(), passwordText.getText());
@@ -108,8 +115,42 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                 }
             }
             return null;
-        });
+        });*/
 
+
+        /*Optional<ButtonType> result = dialog.showAndWait();
+        if(!result.isPresent()){
+
+        }
+        else if(result.get() == ButtonType.APPLY){
+            System.out.println("Test123");
+        }
+        else if(result.get() == ButtonType.CANCEL){
+
+        }*/
+        final Button btOk = (Button) dialog.getDialogPane().lookupButton(loginButton);
+        btOk.addEventFilter(
+                ActionEvent.ACTION,
+                event -> {
+                    if(Objects.equals(usernameText.getText(), "") || Objects.equals(urlText.getText(), "") || Objects.equals(emailText.getText(), "") || Objects.equals(passwordText.getText(), "") || Objects.equals(rpasswordText.getText(), "")){
+                        event.consume();
+                        dialog.setHeaderText("Bitte alle Felder ausfüllen!");
+                    }
+                    else if(passwordText.getText() != rpasswordText.getText()){
+                        event.consume();
+                        dialog.setHeaderText("Passwörter stimmen nicht überein!");
+                    }
+                    else{
+                        try {
+                            System.out.println(urlText.getText());
+                            pwManagerService.addEntry(urlText.getText(), usernameText.getText(), emailText.getText(), passwordText.getText());
+                        } catch (IllegalParameterException e) {
+                            dialog.setHeaderText("Fehler");
+                            event.consume();
+                        }
+                    }
+                }
+        );
         dialog.showAndWait();
 
     }
