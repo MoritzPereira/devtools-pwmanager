@@ -200,7 +200,6 @@ public class PwManagerHomeScreenController extends Controller implements Initial
 
     }
 
-
     public void changeWindow(String name) {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/fxml/" + name + ".fxml"));
         controlAnchorPane.getChildren().clear();
@@ -211,6 +210,10 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void updateUI(){
+
     }
 
 
@@ -239,6 +242,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         @Override
         public void entryAdded(Entry newEntry) {
             System.out.println("Listener: Entry mit der id:["+newEntry.getEntryId()+"] wurde hinzugefügt.");
+            updateUI();
         }
 
         @Override
