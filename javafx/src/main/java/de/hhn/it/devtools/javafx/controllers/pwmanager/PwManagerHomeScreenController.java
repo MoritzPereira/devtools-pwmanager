@@ -134,18 +134,18 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                 event -> {
                     if(Objects.equals(usernameText.getText(), "") || Objects.equals(urlText.getText(), "") || Objects.equals(emailText.getText(), "") || Objects.equals(passwordText.getText(), "") || Objects.equals(rpasswordText.getText(), "")){
                         event.consume();
-                        dialog.setHeaderText("Bitte alle Felder ausfüllen!");
+                        dialog.setHeaderText("Please fill out all fields!");
                     }
-                    else if(passwordText.getText() != rpasswordText.getText()){
+                    else if(!Objects.equals(passwordText.getText(), rpasswordText.getText())){
                         event.consume();
-                        dialog.setHeaderText("Passwörter stimmen nicht überein!");
+                        dialog.setHeaderText("Passwords do not match!");
                     }
                     else{
                         try {
                             System.out.println(urlText.getText());
                             pwManagerService.addEntry(urlText.getText(), usernameText.getText(), emailText.getText(), passwordText.getText());
-                        } catch (IllegalParameterException e) {
-                            dialog.setHeaderText("Fehler");
+                        } catch (IllegalParameterException e){
+                            dialog.setHeaderText(e.getMessage());
                             event.consume();
                         }
                     }

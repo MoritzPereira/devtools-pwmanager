@@ -23,7 +23,7 @@ public class PwManagerUsageDemo {
         logger.info("Master password changed");
 
         //Adds an Entry
-        Entry entry = pwManagerService.addEntry(2, "c-shark.de", "Swifty", "shasse@stud.hs-heilbronn.de", "Floistcool");
+        Entry entry = pwManagerService.addEntry("c-shark.de", "Swifty", "shasse@stud.hs-heilbronn.de", "Floistcool");
         logger.info("Added new entry - id:"+entry.getEntryId());
 
         //changes the visibility of the passwords
