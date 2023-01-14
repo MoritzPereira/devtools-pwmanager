@@ -5,14 +5,7 @@ import de.hhn.it.devtools.apis.pwmanager.Entry;
 import de.hhn.it.devtools.apis.pwmanager.PwManagerListener;
 import de.hhn.it.devtools.apis.pwmanager.exceptions.IllegalMasterPasswordException;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -334,7 +327,14 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
       osPath += "/components/src/main/entries.txt";
       File file = new File(osPath);
       Path filePath = Paths.get(osPath);
-      Files.newBufferedWriter(filePath, StandardOpenOption.TRUNCATE_EXISTING);
+
+      BufferedWriter writer =
+              new BufferedWriter(new OutputStreamWriter(new FileOutputStream(osPath, true)));
+
+      //Writer to delete all from file
+      PrintWriter deleteWriter = new PrintWriter(file);
+      deleteWriter.print("");
+      deleteWriter.close();
 
       for (Entry entry: listOfEntries) {
         String encId = encrypt(Integer.toString(entry.getEntryId()));
@@ -345,16 +345,15 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
         String outss = encId + "," + encUrl + "," + encUname + "," + encEmail + "," + encPw;
 
         try {
-          BufferedWriter writer =
-              new BufferedWriter(new OutputStreamWriter(new FileOutputStream(osPath, true)));
-
+          //Files.newBufferedWriter(filePath, StandardOpenOption.TRUNCATE_EXISTING);
           writer.write(outss);
           writer.newLine();
-          writer.close();
+          //writer.close();
         } catch (FileNotFoundException e) {
           e.printStackTrace();
         }
       }
+      writer.close();
     } else {
       throw new NullPointerException();
     }
