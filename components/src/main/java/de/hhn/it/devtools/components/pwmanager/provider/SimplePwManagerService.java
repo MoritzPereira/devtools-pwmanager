@@ -330,10 +330,10 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     if (listOfEntries != null) {
 
       String osPath = System.getProperty("user.dir");
-      osPath += "/components/src/main/entries.txt";
+      osPath += "/src/main/entries.txt";
       File file = new File(osPath);
       Path filePath = Paths.get(osPath);
-      Files.newBufferedWriter(filePath, StandardOpenOption.TRUNCATE_EXISTING);
+      //Files.newBufferedWriter(filePath, StandardOpenOption.TRUNCATE_EXISTING);
 
       for (Entry entry: listOfEntries) {
         String encId = encrypt(Integer.toString(entry.getEntryId()));
@@ -345,7 +345,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
 
         try {
           BufferedWriter writer =
-              new BufferedWriter(new OutputStreamWriter(new FileOutputStream(String.valueOf(filePath), true)));
+              new BufferedWriter(new OutputStreamWriter(new FileOutputStream(osPath, true)));
 
           writer.write(outss);
           writer.newLine();
