@@ -62,7 +62,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
     public void initialize(final URL location, final ResourceBundle resources) {
 
         pwManagerService.loggenIn = true;
-        //pwManagerService.loadState();
+        pwManagerService.loadState();
 
     }
 
@@ -340,7 +340,9 @@ public class PwManagerHomeScreenController extends Controller implements Initial
     }
 
     public void updateUI(){
-
+        for(Entry e : listOfEntrys){
+            System.out.println(e.getEntryId() + " " + e.getUsername());
+        }
     }
 
     public void logout(){
@@ -411,6 +413,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         public void showsortedEntryList(ArrayList<Entry> entryList) {
             logger.info("Entrylist loaded");
             listOfEntrys = entryList;
+
             updateUI();
         }
     }

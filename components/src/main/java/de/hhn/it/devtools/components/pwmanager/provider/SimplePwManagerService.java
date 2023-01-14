@@ -376,7 +376,8 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
 
     int length = 0;
     String osPath = System.getProperty("user.dir");
-    osPath += "/src/main/entries.txt";
+    osPath = osPath.replace("components","");
+    osPath += "/components/src/main/entries.txt";
     File file = new File(osPath);
     if (file == null){
       throw new NullPointerException();
