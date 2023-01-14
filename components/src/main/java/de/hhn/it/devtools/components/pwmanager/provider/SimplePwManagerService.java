@@ -137,6 +137,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
 
   @Override
   public void login(String masterPw) throws IllegalMasterPasswordException {
+    //loadMasterPW() to get the masterPw from the file
     if (Objects.equals(this.masterPw, masterPw)) {
       loggenIn = true;
       logger.info("Logged in");
@@ -151,9 +152,16 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
 
   @Override
   public void logout() {
+    System.out.println("Logout anfang");
+    //listener.loggedout();
+    try {
+      getState(listOfEntrys);
+      listeners.forEach((listener) -> listener.loggedout());
+    } catch (IOException e) {
+      e.getMessage();
+    }
     loggenIn = false;
     logger.info("Logged out");
-    //listener.loggedout();
   }
 
   //Methode welche checkt welche id drankommt bei addEntry
@@ -173,8 +181,8 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     }
 
     Entry newEntry = new Entry(idstatus, url, username, email, password);
-    idstatus++;
     logger.info("New entry {id: " + idstatus + " } added");
+    idstatus++;
     listOfEntrys.add(newEntry);
 
     //listener.entryAdded(newEntry);
@@ -322,7 +330,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     if (listOfEntries != null) {
 
       String osPath = System.getProperty("user.dir");
-      osPath += "/src/main/entries.txt";
+      osPath += "/components/src/main/entries.txt";
       File file = new File(osPath);
       Path filePath = Paths.get(osPath);
       Files.newBufferedWriter(filePath, StandardOpenOption.TRUNCATE_EXISTING);
@@ -349,6 +357,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     } else {
       throw new NullPointerException();
     }
+    System.out.println("liste gespeichert");
   }
 
   private String encrypt(String text) {
@@ -363,7 +372,6 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
 
   @Override
   public void loadState() throws NullPointerException {
-
 
     int length = 0;
     String osPath = System.getProperty("user.dir");
@@ -392,6 +400,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     } catch (IOException | IllegalParameterException e) {
       e.printStackTrace();
     }
+    listeners.forEach((listener) -> listener.showsortedEntryList(listOfEntrys));
   }
 
   private String decrypt(String text) {

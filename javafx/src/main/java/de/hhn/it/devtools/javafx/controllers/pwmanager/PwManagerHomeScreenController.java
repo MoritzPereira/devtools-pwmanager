@@ -35,12 +35,17 @@ public class PwManagerHomeScreenController extends Controller implements Initial
             org.slf4j.LoggerFactory.getLogger(PwManagerHomeScreenController.class);
 
     private SimplePwManagerService pwManagerService = new SimplePwManagerService();
+    public ArrayList<Entry> listOfEntrys = new ArrayList<>();
+
 
     @FXML
     private Button buttonAddEntry;
 
     @FXML
     private Button buttonChangeMasterpassword;
+
+    @FXML
+    private Button buttonLogout;
 
     @FXML
     private Button buttonPassword;
@@ -56,6 +61,9 @@ public class PwManagerHomeScreenController extends Controller implements Initial
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
 
+        pwManagerService.loggenIn = true;
+        //pwManagerService.loadState();
+
     }
 
     @FXML
@@ -69,6 +77,9 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         }
         else if(buttonPassword == event.getSource()){
             openContextRandomPassword();
+        }
+        else if(buttonLogout == event.getSource()){
+            logout();
         }
 
     }
@@ -332,6 +343,10 @@ public class PwManagerHomeScreenController extends Controller implements Initial
 
     }
 
+    public void logout(){
+        pwManagerService.logout();
+    }
+
 
     class TestListener implements PwManagerListener{
 
@@ -352,28 +367,29 @@ public class PwManagerHomeScreenController extends Controller implements Initial
 
         @Override
         public void loggedout() {
-
+            changeWindow("PwManagerLoginScreen");
         }
 
         @Override
         public void entryAdded(Entry newEntry) {
-            System.out.println("Listener: Entry mit der id:["+newEntry.getEntryId()+"] wurde hinzugefügt.");
+            logger.info("Listener: Entry mit der id:["+newEntry.getEntryId()+"] wurde hinzugefügt.");
             updateUI();
         }
 
         @Override
         public void entryDeleted(Entry currentEntry) {
-
+            updateUI();
         }
 
         @Override
         public void entryChanged(Entry entry) {
-            System.out.println("Listener: Entry mit der id:["+entry.getEntryId()+"] wurde verändert.");
+            logger.info("Listener: Entry mit der id:["+entry.getEntryId()+"] wurde verändert.");
+            updateUI();
         }
 
         @Override
         public void changePasswordVisibility(int id) {
-
+            //updateUI(); with specs to the changed visibility password
         }
 
         @Override
@@ -393,7 +409,9 @@ public class PwManagerHomeScreenController extends Controller implements Initial
 
         @Override
         public void showsortedEntryList(ArrayList<Entry> entryList) {
-
+            logger.info("Entrylist loaded");
+            listOfEntrys = entryList;
+            updateUI();
         }
     }
 

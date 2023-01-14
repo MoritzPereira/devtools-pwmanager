@@ -34,6 +34,7 @@
                     </VBox.margin>
                 </TableView>
             <Button fx:id="buttonPassword" mnemonicParsing="false" onMouseClicked="#buttonClicked" text="passwort" />
+            <Button fx:id="buttonLogout" mnemonicParsing="false" onMouseClicked="#buttonClicked" text="logout" />
             </children>
         </VBox>
     </children>
