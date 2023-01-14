@@ -13,6 +13,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
@@ -35,6 +37,20 @@ public class PwManagerLoginController extends Controller implements Initializabl
     @FXML
     void buttonClicked(MouseEvent event) throws IllegalMasterPasswordException {
 
+        login();
+
+    }
+
+    @FXML
+    void keyPressed(KeyEvent event) {
+
+        if(event.getCode() == KeyCode.ENTER){
+            login();
+        }
+
+    }
+
+    private void login(){
         try{
             pwManagerService.login(firstScreenPasswordField.getText());
         }
@@ -45,7 +61,6 @@ public class PwManagerLoginController extends Controller implements Initializabl
             changeWindow("PwManagerHomeScreen");
         }
     }
-
 
     public PwManagerLoginController() {
         logger.debug("PwManagerHomeScreen Controller created.");
