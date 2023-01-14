@@ -33,7 +33,6 @@ import java.util.ResourceBundle;
 public class PwManagerHomeScreenController extends Controller implements Initializable{
     private static final org.slf4j.Logger logger =
             org.slf4j.LoggerFactory.getLogger(PwManagerHomeScreenController.class);
-    public static final String SCREEN = "pwmanagerhomescreen.controller";
 
     private SimplePwManagerService pwManagerService = new SimplePwManagerService();
 
@@ -169,6 +168,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
 
         Dialog dialog = new Dialog();
         dialog.setTitle("Change Masterpassword");
+        dialog.setHeaderText(" ");
         //dialog.setHeaderText("Adds an new entry to the system");
 
         ButtonType loginButton = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
@@ -196,16 +196,32 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         grid.add(rnewmasterpasswordText, 1, 2);
         grid.add(new Label(" "), 0, 3);
 
-
         dialog.getDialogPane().setContent(grid);
 
-        dialog.setResultConverter(dialogButton -> {
-            if(dialogButton == loginButton){
-
-            }
-            return null;
-        });
-
+        final Button btOk = (Button) dialog.getDialogPane().lookupButton(loginButton);
+        btOk.addEventFilter(
+                ActionEvent.ACTION,
+                event -> {
+                    if(oldmasterpasswordText.getText() != "" && newmasterpasswordText.getText() != "" && rnewmasterpasswordText.getText() != ""){
+                        //Check if new passwords are equal
+                        if(Objects.equals(newmasterpasswordText.getText(), rnewmasterpasswordText.getText())){
+                            try {
+                                pwManagerService.changeMasterPw(newmasterpasswordText.getText(), oldmasterpasswordText.getText());
+                                dialog.setHeaderText("Password changed");
+                            } catch (Exception e) {
+                                dialog.setHeaderText(e.getMessage());
+                            }
+                        }
+                        else{
+                            dialog.setHeaderText("New passwords are not equal");
+                        }
+                    }
+                    else{
+                        dialog.setHeaderText("Please fill out all fields!");
+                    }
+                    event.consume();
+                }
+        );
         dialog.showAndWait();
 
     }
@@ -272,6 +288,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                             dialog.setHeaderText(e.getMessage());
                         }
                         generatedPasswordText.setText(passwordGenerated);
+                        dialog.setHeaderText("Password generated");
                     }
                     else{
                         dialog.setHeaderText("Please select at least one box");

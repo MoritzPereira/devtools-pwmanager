@@ -39,7 +39,7 @@ public class PwManagerLoginController extends Controller implements Initializabl
             pwManagerService.login(firstScreenPasswordField.getText());
         }
         catch (IllegalMasterPasswordException e){
-            logger.info("Wrong password!.");
+            logger.info(e.getMessage());
         }
         if(pwManagerService.loggenIn){
             changeWindow("PwManagerHomeScreen");
@@ -48,7 +48,7 @@ public class PwManagerLoginController extends Controller implements Initializabl
 
 
     public PwManagerLoginController() {
-        logger.debug("PwManagerHomeScreen Controller created. Hey, if you have copied me, update this message!");
+        logger.debug("PwManagerHomeScreen Controller created.");
         this.pwManagerService = new SimplePwManagerService();
     }
 

@@ -130,7 +130,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     } else if (Objects.equals(newPassword, oldPassword)) {
       throw new IllegalParameterException("Dont use the same password again");
     } else if (!checkPassword(newPassword)) {
-      throw new IllegalParameterException("Password is too weak");
+      throw new IllegalParameterException("New password is too weak");
     }
     this.masterPw = newPassword;
   }
