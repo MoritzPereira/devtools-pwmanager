@@ -53,7 +53,6 @@ public interface PwManagerService {
   /**
    * Creates a new Entry and loads the entry in the file.
    *
-   * @param id       for the associated password.
    * @param url      for the associated password.
    * @param username for the associated password.
    * @param email    for the associated password.
@@ -103,8 +102,8 @@ public interface PwManagerService {
   /**
    * Loads the state in the component.
    *
-   * @throws NullPointerException if list doesn't exist
+   * @throws NullPointerException if file doesn't exist
    */
-  public List<Entry> loadState() throws NullPointerException;
+  public void loadState() throws NullPointerException;
 
 }

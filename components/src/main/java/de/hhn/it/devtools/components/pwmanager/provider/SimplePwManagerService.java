@@ -298,7 +298,6 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     if (useSpecialCharacters) {
       charCategories.add(SpecialCharacters);
     }
-
     // Build the password.
     for (int x = 0; x < length; x++) {
       //random of the given charcategories
@@ -308,9 +307,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
       //add the random char to the password
       password += z;
     }
-
     logger.info("New password generated: " + password);
-    //listener.showNewPw(password);
     return password;
   }
 
@@ -330,18 +327,19 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
       Path filePath = Paths.get(osPath);
       Files.newBufferedWriter(filePath, StandardOpenOption.TRUNCATE_EXISTING);
 
-      String s = "";
-      //foreach entry in listofentries build a single string
       for (Entry entry: listOfEntries) {
-        s = "" + entry.getEntryId() + "," + entry.getUrl() + "," + entry.getUsername() + "," + entry.getEmail() + "," + entry.getPassword();
-        String outs = encrypt(s);
-        String decryptedstring = this.decrypt(outs);
+        String encId = encrypt(Integer.toString(entry.getEntryId()));
+        String encUrl = encrypt(entry.getUrl());
+        String encUname = encrypt(entry.getUsername());
+        String encEmail = encrypt(entry.getEmail());
+        String encPw = encrypt(entry.getPassword());
+        String outss = encId + "," + encUrl + "," + encUname + "," + encEmail + "," + encPw;
 
         try {
           BufferedWriter writer =
               new BufferedWriter(new OutputStreamWriter(new FileOutputStream(String.valueOf(filePath), true)));
 
-          writer.write(outs);
+          writer.write(outss);
           writer.newLine();
           writer.close();
         } catch (FileNotFoundException e) {
@@ -357,19 +355,23 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     StringBuilder hashedString = new StringBuilder();
     char[] chars = text.toCharArray();
     for (char c : chars) {
-      c += 15;
+      c+= 5;
       hashedString.append(c);
     }
     return hashedString.toString();
   }
 
   @Override
-  public List<Entry> loadState() throws NullPointerException {
+  public void loadState() throws NullPointerException {
+
 
     int length = 0;
     String osPath = System.getProperty("user.dir");
     osPath += "/src/main/entries.txt";
     File file = new File(osPath);
+    if (file == null){
+      throw new NullPointerException();
+    }
     Path filePath = Paths.get(osPath);
     BufferedReader br = null;
     try {
@@ -379,24 +381,24 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
 
       for (int i = 0; i < length; i++) {
         String line = br.readLine();
-        String linedecrypted = decrypt(line);
-        String[] splitline = linedecrypted.split(",");
-        //this.addEntry(splitline[0],splitline[1],splitline[2],splitline[3]);
+        String[] splitline = line.split(",");
+        String decId = this.decrypt(splitline[0]);
+        String decUrl = this.decrypt(splitline[1]);
+        String decUname = this.decrypt(splitline[2]);
+        String decEmail = this.decrypt(splitline[3]);
+        String decPw = this.decrypt(splitline[4]);
+        this.addEntry(decUrl,decUname,decEmail,decPw);
       }
-    } catch (IOException e) {
+    } catch (IOException | IllegalParameterException e) {
       e.printStackTrace();
     }
-    //if extern file does not exist throw new exception
-
-
-    return null;
   }
 
   private String decrypt(String text) {
     StringBuilder result = new StringBuilder();
     char[] chars = text.toCharArray();
     for (char c : chars) {
-      c -= 15;
+      c -= 5;
       result.append(c);
     }
     return result.toString();

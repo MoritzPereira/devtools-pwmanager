@@ -5,6 +5,7 @@ import de.hhn.it.devtools.apis.pwmanager.Entry;
 import de.hhn.it.devtools.apis.pwmanager.PwManagerService;
 import de.hhn.it.devtools.apis.pwmanager.exceptions.IllegalMasterPasswordException;
 import de.hhn.it.devtools.components.pwmanager.provider.SimplePwManagerService;
+import java.io.File;
 import java.io.IOException;
 
 import org.junit.jupiter.api.Assertions;
@@ -245,25 +246,25 @@ public class TestPwManagerService {
   }
 
   @Test
-  void testGetState() throws NullPointerException, IllegalParameterException, IOException {
-    pwManagerService.addEntry("test.com", "test", "test@gmail.com", "testPw");
-    pwManagerService.addEntry("test2.com", "test2", "test2@gmail.com", "test2Pw");
+  void testGetLoadState() throws NullPointerException, IllegalParameterException, IOException {
+
+    //Good Case
+    pwManagerService.addEntry("example.com", "example", "test@gmail.com", "testPw");
+    pwManagerService.addEntry("whynot.com", "test2", "test2@gmail.com", "test2Pw");
     pwManagerService.addEntry("www.google.de", "Perry", "momoperkru@web.de", "sad234/(&%!ASD");
     pwManagerService.getState(pwManagerService.listOfEntrys);
-    pwManagerService.loadState();
 
+    SimplePwManagerService anotherPwManager = new SimplePwManagerService();
+    anotherPwManager.loadState();
+    assertEquals(3,anotherPwManager.listOfEntrys.size());
 
-
-/*
+    //Bad Case
+    pwManagerService.listOfEntrys = null;
     Assertions.assertThrows(NullPointerException.class, () -> {
-      pwManagerService.getState();
+      pwManagerService.getState(pwManagerService.listOfEntrys);
     });
-
-    Assertions.assertThrows(NullPointerException.class, () -> {
-      pwManagerService.loadState(pwManagerService.listOfEntrys);
-    });
-*/
   }
+
 
 }
 
