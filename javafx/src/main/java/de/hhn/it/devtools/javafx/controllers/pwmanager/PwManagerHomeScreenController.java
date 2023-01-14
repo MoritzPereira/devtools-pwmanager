@@ -8,6 +8,8 @@ import de.hhn.it.devtools.components.pwmanager.provider.SimplePwManagerService;
 import de.hhn.it.devtools.javafx.Main;
 import de.hhn.it.devtools.javafx.controllers.Controller;
 import de.hhn.it.devtools.javafx.controllers.template.ScreenController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +17,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
@@ -23,6 +26,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.StageStyle;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
@@ -54,6 +58,14 @@ public class PwManagerHomeScreenController extends Controller implements Initial
     @FXML
     private AnchorPane controlAnchorPane;
 
+    @FXML
+    private TableView<Entry> tableView = new TableView<>();
+    TableColumn<Entry, String> urlColumn;
+    TableColumn<Entry, String> usernameColumn;
+    TableColumn<Entry, String> passwordColumn;
+    TableColumn buttons = new TableColumn("buttons");
+
+
     public PwManagerHomeScreenController() throws IllegalParameterException {
         TestListener testListener = new TestListener();
         pwManagerService.addListener(testListener);
@@ -62,10 +74,24 @@ public class PwManagerHomeScreenController extends Controller implements Initial
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
 
+        //Build the table at the beginning
+        urlColumn = new TableColumn<>("URL");
+        urlColumn.setMinWidth(200);
+        urlColumn.setCellValueFactory(new PropertyValueFactory<>("url"));
+        usernameColumn = new TableColumn<>("Username");
+        usernameColumn.setMinWidth(200);
+        usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
+        passwordColumn = new TableColumn<>("Password");
+        passwordColumn.setMinWidth(200);
+        passwordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
+        tableView.getColumns().addAll(urlColumn,usernameColumn,passwordColumn, buttons);
+
         pwManagerService.loggenIn = true;
         pwManagerService.loadState();
+        updateUI();
 
     }
+
 
     @FXML
     void buttonClicked(MouseEvent event) {
@@ -83,6 +109,14 @@ public class PwManagerHomeScreenController extends Controller implements Initial
             logout();
         }
 
+    }
+
+    private ObservableList<Entry> getEntries(){
+        ObservableList<Entry> entries = FXCollections.observableArrayList();
+        for(Entry e : listOfEntrys){
+            entries.add(e);
+        }
+        return entries;
     }
 
     public void openContextMenuAddEntry(){
@@ -349,9 +383,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
     }
 
     public void updateUI(){
-        for(Entry e : listOfEntrys){
-            System.out.println(e.getEntryId() + " " + e.getUsername());
-        }
+        tableView.setItems(getEntries());
     }
 
     public void logout(){
