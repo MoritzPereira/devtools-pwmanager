@@ -22,6 +22,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
@@ -109,6 +110,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         passwordText.setPromptText("Password");
         PasswordField rpasswordText = new PasswordField();
         rpasswordText.setPromptText("Repeat password");
+        Button buttonGeneratepassword = new Button("G");
 
         grid.add(new Label("Username:"), 0, 0);
         grid.add(usernameText, 1, 0);
@@ -118,6 +120,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         grid.add(emailText, 1, 2);
         grid.add(new Label("Password:"), 0, 3);
         grid.add(passwordText, 1, 3);
+        grid.add(buttonGeneratepassword,2,3);
         grid.add(new Label("Repeat password:"), 0, 4);
         grid.add(rpasswordText, 1, 4);
 
@@ -169,6 +172,12 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                             event.consume();
                         }
                     }
+                }
+        );
+        buttonGeneratepassword.addEventFilter(
+                ActionEvent.ACTION,
+                event -> {
+                    openContextRandomPassword();
                 }
         );
         dialog.showAndWait();
