@@ -50,6 +50,9 @@ public class PwManagerHomeScreenController extends Controller implements Initial
     private Button buttonChangeMasterpassword;
 
     @FXML
+    private Button buttonEdit;
+
+    @FXML
     private Button buttonLogout;
 
     @FXML
@@ -63,7 +66,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
     TableColumn<Entry, String> urlColumn;
     TableColumn<Entry, String> usernameColumn;
     TableColumn<Entry, String> passwordColumn;
-    TableColumn buttons = new TableColumn("buttons");
+    TableColumn<Entry, String> copyColumn;
 
 
     public PwManagerHomeScreenController() throws IllegalParameterException {
@@ -73,7 +76,6 @@ public class PwManagerHomeScreenController extends Controller implements Initial
 
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
-
         //Build the table at the beginning
         urlColumn = new TableColumn<>("URL");
         urlColumn.setMinWidth(200);
@@ -84,12 +86,15 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         passwordColumn = new TableColumn<>("Password");
         passwordColumn.setMinWidth(200);
         passwordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
-        tableView.getColumns().addAll(urlColumn,usernameColumn,passwordColumn, buttons);
+        copyColumn = new TableColumn<>("");
+        copyColumn.setMinWidth(200);
+        copyColumn.setCellValueFactory(new PropertyValueFactory<>("copyButton"));
+
+        tableView.getColumns().addAll(urlColumn,usernameColumn,passwordColumn,copyColumn);
 
         pwManagerService.loggenIn = true;
         pwManagerService.loadState();
         updateUI();
-
     }
 
 
@@ -97,16 +102,19 @@ public class PwManagerHomeScreenController extends Controller implements Initial
     void buttonClicked(MouseEvent event) {
 
         if (buttonAddEntry == event.getSource()){
-            openContextMenuAddEntry();
+            openDialogAddEntry();
         }
         else if(buttonChangeMasterpassword == event.getSource()){
-            openContextMenuChangeMasterPW();
+            openDialogChangeMasterPW();
         }
         else if(buttonPassword == event.getSource()){
-            openContextRandomPassword();
+            openDialogRandomPassword();
         }
         else if(buttonLogout == event.getSource()){
             logout();
+        }
+        else if(buttonEdit == event.getSource()){
+            openDialogEditEntry(tableView.getSelectionModel().getSelectedItem());
         }
 
     }
@@ -119,7 +127,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         return entries;
     }
 
-    public void openContextMenuAddEntry(){
+    public void openDialogAddEntry(){
 
         Dialog dialog = new Dialog();
         dialog.setTitle("Add entry");
@@ -211,14 +219,113 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         buttonGeneratepassword.addEventFilter(
                 ActionEvent.ACTION,
                 event -> {
-                    openContextRandomPassword();
+                    openDialogAddEntry();
                 }
         );
         dialog.showAndWait();
 
     }
 
-    public void openContextMenuChangeMasterPW(){
+    public void openDialogEditEntry(Entry entry){
+
+        Dialog dialog = new Dialog();
+        dialog.setTitle("Edit entry");
+        dialog.setHeaderText("Edit fields and save the edit");
+
+        ButtonType loginButton = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(loginButton, ButtonType.CANCEL);
+
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+
+
+        TextField usernameText = new TextField();
+        usernameText.setText(entry.getUsername());
+        TextField urlText = new TextField();
+        urlText.setText(entry.getUrl());
+        TextField emailText = new TextField();
+        emailText.setText(entry.getEmail());
+        PasswordField passwordText = new PasswordField();
+        passwordText.setText("*****************");
+        PasswordField rpasswordText = new PasswordField();
+        rpasswordText.setText("*****************");
+        Button buttonGeneratepassword = new Button("G");
+
+        grid.add(new Label("Username:"), 0, 0);
+        grid.add(usernameText, 1, 0);
+        grid.add(new Label("URL:"), 0, 1);
+        grid.add(urlText, 1, 1);
+        grid.add(new Label("E-Mail:"), 0, 2);
+        grid.add(emailText, 1, 2);
+        grid.add(new Label("Password:"), 0, 3);
+        grid.add(passwordText, 1, 3);
+        grid.add(buttonGeneratepassword,2,3);
+        grid.add(new Label("Repeat password:"), 0, 4);
+        grid.add(rpasswordText, 1, 4);
+
+        dialog.getDialogPane().setContent(grid);
+
+        Node loginButtonNode = dialog.getDialogPane().lookupButton(loginButton);
+        loginButtonNode.setDisable(false);
+
+        /*dialog.setResultConverter(dialogButton -> {
+            if(dialogButton == loginButton){
+                try {
+                    pwManagerService.addEntry(urlText.getText(), usernameText.getText(), emailText.getText(), passwordText.getText());
+                } catch (IllegalParameterException e) {
+                    System.out.println("wdw");
+                }
+            }
+            return null;
+        });*/
+
+
+        /*Optional<ButtonType> result = dialog.showAndWait();
+        if(!result.isPresent()){
+
+        }
+        else if(result.get() == ButtonType.APPLY){
+            System.out.println("Test123");
+        }
+        else if(result.get() == ButtonType.CANCEL){
+
+        }*/
+        final Button btOk = (Button) dialog.getDialogPane().lookupButton(loginButton);
+        btOk.addEventFilter(
+                ActionEvent.ACTION,
+                event -> {
+                    if(Objects.equals(usernameText.getText(), "") || Objects.equals(urlText.getText(), "") || Objects.equals(emailText.getText(), "") || Objects.equals(passwordText.getText(), "") || Objects.equals(rpasswordText.getText(), "")){
+                        event.consume();
+                        dialog.setHeaderText("Please fill out all fields!");
+                    }
+                    else if(!Objects.equals(passwordText.getText(), rpasswordText.getText())){
+                        event.consume();
+                        dialog.setHeaderText("Passwords do not match!");
+                    }
+                    else{
+                        try {
+                            System.out.println(urlText.getText());
+                            pwManagerService.addEntry(urlText.getText(), usernameText.getText(), emailText.getText(), passwordText.getText());
+                        } catch (IllegalParameterException e){
+                            dialog.setHeaderText(e.getMessage());
+                            event.consume();
+                        }
+                    }
+                }
+        );
+        buttonGeneratepassword.addEventFilter(
+                ActionEvent.ACTION,
+                event -> {
+                    openDialogAddEntry();
+                }
+        );
+        dialog.showAndWait();
+
+    }
+
+    public void openDialogChangeMasterPW(){
 
         Dialog dialog = new Dialog();
         dialog.setTitle("Change Masterpassword");
@@ -280,7 +387,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
 
     }
 
-    public void openContextRandomPassword(){
+    public void openDialogRandomPassword(){
 
         Dialog dialog = new Dialog();
         dialog.setTitle("Generate password");
