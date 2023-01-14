@@ -1,10 +1,8 @@
-package de.hhn.it.devtools.components.pwmanager;
+package de.hhn.it.devtools.components.pwmanager.provider;
 
 import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
 import de.hhn.it.devtools.apis.pwmanager.Entry;
-import de.hhn.it.devtools.apis.pwmanager.PwManagerListener;
 import de.hhn.it.devtools.apis.pwmanager.exceptions.IllegalMasterPasswordException;
-import de.hhn.it.devtools.components.pwmanager.provider.SimplePwManagerService;
 
 public class PwManagerServiceUsageDemo {
 
@@ -22,8 +20,8 @@ public class PwManagerServiceUsageDemo {
     logger.info("-----Welcome to our Password Manager");
 
     //Add new Entries
-    pwManagerService.addEntry(0,"test.de","TestUser1","test@gmail.com","testPw");
-    pwManagerService.addEntry(1,"testtest.net","TestUser2","test@gmx.de","securePw");
+    pwManagerService.addEntry("test.de","TestUser1","test@gmail.com","testPw");
+    pwManagerService.addEntry("testtest.net","TestUser2","test@gmx.de","securePw");
     logger.info("-----New Entries added");
 
     //Delete an Entry

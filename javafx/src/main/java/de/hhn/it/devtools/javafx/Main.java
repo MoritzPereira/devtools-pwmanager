@@ -57,7 +57,7 @@ public class Main extends Application {
 
     addModule("Template");
     addModule("CoffeeMakerService");
-    addModule("PwManagerHomeScreen");
+    addModule("PwManagerLoginScreen");
 
   }
 

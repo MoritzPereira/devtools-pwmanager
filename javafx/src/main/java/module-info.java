@@ -16,4 +16,6 @@ module devtools.javafx {
   exports de.hhn.it.devtools.javafx.controllers.coffeemaker;
   exports de.hhn.it.devtools.javafx.controllers.supermarketsystem;
   opens de.hhn.it.devtools.javafx.controllers.supermarketsystem to javafx.fxml;
+  exports de.hhn.it.devtools.javafx.controllers.pwmanager;
+  opens de.hhn.it.devtools.javafx.controllers.pwmanager to javafx.fxml;
 }
