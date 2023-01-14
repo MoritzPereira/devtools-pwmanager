@@ -277,8 +277,8 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     final String DIGITS = "0123456789";
     final String SpecialCharacters = "!@#$%&*()_+-=[]|,./?><";
 
-    if (length <= 0) {
-      throw new IllegalParameterException("Length must be greater than zero");
+    if (length <= 3) {
+      throw new IllegalParameterException("Length must be greater than four");
     }
 
     String password = "";

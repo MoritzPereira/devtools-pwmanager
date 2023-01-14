@@ -15,6 +15,9 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DataFormat;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -211,7 +214,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
 
         Dialog dialog = new Dialog();
         dialog.setTitle("Generate password");
-        //dialog.setHeaderText("Adds an new entry to the system");
+        dialog.setHeaderText("Generates a password with given specs");
 
         ButtonType loginButton = new ButtonType("Generate", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(loginButton, ButtonType.CANCEL);
@@ -227,17 +230,18 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         Label usespecialsLabel = new Label("Use specials");
         Label numbersLabel = new Label("Numbers:");
         CheckBox useuppercaseBox = new CheckBox();
+        useuppercaseBox.setSelected(true);
         CheckBox uselowercaseBox = new CheckBox();
         CheckBox usenumbersBox = new CheckBox();
         CheckBox usespecialsBox = new CheckBox();
-        TextField generatedPassword = new TextField("");
-        TextField numbersText = new TextField("");
-        generatedPassword.setDisable(true);
+        TextField generatedPasswordText = new TextField("");
+        TextField numbersText = new TextField("0");
+        generatedPasswordText.setDisable(true);
         Button copiePasswordButton = new Button("Copy");
         Slider slider = new Slider(0,10,5);
 
 
-        grid.add(generatedPassword, 1,0);
+        grid.add(generatedPasswordText, 1,0);
         grid.add(copiePasswordButton, 2,0);
         //grid.add(slider, 0,1);
         grid.add(numbersLabel, 0,1);
@@ -255,23 +259,40 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         dialog.getDialogPane().setContent(grid);
 
         final Button btOk = (Button) dialog.getDialogPane().lookupButton(loginButton);
+        final String[] password = new String[1];
         btOk.addEventFilter(
                 ActionEvent.ACTION,
                 event -> {
-                    if(Integer.parseInt(numbersText.getText()) <= 4 ){
-                        dialog.setHeaderText("Invalid password length");
+                    String passwordGenerated = null;
+                    //One box has to be selected
+                    if(useuppercaseBox.isSelected() || uselowercaseBox.isSelected() || usenumbersBox.isSelected() || usespecialsBox.isSelected()){
+                        try {
+                            passwordGenerated = pwManagerService.generateNewPw(useuppercaseBox.isSelected(), uselowercaseBox.isSelected(), usenumbersBox.isSelected(), usespecialsBox.isSelected(), Integer.parseInt(numbersText.getText()));
+                        } catch (IllegalParameterException e) {
+                            dialog.setHeaderText(e.getMessage());
+                        }
+                        generatedPasswordText.setText(passwordGenerated);
                     }
                     else{
-                        String password = null;
-                        try {
-                            password = pwManagerService.generateNewPw(useuppercaseBox.isSelected(), uselowercaseBox.isSelected(), usenumbersBox.isSelected(), usespecialsBox.isSelected(), Integer.parseInt(numbersText.getText()));
-                            System.out.println(password);
-                        } catch (IllegalParameterException e) {
-                            e.printStackTrace();
-                        }
-                        generatedPassword.setText(password);
+                        dialog.setHeaderText("Please select at least one box");
                     }
+                    password[0] = passwordGenerated;
                     event.consume();
+
+                }
+        );
+
+        copiePasswordButton.addEventFilter(
+                ActionEvent.ACTION,
+                event -> {
+                   //If the password != null, copy to clipboard
+                    if(password[0] != null){
+                        final Clipboard clipboard = Clipboard.getSystemClipboard();
+                        final ClipboardContent content = new ClipboardContent();
+                        content.putString(password[0]);
+                        clipboard.setContent(content);
+                        dialog.setHeaderText("copied!");
+                    }
                 }
         );
         dialog.showAndWait();
