@@ -90,7 +90,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
 
         pwManagerService.loggenIn = true;
         pwManagerService.loadState();
-        updateUI();
+        //updateUI();
     }
 
     private void addButtonToTable(String buttonName, String columnName) {
@@ -122,7 +122,17 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                                     openDialogDetailsEntry(entry);
                                     break;
                                 case "Delete":
-                                    //pwManagerService.deleteEntry();
+                                    String password = openDialogCheckMasterPw();
+                                    if(password!=null){
+                                        try {
+                                            pwManagerService.deleteEntry(entry.getEntryId(),password);
+                                            updateUI();
+                                        } catch (IllegalParameterException e) {
+                                            e.printStackTrace();
+                                        } catch (IllegalMasterPasswordException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
                                     break;
                             }
                             System.out.println(buttonName);
@@ -170,6 +180,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         ObservableList<Entry> entries = FXCollections.observableArrayList();
         for(Entry e : listOfEntrys){
             entries.add(e);
+            System.out.println(e.getUsername());
         }
         return entries;
     }
@@ -232,7 +243,6 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                     }
                     else{
                         try {
-                            System.out.println(urlText.getText());
                             pwManagerService.addEntry(urlText.getText(), usernameText.getText(), emailText.getText(), passwordText.getText());
                         } catch (IllegalParameterException e){
                             dialog.setHeaderText(e.getMessage());
@@ -244,7 +254,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         buttonGeneratepassword.addEventFilter(
                 ActionEvent.ACTION,
                 event -> {
-                    openDialogAddEntry();
+                    openDialogRandomPassword();
                 }
         );
         dialog.showAndWait();
@@ -354,9 +364,9 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         TextField emailText = new TextField();
         emailText.setText(entry.getEmail());
         PasswordField passwordText = new PasswordField();
-        passwordText.setPromptText("***********");
+        passwordText.setText(entry.getPassword());
         PasswordField rpasswordText = new PasswordField();
-        rpasswordText.setPromptText("***********");
+        rpasswordText.setText(entry.getPassword());
         Button buttonGeneratepassword = new Button("G");
 
         grid.add(new Label("Username:"), 0, 0);
@@ -400,7 +410,6 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                 }
         );
         dialog.showAndWait();
-
     }
 
     public void openDialogChangeMasterPW(){

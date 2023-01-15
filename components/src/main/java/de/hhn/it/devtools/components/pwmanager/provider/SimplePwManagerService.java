@@ -201,12 +201,12 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
         found = true;
         i.setUrl(entry.getUrl());
         i.setUsername(entry.getUsername());
-        i.setEmail(entry.getPassword());
+        i.setEmail(entry.getEmail());
         i.setPassword(entry.getPassword());
       }
-      listeners.forEach((listener) -> listener.showsortedEntryList(listOfEntrys));
       //listeners.forEach((listener) -> listener.entryChanged(entry));
     }
+    listeners.forEach((listener) -> listener.showsortedEntryList(listOfEntrys));
 
     if (!found) {
       throw new IllegalParameterException("Entry not found");
