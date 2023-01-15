@@ -41,6 +41,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
 
     private SimplePwManagerService pwManagerService = new SimplePwManagerService();
     public ArrayList<Entry> listOfEntrys = new ArrayList<>();
+    private boolean checkMasterPw;
 
 
     @FXML
@@ -217,28 +218,6 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         Node loginButtonNode = dialog.getDialogPane().lookupButton(loginButton);
         loginButtonNode.setDisable(false);
 
-        /*dialog.setResultConverter(dialogButton -> {
-            if(dialogButton == loginButton){
-                try {
-                    pwManagerService.addEntry(urlText.getText(), usernameText.getText(), emailText.getText(), passwordText.getText());
-                } catch (IllegalParameterException e) {
-                    System.out.println("wdw");
-                }
-            }
-            return null;
-        });*/
-
-
-        /*Optional<ButtonType> result = dialog.showAndWait();
-        if(!result.isPresent()){
-
-        }
-        else if(result.get() == ButtonType.APPLY){
-            System.out.println("Test123");
-        }
-        else if(result.get() == ButtonType.CANCEL){
-
-        }*/
         final Button btOk = (Button) dialog.getDialogPane().lookupButton(loginButton);
         btOk.addEventFilter(
                 ActionEvent.ACTION,
@@ -287,12 +266,16 @@ public class PwManagerHomeScreenController extends Controller implements Initial
 
         TextField usernameText = new TextField();
         usernameText.setText(entry.getUsername());
+        usernameText.setDisable(true);
         TextField urlText = new TextField();
         urlText.setText(entry.getUrl());
+        urlText.setDisable(true);
         TextField emailText = new TextField();
         emailText.setText(entry.getEmail());
+        emailText.setDisable(true);
         TextField passwordText = new TextField();
-        passwordText.setText("****************");
+        passwordText.setText("***********");
+        passwordText.setDisable(true);
         Button buttonShow = new Button("S");
         Button buttonCopie = new Button("C");
 
@@ -316,10 +299,8 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         editButton.addEventFilter(
                 ActionEvent.ACTION,
                 event -> {
+                    openDialogEditEntry(entry);
                     dialog.close();
-                    openDialogAddEntry();
-
-                    //event.consume();
                 }
         );
         buttonCopie.addEventFilter(
@@ -341,7 +322,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                         passwordText.setText(entry.getPassword());
                     }
                     else{
-                        passwordText.setText("****************");
+                        passwordText.setText("***********");
                     }
                     event.consume();
                 }
@@ -351,7 +332,74 @@ public class PwManagerHomeScreenController extends Controller implements Initial
 
     }
 
-    public void openDialogEditEntry(){
+    public void openDialogEditEntry(Entry entry){
+
+        Dialog dialog = new Dialog();
+        dialog.setTitle("Edit entry");
+        dialog.setHeaderText("Edit the entry and save");
+
+        ButtonType saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
+
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+
+
+        TextField usernameText = new TextField();
+        usernameText.setText(entry.getUsername());
+        TextField urlText = new TextField();
+        urlText.setText(entry.getUrl());
+        TextField emailText = new TextField();
+        emailText.setText(entry.getEmail());
+        PasswordField passwordText = new PasswordField();
+        passwordText.setPromptText("***********");
+        PasswordField rpasswordText = new PasswordField();
+        rpasswordText.setPromptText("***********");
+        Button buttonGeneratepassword = new Button("G");
+
+        grid.add(new Label("Username:"), 0, 0);
+        grid.add(usernameText, 1, 0);
+        grid.add(new Label("URL:"), 0, 1);
+        grid.add(urlText, 1, 1);
+        grid.add(new Label("E-Mail:"), 0, 2);
+        grid.add(emailText, 1, 2);
+        grid.add(new Label("Password:"), 0, 3);
+        grid.add(passwordText, 1, 3);
+        grid.add(buttonGeneratepassword,2,3);
+        grid.add(new Label("Repeat password:"), 0, 4);
+        grid.add(rpasswordText, 1, 4);
+
+        dialog.getDialogPane().setContent(grid);
+
+        final Button saveButton = (Button) dialog.getDialogPane().lookupButton(saveButtonType);
+        saveButton.addEventFilter(
+                ActionEvent.ACTION,
+                event -> {
+                    String password = openDialogCheckMasterPw();
+                    if(checkMasterPw){
+                        try {
+                            Entry changedEntry = new Entry(entry.getEntryId(),urlText.getText(),usernameText.getText(),emailText.getText(),passwordText.getText());
+                            pwManagerService.changeEntry(changedEntry, password);
+                        } catch (IllegalParameterException e) {
+                            e.printStackTrace();
+                        } catch (IllegalMasterPasswordException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    else{
+                        event.consume();
+                    }
+                }
+        );
+        buttonGeneratepassword.addEventFilter(
+                ActionEvent.ACTION,
+                event -> {
+                    openDialogRandomPassword();
+                }
+        );
+        dialog.showAndWait();
 
     }
 
@@ -504,6 +552,43 @@ public class PwManagerHomeScreenController extends Controller implements Initial
 
     }
 
+    public String openDialogCheckMasterPw(){
+
+        Dialog dialog = new Dialog();
+        dialog.setTitle("Master password");
+        dialog.setHeaderText("Please enter your master password to verify you");
+
+        ButtonType checkButtonType = new ButtonType("Check", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(checkButtonType, ButtonType.CANCEL);
+
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+
+        dialog.getDialogPane().setContent(grid);
+        PasswordField passwordText = new PasswordField();
+        grid.add(passwordText, 1, 0);
+
+        final Button checkButton = (Button) dialog.getDialogPane().lookupButton(checkButtonType);
+        checkButton.addEventFilter(
+                ActionEvent.ACTION,
+                event -> {
+                    try {
+                        pwManagerService.login(passwordText.getText());
+                    } catch (IllegalMasterPasswordException e) {
+                        dialog.setHeaderText("Wrong password");
+                        event.consume();
+                    }
+                }
+        );
+        dialog.showAndWait();
+        if(checkMasterPw){
+            return passwordText.getText();
+        }
+        return null;
+    }
+
     private void copie(String input){
         final Clipboard clipboard = Clipboard.getSystemClipboard();
         final ClipboardContent content = new ClipboardContent();
@@ -542,7 +627,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
 
         @Override
         public void loggedin() {
-
+            checkMasterPw = true;
         }
 
         @Override

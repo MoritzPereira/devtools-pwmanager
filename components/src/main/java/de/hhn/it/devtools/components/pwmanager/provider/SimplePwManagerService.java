@@ -204,7 +204,8 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
         i.setEmail(entry.getPassword());
         i.setPassword(entry.getPassword());
       }
-      listeners.forEach((listener) -> listener.entryChanged(entry));
+      listeners.forEach((listener) -> listener.showsortedEntryList(listOfEntrys));
+      //listeners.forEach((listener) -> listener.entryChanged(entry));
     }
 
     if (!found) {
