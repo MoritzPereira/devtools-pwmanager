@@ -62,8 +62,6 @@ public class PwManagerHomeScreenController extends Controller implements Initial
     private TableView<Entry> tableView = new TableView<>();
     TableColumn<Entry, String> urlColumn;
     TableColumn<Entry, String> usernameColumn;
-    TableColumn<Entry, String> passwordColumn;
-    String generatedPw;
 
     public PwManagerHomeScreenController() throws IllegalParameterException {
         TestListener testListener = new TestListener();
@@ -79,24 +77,23 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         usernameColumn = new TableColumn<>("Username");
         usernameColumn.setMinWidth(200);
         usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
-        passwordColumn = new TableColumn<>("Password");
+        /*passwordColumn = new TableColumn<>("Password");
         passwordColumn.setMinWidth(200);
-        passwordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
+        passwordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));*/
 
 
-        tableView.getColumns().addAll(urlColumn,usernameColumn,passwordColumn);
-        addButtonToTable("Copy");
-        addButtonToTable("Show");
-        addButtonToTable("Edit");
-        addButtonToTable("Delete");
+        tableView.getColumns().addAll(urlColumn,usernameColumn);
+        addButtonToTable("Copy", "Password");
+        addButtonToTable("Details", "");
+        addButtonToTable("Delete", "");
 
         pwManagerService.loggenIn = true;
         pwManagerService.loadState();
         updateUI();
     }
 
-    private void addButtonToTable(String buttonName) {
-        TableColumn<Entry, Void> colBtn = new TableColumn("");
+    private void addButtonToTable(String buttonName, String columnName) {
+        TableColumn<Entry, Void> colBtn = new TableColumn(columnName);
 
         Callback<TableColumn<Entry, Void>, TableCell<Entry, Void>> cellFactory = new Callback<>() {
             @Override
@@ -120,8 +117,8 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                                         e.printStackTrace();
                                     }*/
                                     break;
-                                case "Edit":
-                                    openDialogEditEntry(entry);
+                                case "Details":
+                                    openDialogDetailsEntry(entry);
                                     break;
                                 case "Delete":
                                     //pwManagerService.deleteEntry();
@@ -171,7 +168,6 @@ public class PwManagerHomeScreenController extends Controller implements Initial
     private ObservableList<Entry> getEntries(){
         ObservableList<Entry> entries = FXCollections.observableArrayList();
         for(Entry e : listOfEntrys){
-            e.setPassword("*************");
             entries.add(e);
         }
         return entries;
@@ -276,20 +272,18 @@ public class PwManagerHomeScreenController extends Controller implements Initial
 
     }
 
-    public void openDialogEditEntry(Entry entry){
+    public void openDialogDetailsEntry(Entry entry){
 
         Dialog dialog = new Dialog();
-        dialog.setTitle("Edit entry");
-        dialog.setHeaderText("Edit fields and save the edit");
+        dialog.setTitle("Details");
 
-        ButtonType loginButton = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(loginButton, ButtonType.CANCEL);
+        ButtonType editButtonType = new ButtonType("Edit", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(editButtonType, ButtonType.CANCEL);
 
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(20, 150, 10, 10));
-
 
         TextField usernameText = new TextField();
         usernameText.setText(entry.getUsername());
@@ -297,11 +291,10 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         urlText.setText(entry.getUrl());
         TextField emailText = new TextField();
         emailText.setText(entry.getEmail());
-        PasswordField passwordText = new PasswordField();
-        passwordText.setText("*****************");
-        PasswordField rpasswordText = new PasswordField();
-        rpasswordText.setText("*****************");
-        Button buttonGeneratepassword = new Button("G");
+        TextField passwordText = new TextField();
+        passwordText.setText("****************");
+        Button buttonShow = new Button("S");
+        Button buttonCopie = new Button("C");
 
         grid.add(new Label("Username:"), 0, 0);
         grid.add(usernameText, 1, 0);
@@ -311,66 +304,54 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         grid.add(emailText, 1, 2);
         grid.add(new Label("Password:"), 0, 3);
         grid.add(passwordText, 1, 3);
-        grid.add(buttonGeneratepassword,2,3);
-        grid.add(new Label("Repeat password:"), 0, 4);
-        grid.add(rpasswordText, 1, 4);
+        grid.add(buttonShow,2,3);
+        grid.add(buttonCopie,3,3);
 
         dialog.getDialogPane().setContent(grid);
 
-        Node loginButtonNode = dialog.getDialogPane().lookupButton(loginButton);
+        Node loginButtonNode = dialog.getDialogPane().lookupButton(editButtonType);
         loginButtonNode.setDisable(false);
 
-        /*dialog.setResultConverter(dialogButton -> {
-            if(dialogButton == loginButton){
-                try {
-                    pwManagerService.addEntry(urlText.getText(), usernameText.getText(), emailText.getText(), passwordText.getText());
-                } catch (IllegalParameterException e) {
-                    System.out.println("wdw");
-                }
-            }
-            return null;
-        });*/
-
-
-        /*Optional<ButtonType> result = dialog.showAndWait();
-        if(!result.isPresent()){
-
-        }
-        else if(result.get() == ButtonType.APPLY){
-            System.out.println("Test123");
-        }
-        else if(result.get() == ButtonType.CANCEL){
-
-        }*/
-        final Button btOk = (Button) dialog.getDialogPane().lookupButton(loginButton);
-        btOk.addEventFilter(
+        final Button editButton = (Button) dialog.getDialogPane().lookupButton(editButtonType);
+        editButton.addEventFilter(
                 ActionEvent.ACTION,
                 event -> {
-                    if(Objects.equals(usernameText.getText(), "") || Objects.equals(urlText.getText(), "") || Objects.equals(emailText.getText(), "") || Objects.equals(passwordText.getText(), "") || Objects.equals(rpasswordText.getText(), "")){
-                        event.consume();
-                        dialog.setHeaderText("Please fill out all fields!");
-                    }
-                    else if(!Objects.equals(passwordText.getText(), rpasswordText.getText())){
-                        event.consume();
-                        dialog.setHeaderText("Passwords do not match!");
-                    }
-                    else{
-                        try {
-                            pwManagerService.addEntry(urlText.getText(), usernameText.getText(), emailText.getText(), passwordText.getText());
-                        } catch (IllegalParameterException e){
-                            dialog.setHeaderText(e.getMessage());
-                            event.consume();
-                        }
-                    }
+                    dialog.close();
+                    openDialogAddEntry();
+
+                    //event.consume();
                 }
         );
-        buttonGeneratepassword.addEventFilter(
+        buttonCopie.addEventFilter(
                 ActionEvent.ACTION,
                 event -> {
-                    openDialogAddEntry();
+                    copie(passwordText.getText());
+                    event.consume();
+                }
+        );
+        buttonShow.addEventFilter(
+                ActionEvent.ACTION,
+                event -> {
+                    try {
+                        pwManagerService.changeHidden(entry.getEntryId());
+                    } catch (IllegalParameterException e) {
+                        e.printStackTrace();
+                    }
+                    if(entry.isChangeHidden()){
+                        passwordText.setText(entry.getPassword());
+                    }
+                    else{
+                        passwordText.setText("****************");
+                    }
+                    event.consume();
                 }
         );
         dialog.showAndWait();
+
+
+    }
+
+    public void openDialogEditEntry(){
 
     }
 

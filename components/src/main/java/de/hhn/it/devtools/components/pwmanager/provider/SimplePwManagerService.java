@@ -244,16 +244,23 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
   }
 
   @Override
-  public String changeHidden(int id) throws IllegalParameterException {
+  public void changeHidden(int id) throws IllegalParameterException {
 
-    String output = "";
     boolean foundId = false;
 
     for (Entry i : listOfEntrys) {
       if (i.getEntryId() == id) {
-        output =
+        /*output =
             i.getEntryId() + "," + i.getUrl() + "," + i.getUsername() + "," + i.getEmail() + "," +
-                i.getPassword();
+                i.getPassword();*/
+        if(i.isChangeHidden()){
+          i.setChangeHidden(false);
+          logger.info("Hidden changed from id - " + id + " to false");
+        }
+        else{
+          i.setChangeHidden(true);
+          logger.info("Hidden changed from id - " + id + " to true");
+        }
         foundId = true;
         break;
       }
@@ -263,9 +270,10 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     if (!foundId) {
       throw new IllegalParameterException("Given id not found");
     }
+    else{
+      listeners.forEach((listener) -> listener.showsortedEntryList(listOfEntrys));
+    }
 
-    logger.info("Hidden changed from id - " + id);
-    return output;
   }
 
   @Override

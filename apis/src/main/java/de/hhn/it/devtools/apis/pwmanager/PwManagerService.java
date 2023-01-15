@@ -47,7 +47,7 @@ public interface PwManagerService {
    * @return the decrypted password
    * @throws IllegalParameterException if the id does not exist
    */
-  String changeHidden(int id) throws IllegalParameterException;
+  public void changeHidden(int id) throws IllegalParameterException;
 
 
   /**

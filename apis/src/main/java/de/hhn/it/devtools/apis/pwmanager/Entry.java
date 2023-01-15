@@ -8,6 +8,8 @@ public class Entry {
   private String email;
   private String password;
 
+  private boolean changeHidden = false;
+
   public Entry(int id, String url, String username, String email, String password) {
     this.entryId = id;
     this.url = url;
@@ -52,12 +54,11 @@ public class Entry {
     return email;
   }
 
+  public void setChangeHidden(boolean changeHidden) {
+    this.changeHidden = changeHidden;
+  }
 
-
-
-
-
-
-
-
+  public boolean isChangeHidden() {
+    return changeHidden;
+  }
 }
