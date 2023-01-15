@@ -618,6 +618,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
     }
 
     public void updateUI(){
+        tableView.getItems().clear();
         tableView.setItems(getEntries());
         //addButtonToTable();
     }
