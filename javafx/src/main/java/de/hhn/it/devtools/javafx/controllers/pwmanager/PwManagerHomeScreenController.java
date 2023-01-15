@@ -50,9 +50,6 @@ public class PwManagerHomeScreenController extends Controller implements Initial
     private Button buttonChangeMasterpassword;
 
     @FXML
-    private Button buttonEdit;
-
-    @FXML
     private Button buttonLogout;
 
     @FXML
@@ -66,8 +63,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
     TableColumn<Entry, String> urlColumn;
     TableColumn<Entry, String> usernameColumn;
     TableColumn<Entry, String> passwordColumn;
-    TableColumn<Entry, String> copyColumn;
-
+    String generatedPw;
 
     public PwManagerHomeScreenController() throws IllegalParameterException {
         TestListener testListener = new TestListener();
@@ -86,17 +82,74 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         passwordColumn = new TableColumn<>("Password");
         passwordColumn.setMinWidth(200);
         passwordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
-        copyColumn = new TableColumn<>("");
-        copyColumn.setMinWidth(200);
-        copyColumn.setCellValueFactory(new PropertyValueFactory<>("copyButton"));
 
-        tableView.getColumns().addAll(urlColumn,usernameColumn,passwordColumn,copyColumn);
+
+        tableView.getColumns().addAll(urlColumn,usernameColumn,passwordColumn);
+        addButtonToTable("Copy");
+        addButtonToTable("Show");
+        addButtonToTable("Edit");
+        addButtonToTable("Delete");
 
         pwManagerService.loggenIn = true;
         pwManagerService.loadState();
         updateUI();
     }
 
+    private void addButtonToTable(String buttonName) {
+        TableColumn<Entry, Void> colBtn = new TableColumn("");
+
+        Callback<TableColumn<Entry, Void>, TableCell<Entry, Void>> cellFactory = new Callback<>() {
+            @Override
+            public TableCell<Entry, Void> call(final TableColumn<Entry, Void> param) {
+                final TableCell<Entry, Void> cell = new TableCell<>() {
+
+                    private final Button btn = new Button(buttonName);
+
+                    {
+                        btn.setOnAction((ActionEvent event) -> {
+                            Entry entry = getTableView().getItems().get(getIndex());
+                            switch (buttonName){
+                                case "Copy":
+                                    copie(entry.getPassword());
+                                    break;
+                                case "Show":
+                                    /*
+                                    try {
+                                        pwManagerService.changeHidden(entry.getEntryId());
+                                    } catch (IllegalParameterException e) {
+                                        e.printStackTrace();
+                                    }*/
+                                    break;
+                                case "Edit":
+                                    openDialogEditEntry(entry);
+                                    break;
+                                case "Delete":
+                                    //pwManagerService.deleteEntry();
+                                    break;
+                            }
+                            System.out.println(buttonName);
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+
+        colBtn.setCellFactory(cellFactory);
+
+        tableView.getColumns().add(colBtn);
+
+    }
 
     @FXML
     void buttonClicked(MouseEvent event) {
@@ -113,15 +166,12 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         else if(buttonLogout == event.getSource()){
             logout();
         }
-        else if(buttonEdit == event.getSource()){
-            openDialogEditEntry(tableView.getSelectionModel().getSelectedItem());
-        }
-
     }
 
     private ObservableList<Entry> getEntries(){
         ObservableList<Entry> entries = FXCollections.observableArrayList();
         for(Entry e : listOfEntrys){
+            e.setPassword("*************");
             entries.add(e);
         }
         return entries;
@@ -306,7 +356,6 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                     }
                     else{
                         try {
-                            System.out.println(urlText.getText());
                             pwManagerService.addEntry(urlText.getText(), usernameText.getText(), emailText.getText(), passwordText.getText());
                         } catch (IllegalParameterException e){
                             dialog.setHeaderText(e.getMessage());
@@ -465,16 +514,20 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                 event -> {
                    //If the password != null, copy to clipboard
                     if(password[0] != null){
-                        final Clipboard clipboard = Clipboard.getSystemClipboard();
-                        final ClipboardContent content = new ClipboardContent();
-                        content.putString(password[0]);
-                        clipboard.setContent(content);
+                        copie(password[0]);
                         dialog.setHeaderText("copied!");
                     }
                 }
         );
         dialog.showAndWait();
 
+    }
+
+    private void copie(String input){
+        final Clipboard clipboard = Clipboard.getSystemClipboard();
+        final ClipboardContent content = new ClipboardContent();
+        content.putString(input);
+        clipboard.setContent(content);
     }
 
     public void changeWindow(String name) {
@@ -491,6 +544,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
 
     public void updateUI(){
         tableView.setItems(getEntries());
+        //addButtonToTable();
     }
 
     public void logout(){
