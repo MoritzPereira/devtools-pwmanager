@@ -434,12 +434,13 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         newmasterpasswordText.setPromptText("new masterpassword");
         PasswordField rnewmasterpasswordText = new PasswordField();
         rnewmasterpasswordText.setPromptText("new masterpassword");
-;
+        Button buttonGeneratepassword = new Button("G");
 
         grid.add(new Label("Old password:"), 0, 0);
         grid.add(oldmasterpasswordText, 1, 0);
         grid.add(new Label("New password:"), 0, 1);
         grid.add(newmasterpasswordText, 1, 1);
+        grid.add(buttonGeneratepassword,2,1);
         grid.add(new Label("Repeat new password:"), 0, 2);
         grid.add(rnewmasterpasswordText, 1, 2);
         grid.add(new Label(" "), 0, 3);
@@ -468,6 +469,12 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                         dialog.setHeaderText("Please fill out all fields!");
                     }
                     event.consume();
+                }
+        );
+        buttonGeneratepassword.addEventFilter(
+                ActionEvent.ACTION,
+                event -> {
+                    openDialogRandomPassword();
                 }
         );
         dialog.showAndWait();
