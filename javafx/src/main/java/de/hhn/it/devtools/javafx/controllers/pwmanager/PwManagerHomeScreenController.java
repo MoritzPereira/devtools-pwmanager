@@ -18,6 +18,8 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
@@ -42,6 +44,18 @@ public class PwManagerHomeScreenController extends Controller implements Initial
     private SimplePwManagerService pwManagerService = new SimplePwManagerService();
     public ArrayList<Entry> listOfEntrys = new ArrayList<>();
     private boolean checkMasterPw;
+
+    Image imageGenerate = new Image(getClass().getResourceAsStream("/imagesPwmanager/generate.png"));
+    Image imageAddEntry = new Image(getClass().getResourceAsStream("/imagesPwmanager/add.png"));
+    Image imageChangeMasterPw = new Image(getClass().getResourceAsStream("/imagesPwmanager/key.png"));
+    Image imageLogout = new Image(getClass().getResourceAsStream("/imagesPwmanager/logout.png"));
+    Image imageDelete = new Image(getClass().getResourceAsStream("/imagesPwmanager/mulleimer.png"));
+    Image imageDetails = new Image(getClass().getResourceAsStream("/imagesPwmanager/file.png"));
+    Image imageCopy = new Image(getClass().getResourceAsStream("/imagesPwmanager/copy.png"));
+    Image imageGeneratePopup = new Image(getClass().getResourceAsStream("/imagesPwmanager/generatepopup.png"));
+    Image imageShow = new Image(getClass().getResourceAsStream("/imagesPwmanager/view.png"));
+    Image imageHide = new Image(getClass().getResourceAsStream("/imagesPwmanager/hidden.png"));
+
 
 
     @FXML
@@ -78,6 +92,11 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         usernameColumn = new TableColumn<>("Username");
         usernameColumn.setMinWidth(200);
         usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
+        buttonPassword.setGraphic(new ImageView(imageGenerate));
+        buttonChangeMasterpassword.setGraphic(new ImageView(imageChangeMasterPw));
+        buttonAddEntry.setGraphic(new ImageView(imageAddEntry));
+        buttonLogout.setGraphic(new ImageView(imageLogout));
+
         /*passwordColumn = new TableColumn<>("Password");
         passwordColumn.setMinWidth(200);
         passwordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));*/
@@ -101,13 +120,30 @@ public class PwManagerHomeScreenController extends Controller implements Initial
             public TableCell<Entry, Void> call(final TableColumn<Entry, Void> param) {
                 final TableCell<Entry, Void> cell = new TableCell<>() {
 
+
                     private final Button btn = new Button(buttonName);
+
+                    {
+                        switch (buttonName) {
+                            case "Copy":
+                                btn.setGraphic(new ImageView(imageCopy));
+                                break;
+                            case "Details":
+                                btn.setGraphic(new ImageView(imageDetails));
+                                break;
+                            case "Delete":
+                                btn.setGraphic(new ImageView(imageDelete));
+                            break;
+                        }
+                    }
+
 
                     {
                         btn.setOnAction((ActionEvent event) -> {
                             Entry entry = getTableView().getItems().get(getIndex());
                             switch (buttonName){
                                 case "Copy":
+                                    logger.info("Copied password");
                                     copie(entry.getPassword());
                                     break;
                                 case "Show":
@@ -119,6 +155,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                                     }*/
                                     break;
                                 case "Details":
+                                    logger.info("Show details of Entry ID: " + entry.getEntryId());
                                     openDialogDetailsEntry(entry);
                                     break;
                                 case "Delete":
@@ -136,7 +173,9 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                                     break;
                             }
                             System.out.println(buttonName);
+
                         });
+
                     }
 
                     @Override
@@ -149,6 +188,8 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                         }
                     }
                 };
+                //Einträge in die Mitte des Feldes bringen
+                cell.setStyle("-fx-alignment: CENTER");
                 return cell;
             }
         };
@@ -210,7 +251,8 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         passwordText.setPromptText("Password");
         PasswordField rpasswordText = new PasswordField();
         rpasswordText.setPromptText("Repeat password");
-        Button buttonGeneratepassword = new Button("G");
+        Button buttonGeneratepassword = new Button("");
+        buttonGeneratepassword.setGraphic(new ImageView(imageGeneratePopup));
 
         grid.add(new Label("Username:"), 0, 0);
         grid.add(usernameText, 1, 0);
@@ -286,8 +328,10 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         TextField passwordText = new TextField();
         passwordText.setText("***********");
         passwordText.setDisable(true);
-        Button buttonShow = new Button("S");
-        Button buttonCopie = new Button("C");
+        Button buttonShowHidden = new Button("");
+        buttonShowHidden.setGraphic(new ImageView(imageShow));
+        Button buttonCopy = new Button("");
+        buttonCopy.setGraphic(new ImageView(imageCopy));
 
         grid.add(new Label("Username:"), 0, 0);
         grid.add(usernameText, 1, 0);
@@ -297,8 +341,8 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         grid.add(emailText, 1, 2);
         grid.add(new Label("Password:"), 0, 3);
         grid.add(passwordText, 1, 3);
-        grid.add(buttonShow,2,3);
-        grid.add(buttonCopie,3,3);
+        grid.add(buttonShowHidden,2,3);
+        grid.add(buttonCopy,3,3);
 
         dialog.getDialogPane().setContent(grid);
 
@@ -313,18 +357,20 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                     dialog.close();
                 }
         );
-        buttonCopie.addEventFilter(
+        buttonCopy.addEventFilter(
                 ActionEvent.ACTION,
                 event -> {
                     copie(passwordText.getText());
+                    logger.info("Password copied");
                     event.consume();
                 }
         );
-        buttonShow.addEventFilter(
+        buttonShowHidden.addEventFilter(
                 ActionEvent.ACTION,
                 event -> {
                     try {
                         pwManagerService.changeHidden(entry.getEntryId());
+                        buttonShowHidden.setGraphic(new ImageView(imageHide));
                     } catch (IllegalParameterException e) {
                         e.printStackTrace();
                     }
@@ -333,6 +379,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                     }
                     else{
                         passwordText.setText("***********");
+                        buttonShowHidden.setGraphic(new ImageView(imageShow));
                     }
                     event.consume();
                 }
@@ -367,7 +414,8 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         passwordText.setText(entry.getPassword());
         PasswordField rpasswordText = new PasswordField();
         rpasswordText.setText(entry.getPassword());
-        Button buttonGeneratepassword = new Button("G");
+        Button buttonGeneratepassword = new Button("");
+        buttonGeneratepassword.setGraphic(new ImageView(imageGeneratePopup));
 
         grid.add(new Label("Username:"), 0, 0);
         grid.add(usernameText, 1, 0);
@@ -434,7 +482,8 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         newmasterpasswordText.setPromptText("new masterpassword");
         PasswordField rnewmasterpasswordText = new PasswordField();
         rnewmasterpasswordText.setPromptText("new masterpassword");
-        Button buttonGeneratepassword = new Button("G");
+        Button buttonGeneratepassword = new Button("");
+        buttonGeneratepassword.setGraphic(new ImageView(imageGeneratePopup));
 
         grid.add(new Label("Old password:"), 0, 0);
         grid.add(oldmasterpasswordText, 1, 0);
@@ -509,6 +558,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         TextField numbersText = new TextField("0");
         generatedPasswordText.setDisable(true);
         Button copiePasswordButton = new Button("Copy");
+        copiePasswordButton.setGraphic(new ImageView(imageCopy));
         Slider slider = new Slider(0,10,5);
 
 
