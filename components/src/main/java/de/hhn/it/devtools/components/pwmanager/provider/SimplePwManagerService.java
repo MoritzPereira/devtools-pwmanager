@@ -40,11 +40,13 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     }*/
 
     if (listener == null) {
-      throw new IllegalParameterException("Listener was null reference.");
+      logger.error("Listener was null reference");
+      throw new IllegalParameterException("Listener was null reference");
     }
 
     if (listeners.contains(listener)) {
-      throw new IllegalParameterException("Listener already registered.");
+      logger.error("Listener already registered");
+      throw new IllegalParameterException("Listener already registered");
     }
     logger.info("Listener " + listener.toString() + " added");
     listeners.add(listener);
@@ -59,10 +61,12 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     }*/
 
     if (listener == null) {
-      throw new IllegalParameterException("Listener was null reference.");
+      logger.error("Listener was null reference");
+      throw new IllegalParameterException("Listener was null reference");
     }
 
     if (!listeners.contains(listener)) {
+      logger.error("Listener is not registered:" + listener);
       throw new IllegalParameterException("Listener is not registered:" + listener);
     }
     logger.info("Listener " + listener.toString() + " removed");
@@ -119,12 +123,16 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     if (!Objects.equals(this.masterPw, oldPassword)) {
       throw new IllegalMasterPasswordException();
     } else if(newPassword == null){
+      logger.error("Password is null");
       throw new NullPointerException("Password is null");
     } else if (Objects.equals(newPassword, oldPassword)) {
+      logger.error("Dont use the same password again");
       throw new IllegalParameterException("Dont use the same password again");
     } else if (!checkPassword(newPassword)) {
+      logger.error("New password is too weak");
       throw new IllegalParameterException("New password is too weak");
     }
+    logger.info("Changed master password");
     this.masterPw = newPassword;
   }
 
@@ -164,12 +172,15 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
           throws IllegalParameterException {
 
     if (!checkEmail(email)) {
+      logger.error("Email is not valid");
       throw new IllegalParameterException("Email is not valid");
     }
     if (!checkUrl(url)) {
+      logger.error("Url is not valid");
       throw new IllegalParameterException("Url is not valid");
     }
     if (!checkPassword(password)) {
+      logger.error("Password is not valid");
       throw new IllegalParameterException("Password is not valid");
     }
 
@@ -269,6 +280,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
 
     //Check if the id exist
     if (!foundId) {
+      logger.error("Given id not found");
       throw new IllegalParameterException("Given id not found");
     }
     else{
@@ -289,6 +301,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     final String Cyrillicletters = "БГЗИЙЛПФД";
 
     if (length <= 3) {
+      logger.error("Length must be greater than four");
       throw new IllegalParameterException("Length must be greater than four");
     }
 
