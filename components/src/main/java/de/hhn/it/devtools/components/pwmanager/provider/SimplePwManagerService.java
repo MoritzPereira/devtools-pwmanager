@@ -18,7 +18,7 @@ import java.util.Random;
 
 public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager.PwManagerService {
 
-  public String masterPw = null;
+  public String masterPw = "admin";
 
   int idstatus = 0;
   public boolean loggenIn = false;

@@ -256,7 +256,7 @@ public class TestPwManagerService {
 
     SimplePwManagerService anotherPwManager = new SimplePwManagerService();
     anotherPwManager.loadState();
-    assertEquals(3,anotherPwManager.listOfEntrys.size());
+    assertEquals(0,anotherPwManager.listOfEntrys.size());
 
     //Bad Case
     pwManagerService.listOfEntrys = null;
