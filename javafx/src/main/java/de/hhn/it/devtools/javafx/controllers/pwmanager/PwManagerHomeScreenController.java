@@ -696,9 +696,6 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         osPath = osPath.replace("javafx","");
         osPath += "/components/src/main/entries.txt";
         File file = new File(osPath);
-        if (file == null){
-            throw new NullPointerException();
-        }
         Path filePath = Paths.get(osPath);
         BufferedReader br = null;
         try {

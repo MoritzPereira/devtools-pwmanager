@@ -61,17 +61,27 @@ public class PwManagerLoginController extends Controller implements Initializabl
         osPath = osPath.replace("components", "");
         osPath = osPath.replace("javafx", "");
         osPath += "/components/src/main/entries.txt";
+        Path filePath = Paths.get(osPath);
         File file = new File(osPath);
         BufferedReader br;
         try {
+            file.createNewFile();
             br = new BufferedReader(new FileReader(file));
+            //if file is not created or empty (first open) -> save masterpw in file
+            int length = 0;
+            length = (int) Files.lines(filePath).count();
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(osPath, true)));
+            if(length==0){
+                writer.write("firns");
+                writer.close();
+            }
             try {
                 pwManagerService.loginFromLoginController(firstScreenPasswordField.getText(), br.readLine());
             } catch (IllegalMasterPasswordException e) {
             } catch (IOException e) {
                 logger.error("Could not interact with file:" + e.getMessage());
             }
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             logger.error("Could not find file: " + e.getMessage());
         }
     }
