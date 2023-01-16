@@ -153,8 +153,6 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
 
   @Override
   public void logout() {
-    System.out.println("Logout anfang");
-    //listener.loggedout();
     try {
       getState(listOfEntrys);
       listeners.forEach((listener) -> listener.loggedout());
@@ -205,7 +203,18 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     if (!Objects.equals(this.masterPw, masterPw)) {
       throw new IllegalMasterPasswordException();
     }
-
+    if (!checkEmail(entry.getEmail())) {
+      logger.error("Email is not valid");
+      throw new IllegalParameterException("Email is not valid");
+    }
+    if (!checkUrl(entry.getUrl())) {
+      logger.error("Url is not valid");
+      throw new IllegalParameterException("Url is not valid");
+    }
+    if (!checkPassword(entry.getPassword())) {
+      logger.error("Password is not valid");
+      throw new IllegalParameterException("Password is not valid");
+    }
     for (Entry i : listOfEntrys) {
       if (i.getEntryId() == entry.getEntryId()) {
         id = i.getEntryId();

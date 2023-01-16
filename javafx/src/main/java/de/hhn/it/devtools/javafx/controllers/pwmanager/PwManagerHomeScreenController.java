@@ -172,8 +172,6 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                                     }
                                     break;
                             }
-                            System.out.println(buttonName);
-
                         });
 
                     }
@@ -221,7 +219,6 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         ObservableList<Entry> entries = FXCollections.observableArrayList();
         for(Entry e : listOfEntrys){
             entries.add(e);
-            System.out.println(e.getUsername());
         }
         return entries;
     }
@@ -441,9 +438,11 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                             Entry changedEntry = new Entry(entry.getEntryId(),urlText.getText(),usernameText.getText(),emailText.getText(),passwordText.getText());
                             pwManagerService.changeEntry(changedEntry, password);
                         } catch (IllegalParameterException e) {
-                            e.printStackTrace();
+                            dialog.setHeaderText(e.getMessage());
+                            event.consume();
                         } catch (IllegalMasterPasswordException e) {
-                            e.printStackTrace();
+                            dialog.setHeaderText(e.getMessage());
+                            event.consume();
                         }
                     }
                     else{
