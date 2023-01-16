@@ -2,8 +2,9 @@ package de.hhn.it.devtools.apis.paint;
 
 import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
+
+import java.util.List;
+import java.util.NoSuchElementException;
 
 
 public interface PaintService {
@@ -15,7 +16,7 @@ public interface PaintService {
      * @return list of registered shapes
      * @throws IllegalParameterException if board id is invalid or a null reference
      */
-    LinkedList<ShapeDescriptor> getShapes(int boardId) throws IllegalParameterException;
+    List<ShapeDescriptor> getShapes(int boardId) throws IllegalParameterException;
 
 
     /**
@@ -28,6 +29,7 @@ public interface PaintService {
      */
     ShapeDescriptor getShape(int shapeId, int boardId) throws IllegalParameterException;
 
+    int getRedoCounter();
 
     /**
      * adds the shape (could be drawing action or erase action as well) with all his coordinates to the given board
@@ -40,18 +42,18 @@ public interface PaintService {
     void addShape(ShapeDescriptor shape, int boardId)
             throws IllegalParameterException;
 
+    /**
+     * @return shape that was last drawn.
+     */
+    ShapeDescriptor back(int boardId) throws IndexOutOfBoundsException, NoSuchElementException,
+            IllegalParameterException;
+
 
     /**
-     * control if shape points contains mouse point
-     *
-     * @param boardId defines the board where the points should be checked
-     * @param xCoordinate of the mouse
-     * @param yCoordinate of the mouse
-     * @return all shapes that have identical points with the mouse coordinates
-     * @throws IllegalParameterException if boardId, x or y coordinates of point are invalid or does not exist
-     *
+     * @return shape that was drawn after the last shape that was returned from the back method.
      */
-    ArrayList<ShapeDescriptor> containsPoint(int xCoordinate, int yCoordinate, int boardId) throws IllegalParameterException;
+    ShapeDescriptor forward(int boardId) throws IndexOutOfBoundsException, NoSuchElementException,
+            IllegalParameterException;
 
 
     /**
@@ -60,14 +62,14 @@ public interface PaintService {
      * @param shapeId represent the shape which should be deleted
      * @throws IllegalParameterException if the id of the shape or board does not exist or is invalid
      */
-    void deleteShape(int shapeId) throws IllegalParameterException;
+    void deleteShape(int shapeId, int boardId) throws IllegalParameterException;
 
     /**
      * delete all shapes from the board and push all of them to undo stack
      * @param boardId defines the board that should be cleared
      * @throws IllegalParameterException if y or y coordinates are invalid or null references
      */
-    void clear(int boardId, LinkedList<ShapeDescriptor> shapeDescriptorList) throws IllegalParameterException;
+    void clear(int boardId) throws IllegalParameterException;
 
 
 
@@ -75,13 +77,13 @@ public interface PaintService {
     /**
      * Changes the color of an earlier drawing action on a given board
      *
-     * @param shape which color should be changed
+     * @param shapeId which color should be changed
      * @param boardId defines the board where the shape is
      * @param color that the shape should get
      * @throws IllegalParameterException if shape is a null reference or boardId is invalid or does not exist
      * @throws IndexOutOfBoundsException if the transparency value is less than 0 or greater than 255
      */
-    void changeColor(ShapeDescriptor shape, int boardId, Color color)
+    void changeColor(int shapeId, int boardId, Color color)
             throws IllegalParameterException, IndexOutOfBoundsException;
 
 
@@ -91,12 +93,12 @@ public interface PaintService {
      *
      * the new size should getted via a slider that represent the pencil thickness
      *
-     * @param shape which size should be changed
+     * @param shapeId which size should be changed
      * @param boardId defines the board where the shape is
      * @param size new size of the shape
      * @throws IllegalParameterException if shape is a null reference or boardId is invalid or does not exist
      */
-    void changeSize(ShapeDescriptor shape, int boardId, double size) throws IllegalParameterException;
+    void changeSize(int shapeId, int boardId, double size) throws IllegalParameterException;
 
 
     /**
@@ -120,4 +122,6 @@ public interface PaintService {
     void redo(int boardId) throws IllegalArgumentException, IllegalParameterException;
 
 
+    Board getActualBoard();
+    Color getLastColor();
 }
