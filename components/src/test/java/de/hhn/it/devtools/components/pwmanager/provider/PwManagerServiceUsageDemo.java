@@ -29,7 +29,7 @@ public class PwManagerServiceUsageDemo {
     logger.info("-----Entry deleted");
 
     //Change an Entry and generate a new Password
-    pwManagerService.changeEntry(new Entry(0,"changedTest.de","changedTestUser1","changedtest@gmail.com",pwManagerService.generateNewPw(true,true,true,true,12)
+    pwManagerService.changeEntry(new Entry(0,"changedTest.de","changedTestUser1","changedtest@gmail.com",pwManagerService.generateNewPw(true,true,true,true, true,12)
     ),"admin");
     logger.info("-----Entry changed with new generated Password");
 

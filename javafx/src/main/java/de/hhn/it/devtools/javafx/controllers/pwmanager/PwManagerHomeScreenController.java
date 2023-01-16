@@ -548,12 +548,14 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         Label uselowercaseLabel = new Label("Use lowercase");
         Label usenumbersLabel = new Label("Use numbers");
         Label usespecialsLabel = new Label("Use specials");
+        Label usecyrillicLabel = new Label("Use cyrillic");
         Label numbersLabel = new Label("Numbers:");
         CheckBox useuppercaseBox = new CheckBox();
         useuppercaseBox.setSelected(true);
         CheckBox uselowercaseBox = new CheckBox();
         CheckBox usenumbersBox = new CheckBox();
         CheckBox usespecialsBox = new CheckBox();
+        CheckBox usecyrillicBox = new CheckBox();
         TextField generatedPasswordText = new TextField("");
         TextField numbersText = new TextField("0");
         generatedPasswordText.setDisable(true);
@@ -575,6 +577,8 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         grid.add(usenumbersLabel, 1, 4);
         grid.add(usespecialsBox, 0, 5);
         grid.add(usespecialsLabel, 1, 5);
+        grid.add(usecyrillicBox, 0, 6);
+        grid.add(usecyrillicLabel, 1, 6);
 
         dialog.getDialogPane().setContent(slider);
         dialog.getDialogPane().setContent(grid);
@@ -588,7 +592,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                     //One box has to be selected
                     if(useuppercaseBox.isSelected() || uselowercaseBox.isSelected() || usenumbersBox.isSelected() || usespecialsBox.isSelected()){
                         try {
-                            passwordGenerated = pwManagerService.generateNewPw(useuppercaseBox.isSelected(), uselowercaseBox.isSelected(), usenumbersBox.isSelected(), usespecialsBox.isSelected(), Integer.parseInt(numbersText.getText()));
+                            passwordGenerated = pwManagerService.generateNewPw(useuppercaseBox.isSelected(), uselowercaseBox.isSelected(), usenumbersBox.isSelected(), usespecialsBox.isSelected(), usecyrillicBox.isSelected(), Integer.parseInt(numbersText.getText()));
                         } catch (IllegalParameterException e) {
                             dialog.setHeaderText(e.getMessage());
                         }

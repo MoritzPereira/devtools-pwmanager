@@ -89,7 +89,7 @@ public interface PwManagerService {
    * @param useUpper signals if uppercase letters
    */
   public String generateNewPw(boolean useUpper, boolean useLower, boolean useDigits,
-                              boolean useSpecialChars, int length) throws IllegalParameterException;
+                              boolean useSpecialChars, boolean useCyrillic, int length) throws IllegalParameterException;
 
   /**
    * Gets the state from the component

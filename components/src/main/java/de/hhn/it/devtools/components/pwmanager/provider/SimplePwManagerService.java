@@ -279,13 +279,14 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
 
   @Override
   public String generateNewPw(boolean useUpper, boolean useLower, boolean useDigits,
-                              boolean useSpecialCharacters, int length)
+                              boolean useSpecialCharacters, boolean useCyrillic, int length)
       throws IllegalParameterException {
 
     final String LOWER = "abcdefghijklmnopqrstuvwxyz";
     final String UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     final String DIGITS = "0123456789";
     final String SpecialCharacters = "!@#$%&*()_+-=[]|,./?><";
+    final String Cyrillicletters = "БГЗИЙЛПФД";
 
     if (length <= 3) {
       throw new IllegalParameterException("Length must be greater than four");
@@ -307,6 +308,9 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     }
     if (useSpecialCharacters) {
       charCategories.add(SpecialCharacters);
+    }
+    if (useCyrillic) {
+      charCategories.add(Cyrillicletters);
     }
     // Build the password.
     for (int x = 0; x < length; x++) {

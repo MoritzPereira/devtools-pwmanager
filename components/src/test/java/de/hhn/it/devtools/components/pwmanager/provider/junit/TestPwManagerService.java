@@ -204,12 +204,12 @@ public class TestPwManagerService {
   @Test
   void testGenerateNewPw() throws IllegalParameterException{
     //Good Case
-    String password = pwManagerService.generateNewPw(true,true,true,true,12);
+    String password = pwManagerService.generateNewPw(true,true,true,true,true,12);
     assertEquals(12,password.length());
 
     //Bad Case
     Assertions.assertThrows(IllegalParameterException.class, () -> {
-      pwManagerService.generateNewPw(true,true,true,true, 0);
+      pwManagerService.generateNewPw(true,true,true,true,true, 0);
     });
 
      }
