@@ -613,6 +613,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                    //If the password != null, copy to clipboard
                     if(password[0] != null){
                         copie(password[0]);
+                        logger.info("Password copied");
                         dialog.setHeaderText("copied!");
                     }
                 }

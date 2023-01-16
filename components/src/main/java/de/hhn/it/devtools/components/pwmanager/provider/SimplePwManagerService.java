@@ -359,6 +359,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
 
       String osPath = System.getProperty("user.dir");
       osPath = osPath.replace("components","");
+      osPath = osPath.replace("javafx","");
       osPath += "/components/src/main/entries.txt";
       File file = new File(osPath);
       Path filePath = Paths.get(osPath);
@@ -412,6 +413,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     int length = 0;
     String osPath = System.getProperty("user.dir");
     osPath = osPath.replace("components","");
+    osPath = osPath.replace("javafx","");
     osPath += "/components/src/main/entries.txt";
     File file = new File(osPath);
     if (file == null){
@@ -434,11 +436,11 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
         String decPw = this.decrypt(splitline[4]);
         this.addEntry(decUrl,decUname,decEmail,decPw);
       }
+      listeners.forEach((listener) -> listener.showsortedEntryList(listOfEntrys));
+      logger.info("Entrylist loaded");
     } catch (IOException | IllegalParameterException e) {
       logger.error("Error with loading the list: " + e.getMessage());
     }
-    listeners.forEach((listener) -> listener.showsortedEntryList(listOfEntrys));
-    logger.info("Entrylist loaded");
   }
 
   private String decrypt(String text) {
