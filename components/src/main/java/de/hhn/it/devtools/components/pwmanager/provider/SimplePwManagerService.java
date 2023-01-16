@@ -46,7 +46,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     if (listeners.contains(listener)) {
       throw new IllegalParameterException("Listener already registered.");
     }
-
+    logger.info("Listener " + listener.toString() + " added");
     listeners.add(listener);
 
   }
@@ -65,7 +65,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     if (!listeners.contains(listener)) {
       throw new IllegalParameterException("Listener is not registered:" + listener);
     }
-
+    logger.info("Listener " + listener.toString() + " removed");
     listeners.remove(listener);
   }
 
@@ -151,7 +151,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
       getState(listOfEntrys);
       listeners.forEach((listener) -> listener.loggedout());
     } catch (IOException e) {
-      e.getMessage();
+      logger.error("Error saving list of entrys: " + e.getMessage());
     }
     loggenIn = false;
     logger.info("Logged out");
@@ -364,9 +364,10 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
       }
       writer.close();
     } else {
+      logger.error("Error saving list of entrys");
       throw new NullPointerException();
     }
-    System.out.println("liste gespeichert");
+    logger.info("Entrylist saved");
   }
 
   private String encrypt(String text) {
@@ -408,9 +409,10 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
         this.addEntry(decUrl,decUname,decEmail,decPw);
       }
     } catch (IOException | IllegalParameterException e) {
-      e.printStackTrace();
+      logger.error("Error with loading the list: " + e.getMessage());
     }
     listeners.forEach((listener) -> listener.showsortedEntryList(listOfEntrys));
+    logger.info("Entrylist loaded");
   }
 
   private String decrypt(String text) {

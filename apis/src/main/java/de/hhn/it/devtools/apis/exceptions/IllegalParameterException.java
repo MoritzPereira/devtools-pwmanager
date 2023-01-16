@@ -27,6 +27,7 @@ public class IllegalParameterException extends Exception {
    */
   public IllegalParameterException(final String message) {
     super(message);
+    logger.error(message);
   }
 
   /**
