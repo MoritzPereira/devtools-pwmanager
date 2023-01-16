@@ -51,7 +51,7 @@ public class PwManagerLoginController extends Controller implements Initializabl
     void keyPressed(KeyEvent event) {
 
         if(event.getCode() == KeyCode.ENTER){
-            login();
+            //login();
         }
 
     }
