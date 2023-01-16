@@ -54,7 +54,12 @@ public interface PwManagerListener {
   /**
    * Updates the entry-list.
    */
-  void updateEntryList();
+  void updateEntryListFile(String input);
+
+  /**
+   * Deletes the entry-list in the file.
+   */
+  void deleteContentOfFile();
 
   /**
    * gives the pw specs.

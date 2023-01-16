@@ -30,12 +30,12 @@ import javafx.scene.text.Text;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
 public class PwManagerHomeScreenController extends Controller implements Initializable{
     private static final org.slf4j.Logger logger =
@@ -108,7 +108,8 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         addButtonToTable("Delete", "");
 
         pwManagerService.loggenIn = true;
-        pwManagerService.loadState();
+        //pwManagerService.loadState();
+        loadStateFromFile();
         //updateUI();
     }
 
@@ -639,7 +640,6 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         dialog.getDialogPane().setContent(grid);
         PasswordField passwordText = new PasswordField();
         grid.add(passwordText, 1, 0);
-
         final Button checkButton = (Button) dialog.getDialogPane().lookupButton(checkButtonType);
         checkButton.addEventFilter(
                 ActionEvent.ACTION,
@@ -688,6 +688,88 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         pwManagerService.logout();
     }
 
+    private void loadStateFromFile() throws NullPointerException {
+
+        int length = 0;
+        String osPath = System.getProperty("user.dir");
+        osPath = osPath.replace("components","");
+        osPath = osPath.replace("javafx","");
+        osPath += "/components/src/main/entries.txt";
+        File file = new File(osPath);
+        if (file == null){
+            throw new NullPointerException();
+        }
+        Path filePath = Paths.get(osPath);
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader(file));
+            length = (int) Files.lines(filePath).count();
+            Files.lines(filePath).close();
+            pwManagerService.setMasterPw(br.readLine());
+
+            for (int i = 1; i < length; i++) {
+                String line = br.readLine();
+                String[] splitline = line.split(",");
+                //String decId = this.decrypt(splitline[0]);
+                //String decUrl = this.decrypt(splitline[1]);
+                //String decUname = this.decrypt(splitline[2]);
+                //String decEmail = this.decrypt(splitline[3]);
+                //String decPw = this.decrypt(splitline[4]);
+                //this.addEntry(decUrl,decUname,decEmail,decPw);
+
+                //Der Service entschlüsselt die einzelnen Entrys und übergibt sie dem Listener welcher anschließend die UI updatet
+                pwManagerService.decryptAndLoadEntries(splitline[1],splitline[2],splitline[3],splitline[4]);
+            }
+            //listeners.forEach((listener) -> listener.showsortedEntryList(listOfEntrys));
+            logger.info("Entrylist loaded");
+        } catch (IOException e) {
+            logger.error("Error with loading the list: " + e.getMessage());
+        }
+    }
+
+    private void updateFile(String input) throws RuntimeException, IOException {
+
+
+            String osPath = System.getProperty("user.dir");
+            osPath = osPath.replace("components","");
+            osPath = osPath.replace("javafx","");
+            osPath += "/components/src/main/entries.txt";
+            File file = new File(osPath);
+            Path filePath = Paths.get(osPath);
+
+            BufferedWriter writer =
+                    new BufferedWriter(new OutputStreamWriter(new FileOutputStream(osPath, true)));
+
+            //Writer to delete all from file
+            //PrintWriter deleteWriter = new PrintWriter(file);
+            //deleteWriter.print("");
+            //deleteWriter.close();
+
+
+
+                try {
+                    //Files.newBufferedWriter(filePath, StandardOpenOption.TRUNCATE_EXISTING);
+                    writer.write(input);
+                    writer.newLine();
+                    //writer.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+            writer.close();
+    }
+
+    private void deleteFile() throws FileNotFoundException {
+        String osPath = System.getProperty("user.dir");
+        osPath = osPath.replace("components","");
+        osPath = osPath.replace("javafx","");
+        osPath += "/components/src/main/entries.txt";
+        File file = new File(osPath);
+        PrintWriter deleteWriter = new PrintWriter(file);
+        deleteWriter.print("");
+        deleteWriter.close();
+    }
+
 
     class TestListener implements PwManagerListener{
 
@@ -734,8 +816,22 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         }
 
         @Override
-        public void updateEntryList() {
+        public void updateEntryListFile(String input) {
+            try {
+                updateFile(input);
+            } catch (IOException e) {
+                logger.error("Error saving list of entrys");
+            }
+        }
 
+        @Override
+        public void deleteContentOfFile() {
+            try {
+                deleteFile();
+                logger.info("File resetet");
+            } catch (FileNotFoundException e) {
+                logger.error("Error with reseting the file: " + e.getMessage());
+            }
         }
 
         @Override
@@ -750,9 +846,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
 
         @Override
         public void showsortedEntryList(ArrayList<Entry> entryList) {
-            logger.info("Entrylist loaded");
             listOfEntrys = entryList;
-
             updateUI();
         }
     }

@@ -52,7 +52,10 @@ public class DummyListener implements PwManagerListener {
     }
 
     @Override
-    public void updateEntryList() {
+    public void deleteContentOfFile() {}
+
+    @Override
+    public void updateEntryListFile(String input) {
         logger.info("Entrylist updated");
     }
 

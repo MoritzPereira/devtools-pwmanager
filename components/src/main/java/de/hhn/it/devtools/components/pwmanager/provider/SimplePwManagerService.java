@@ -18,7 +18,7 @@ import java.util.Random;
 
 public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager.PwManagerService {
 
-  public String masterPw = "admin";
+  public String masterPw = null;
 
   int idstatus = 0;
   public boolean loggenIn = false;
@@ -28,6 +28,9 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
 
 
   //was ist mit konstruktor?
+  public SimplePwManagerService(){
+
+  }
 
   private static final org.slf4j.Logger logger =
           org.slf4j.LoggerFactory.getLogger(SimplePwManagerService.class);
@@ -136,16 +139,32 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     this.masterPw = newPassword;
   }
 
+  /**
+   * This method is for checking if the user is verifed to do some stuff like edit entry, delete entry
+   * @param masterPw Master password to get access
+   * @throws IllegalMasterPasswordException
+   */
   @Override
   public void login(String masterPw) throws IllegalMasterPasswordException {
-    //loadMasterPW() to get the masterPw from the file
     if (Objects.equals(this.masterPw, masterPw)) {
       loggenIn = true;
       logger.info("Logged in");
-      for (PwManagerListener listener : listeners) {
-        listener.loggedin();
-      }
-      //listener.loggedin();
+      listeners.forEach(PwManagerListener::loggedin);
+    } else {
+      throw new IllegalMasterPasswordException();
+    }
+  }
+
+  /**
+   * This method is only for the loginController to verfiy the login
+   * @param password
+   * @param encryptedPassword
+   * @throws IllegalMasterPasswordException
+   */
+  public void loginFromLoginController(String password, String encryptedPassword) throws IllegalMasterPasswordException {
+    if (Objects.equals(password, decrypt(encryptedPassword))) {
+      logger.info("Logged in");
+      listeners.forEach(PwManagerListener::loggedin);
     } else {
       throw new IllegalMasterPasswordException();
     }
@@ -188,7 +207,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     listOfEntrys.add(newEntry);
 
     //listener.entryAdded(newEntry);
-    listeners.forEach((listener) -> listener.entryAdded(newEntry));
+    listeners.forEach((listener) -> listener.showsortedEntryList(listOfEntrys));
     return newEntry;
 
   }
@@ -355,7 +374,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
   @Override
   public void getState(List<Entry> listOfEntries) throws RuntimeException, IOException {
 
-    if (listOfEntries != null) {
+    /*if (listOfEntries != null) {
 
       String osPath = System.getProperty("user.dir");
       osPath = osPath.replace("components","");
@@ -372,14 +391,23 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
       deleteWriter.print("");
       deleteWriter.close();
 
-      for (Entry entry: listOfEntries) {
+    //Deleting the entries bevor saving them
+*/  listeners.forEach(PwManagerListener::deleteContentOfFile);
+
+    //Save masterpw
+    listeners.forEach(listener -> listener.updateEntryListFile(encrypt(this.masterPw)));
+
+    //Saving the entries
+    for (Entry entry: listOfEntries) {
         String encId = encrypt(Integer.toString(entry.getEntryId()));
         String encUrl = encrypt(entry.getUrl());
         String encUname = encrypt(entry.getUsername());
         String encEmail = encrypt(entry.getEmail());
         String encPw = encrypt(entry.getPassword());
         String outss = encId + "," + encUrl + "," + encUname + "," + encEmail + "," + encPw;
+        listeners.forEach(listener -> listener.updateEntryListFile(outss));
 
+/*
         try {
           //Files.newBufferedWriter(filePath, StandardOpenOption.TRUNCATE_EXISTING);
           writer.write(outss);
@@ -393,8 +421,12 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     } else {
       logger.error("Error saving list of entrys");
       throw new NullPointerException();
+
+ */
     }
+
     logger.info("Entrylist saved");
+
   }
 
   private String encrypt(String text) {
@@ -409,7 +441,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
 
   @Override
   public void loadState() throws NullPointerException {
-
+    /*
     int length = 0;
     String osPath = System.getProperty("user.dir");
     osPath = osPath.replace("components","");
@@ -441,6 +473,23 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     } catch (IOException | IllegalParameterException e) {
       logger.error("Error with loading the list: " + e.getMessage());
     }
+     */
+  }
+
+  public void decryptAndLoadEntries(String url, String username, String email, String password){
+
+    String decUrl = this.decrypt(url);
+    String decUname = this.decrypt(username);
+    String decEmail = this.decrypt(email);
+    String decPw = this.decrypt(password);
+    try {
+      this.addEntry(decUrl,decUname,decEmail,decPw);
+    } catch (IllegalParameterException e) {
+      e.printStackTrace();
+    }
+
+    listeners.forEach(listener -> listener.showsortedEntryList(listOfEntrys));
+
   }
 
   private String decrypt(String text) {
@@ -453,5 +502,8 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     return result.toString();
   }
 
-
+  public void setMasterPw(String masterPw) {
+    this.masterPw = decrypt(masterPw);
+    System.out.println(this.masterPw);
+  }
 }
