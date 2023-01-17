@@ -589,22 +589,30 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                 ActionEvent.ACTION,
                 event -> {
                     String passwordGenerated = null;
-                    //One box has to be selected
-                    if(useuppercaseBox.isSelected() || uselowercaseBox.isSelected() || usenumbersBox.isSelected() || usespecialsBox.isSelected()){
-                        try {
-                            passwordGenerated = pwManagerService.generateNewPw(useuppercaseBox.isSelected(), uselowercaseBox.isSelected(), usenumbersBox.isSelected(), usespecialsBox.isSelected(), usecyrillicBox.isSelected(), Integer.parseInt(numbersText.getText()));
-                        } catch (IllegalParameterException e) {
-                            dialog.setHeaderText(e.getMessage());
+                    //5 numbers have to be selected
+                    int checkLenght = 5;
+                    if (Integer.parseInt(numbersText.getText()) >= checkLenght) {
+                        //One box has to be selected
+                        if (useuppercaseBox.isSelected() || uselowercaseBox.isSelected() || usenumbersBox.isSelected() || usespecialsBox.isSelected()) {
+                            try {
+                                passwordGenerated = pwManagerService.generateNewPw(useuppercaseBox.isSelected(), uselowercaseBox.isSelected(), usenumbersBox.isSelected(), usespecialsBox.isSelected(), usecyrillicBox.isSelected(), Integer.parseInt(numbersText.getText()));
+                            } catch (IllegalParameterException e) {
+                                dialog.setHeaderText(e.getMessage());
+                            }
+                            generatedPasswordText.setText(passwordGenerated);
+                            dialog.setHeaderText("Password generated");
+                        } else {
+                            dialog.setHeaderText("Please select at least one box");
                         }
-                        generatedPasswordText.setText(passwordGenerated);
-                        dialog.setHeaderText("Password generated");
-                    }
-                    else{
-                        dialog.setHeaderText("Please select at least one box");
-                    }
-                    password[0] = passwordGenerated;
-                    event.consume();
+                        password[0] = passwordGenerated;
+                        event.consume();
 
+                    }
+                    else {
+                        dialog.setHeaderText("Please select at least five numbers");
+                        logger.error("Length must be greater than four");
+                        event.consume();
+                    }
                 }
         );
 
