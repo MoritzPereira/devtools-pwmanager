@@ -394,7 +394,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         buttonCopy.addEventFilter(
                 ActionEvent.ACTION,
                 event -> {
-                    copie(passwordText.getText());
+                    copie(entry.getPassword());
                     logger.info("Password copied");
                     event.consume();
                 }
