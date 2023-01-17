@@ -271,7 +271,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
         foundId = true;
         it.remove();
         logger.info("Entry {id: " + id + " } deleted");
-        //listeners.forEach((listener) -> listener.entryDeleted(id));
+        listeners.forEach((listener) -> listener.showsortedEntryList(listOfEntrys));
         break;
       }
     }
@@ -361,6 +361,8 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
       //add the random char to the password
       password += z;
     }
+    String finalPassword = password;
+    listeners.forEach((listener) -> listener.generatePw(finalPassword));
     logger.info("New password generated: " + password);
     return password;
   }

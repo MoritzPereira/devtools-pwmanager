@@ -62,9 +62,9 @@ public interface PwManagerListener {
   void deleteContentOfFile();
 
   /**
-   * gives the pw specs.
+   * gives the pw to the ui.
    */
-  void generatePw(boolean useUpper, boolean useLower, boolean useDigits, boolean useSpecialChars);
+  void generatePw(String password);
 
   /**
    * shows the newly generated pw.

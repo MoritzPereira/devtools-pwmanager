@@ -159,7 +159,7 @@ public class PwManagerLoginController extends Controller implements Initializabl
         }
 
         @Override
-        public void generatePw(boolean useUpper, boolean useLower, boolean useDigits, boolean useSpecialChars) {
+        public void generatePw(String password) {
 
         }
 
