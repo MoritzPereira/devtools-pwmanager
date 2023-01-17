@@ -22,7 +22,6 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
 
   int idstatus = 0;
   public boolean loggenIn = false;
-  private boolean hidePws = true;
   public ArrayList<Entry> listOfEntrys = new ArrayList<>();
   private List<PwManagerListener> listeners = new ArrayList<>();
 
@@ -504,6 +503,5 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
 
   public void setMasterPw(String masterPw) {
     this.masterPw = decrypt(masterPw);
-    System.out.println(this.masterPw);
   }
 }
