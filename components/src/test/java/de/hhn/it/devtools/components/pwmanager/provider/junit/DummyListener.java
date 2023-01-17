@@ -60,7 +60,7 @@ public class DummyListener implements PwManagerListener {
     }
 
     @Override
-    public void generatePw(boolean useUpper, boolean useLower, boolean useDigits, boolean useSpecialChars) {
+    public void generatePw(String password) {
         logger.info("New password generated");
     }
 
