@@ -1,7 +1,6 @@
 package de.hhn.it.devtools.apis.paint;
 
-
-
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
@@ -15,7 +14,8 @@ public class Board {
   private Color color;
   private LinkedList<ShapeDescriptor> undoHistory;
   private LinkedList<ShapeDescriptor> redoHistory;
-
+  private int idCounter;
+  boolean flag;
 
   /**
    * constructor of board
@@ -26,10 +26,15 @@ public class Board {
   public Board(double height, double width) {
     this.height = height;
     this.width = width;
-    setBoardColor(255,255,255);
+    Color color = new Color(255, 255,255,255);
+    setBoardColor(color);
     undoHistory = new LinkedList<>();
     redoHistory = new LinkedList<>();
     boardId = 0;
+    idCounter=0;
+
+
+
   }
 
   public void setBoardId(int boardId) {
@@ -56,10 +61,8 @@ public class Board {
     return width;
   }
 
-  public void setBoardColor(int red, int green, int blue) {
-    color.setRed(red);
-    color.setGreen(green);
-    color.setBlue(blue);
+  public void setBoardColor(Color color) {
+    this.color = color;
   }
 
   public Color getBoardColor() {
@@ -71,17 +74,41 @@ public class Board {
    * add shape to the board
    * @param shapeDescriptor the shape to be added
    */
-  public void addShape(ShapeDescriptor shapeDescriptor) {
+  public void addShape(ShapeDescriptor shapeDescriptor){
     undoHistory.add(shapeDescriptor);
+    idCounter++;
+
+
+
+
+  }
+
+  public int getIdCounter() {
+    return idCounter;
+  }
+
+  public void setIdCounter(int idCounter) {
+    this.idCounter = idCounter;
   }
 
   /**
-   * remove/delete shape from board
+   * push to undo
    * @param shapeDescriptor shape to be deleted
    */
-  public void removeShape(ShapeDescriptor shapeDescriptor) {
+  public void push(ShapeDescriptor shapeDescriptor) {
     undoHistory.remove(shapeDescriptor);
     redoHistory.add(shapeDescriptor);
+  }
+
+
+  /**
+   * pull from redo, push to undo
+   * @param shapeDescriptor shape to be restored
+   */
+  public void pull(ShapeDescriptor shapeDescriptor) {
+    redoHistory.remove(shapeDescriptor);
+    undoHistory.add(shapeDescriptor);
+
   }
 
 
@@ -97,9 +124,21 @@ public class Board {
   /**
    * @return all shapes and drawing actions of the board
    */
-  public LinkedList<ShapeDescriptor> getUndoStack() {
+  public LinkedList<ShapeDescriptor> getUndoHistory() {
     return undoHistory;
   }
 
 
+  public void setFlag(boolean flag){
+    this.flag = flag;
+  }
+
+  public boolean getFlag() {
+    return flag;
+  }
+
+  public int getShapeIdCounter() {
+    return idCounter;
+  }
 }
+
