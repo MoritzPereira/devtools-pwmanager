@@ -5,13 +5,15 @@ package de.hhn.it.devtools.apis.supermarketsystem;
  */
 public enum ProductCategory {
   /** Electronic devices. */
-  ELECTRONIC,
+  ELECTRONICS,
   /** Clothing like Shoes or Pants. */
   CLOTHES,
   /** Every kind of food. */
   FOOD,
   /** All non-alcoholic drinks. */
   DRINK,
+  /** Hygiene products like shampoo or toothbrushes. */
+  HYGIENE,
   /** Accessories like Pans, Toys, whatever.  */
   ACCESSORIES,
   /** All alcoholic drinks.  */

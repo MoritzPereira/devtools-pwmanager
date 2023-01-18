@@ -5,13 +5,13 @@ package de.hhn.it.devtools.apis.paint;
  */
 public class Color {
 
-    private int red;
-    private int green;
-    private int blue;
-    private int transparency;
+    private double red;
+    private double green;
+    private double blue;
+    private double transparency;
 
 
-    public Color(int red, int green, int blue, int transparency) {
+    public Color(double red, double green, double blue, double transparency) {
         this.red = red;
         this.green = green;
         this.blue = blue;
@@ -19,35 +19,35 @@ public class Color {
     }
 
 
-    public void setTransparency(int transparency){
+    public void setTransparency(double transparency){
         this.transparency = transparency;
     }
 
-    public int getTransparency() {
+    public double getTransparency() {
         return transparency;
     }
 
-    public void setRed(int red) {
+    public void setRed(double red) {
         this.red = red;
     }
 
-    public void setGreen(int green) {
+    public void setGreen(double green) {
         this.green = green;
     }
 
-    public void setBlue(int blue) {
+    public void setBlue(double blue) {
         this.blue = blue;
     }
 
-    public int getRed() {
+    public double getRed() {
         return red;
     }
 
-    public int getGreen() {
+    public double getGreen() {
         return green;
     }
 
-    public int getBlue() {
+    public double getBlue() {
         return blue;
     }
 
