@@ -191,9 +191,11 @@ public class TestPwManagerService {
   @Test
   void testChangeHidden() throws IllegalParameterException {
     pwManagerService.addEntry( "test.com", "test", "test@gmail.com", "testPw");
+    boolean x = pwManagerService.listOfEntrys.get(0).isChangeHidden();
+    pwManagerService.changeHidden(0);
 
     //Good Case
-    //assertEquals(0 + ",test.com,test,test@gmail.com,testPw", pwManagerService.changeHidden(0));
+    assertNotEquals(x,pwManagerService.listOfEntrys.get(0).isChangeHidden());
 
     //Bad Case
     Assertions.assertThrows(IllegalParameterException.class, () -> {
@@ -265,6 +267,13 @@ public class TestPwManagerService {
     });
   }
 
+  @Test
+  void testSetMasterPassword(){
+    String mp = pwManagerService.masterPw;
+    pwManagerService.setMasterPw("firns7"); //firns7 ist admin2 verschlüsselt
+
+    assertEquals("admin2",pwManagerService.masterPw);
+  }
 
 }
 
