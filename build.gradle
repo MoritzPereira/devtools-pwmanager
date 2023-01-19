@@ -30,8 +30,10 @@ allprojects {
             because "we need the SimpleLoggingFacade with module information"
         }
         implementation ('org.slf4j:slf4j-simple:2.0.3')
+        implementation ('com.google.code.gson:gson:2.10')
         // use JUnit 5
         testImplementation ("org.junit.jupiter:junit-jupiter-api:5.9.1")
+        testImplementation ("org.junit.jupiter:junit-jupiter-params:5.9.1")
         testRuntimeOnly ("org.junit.jupiter:junit-jupiter-engine:5.9.1")
     }
     javadoc {

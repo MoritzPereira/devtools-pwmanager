@@ -24,7 +24,7 @@ public class PaintUsageDemo {
         int mouseExampleCoordinateY3 = 3;
 
 
-        Color exampleColor = new Color(33, 33, 53,255);
+        Color exampleColor = new Color(1, 1, 1,1);
 
 
 
@@ -33,12 +33,12 @@ public class PaintUsageDemo {
         page1.setBoardId(0);
 
         //default board color
-        page1.setBoardColor(255, 255, 255);
+        page1.setBoardColor(new Color(255, 255, 255,255));
 
 
         //user start new drawing action and select scribble as shape type
-        ShapeDescriptor shape0 = new ShapeDescriptor(mouseExampleCoordinateX1, mouseExampleCoordinateY1, 5, exampleColor, false, false);
-        shape0.setShapeId(0);
+        ShapeDescriptor shape0 = new ShapeDescriptor(mouseExampleCoordinateX1, mouseExampleCoordinateY1, 5.0, exampleColor, false, false,1);
+
 
 
 
@@ -52,11 +52,10 @@ public class PaintUsageDemo {
         while (mousePressed) {
 
             //simulates move of the mouse
-          shape0.addPoint(mouseExampleCoordinateX2, mouseExampleCoordinateY2);
+            shape0.addPoint(mouseExampleCoordinateX2, mouseExampleCoordinateY2);
 
 
         }
-
 
 
         //user releases mouse
@@ -76,19 +75,14 @@ public class PaintUsageDemo {
         //user want to change color of earlier drawn shape
         Color newColor = new Color(45,26,95,255);
 
-        for (int i = 0; i<paintService.containsPoint(mouseExampleCoordinateX2, mouseExampleCoordinateY2, 0).size(); i++) {
 
-        paintService.changeColor(paintService.containsPoint(mouseExampleCoordinateX2, mouseExampleCoordinateY2, 0).get(i),
-                0,newColor );
-
-        }
 
 
         //New Action
 
 
         //user do clear action
-        paintService.clear(0, paintService.getShapes(0));
+        paintService.clear(0);
 
 
 
@@ -101,8 +95,8 @@ public class PaintUsageDemo {
 
 
         //user wants to draw straight horizontal help lines
-        ShapeDescriptor shape1 = new ShapeDescriptor(mouseExampleCoordinateX1, mouseExampleCoordinateY1, 5, exampleColor, true , false);
-        shape1.setShapeId(1);
+        ShapeDescriptor shape1 = new ShapeDescriptor(mouseExampleCoordinateX1, mouseExampleCoordinateY1, 5.0, exampleColor, true , false,2);
+
 
 
 
@@ -116,7 +110,7 @@ public class PaintUsageDemo {
 
 
         //user releases mouse
-       // mousePressed = false;
+        // mousePressed = false;
         //defines the end of a shape/drawing action
         shape0.setEndPoint(mouseExampleCoordinateX3, mouseExampleCoordinateY3);
 

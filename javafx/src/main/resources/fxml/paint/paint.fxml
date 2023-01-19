@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<VBox prefHeight="400.0" prefWidth="640.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hhn.it.devtools.javafx.controllers.PaintController">
+
+
+    <ToolBar prefHeight="40.0" prefWidth="657.0">
+
+          <Button fx:id="newPage" mnemonicParsing="false" onAction="#newPage" text="New Page" /> 
+            <Button fx:id="load" mnemonicParsing="false" onAction="#load" text="Load" />
+            <Button fx:id="save" mnemonicParsing="false" onAction="#save" text="Save" />
+            <RadioButton fx:id="pencil" mnemonicParsing="false" onAction="#setPencil" selected="true" text="Pencil" />
+            <RadioButton fx:id="eraser" mnemonicParsing="false" onAction="#setEraser" text="Eraser" />
+            <RadioButton fx:id="line" mnemonicParsing="false" onAction="#setLine" text="Line" />
+            <Slider fx:id="thickness" max="20.0" value="5" min="1.0" />
+            <Label text="Width" />
+            <ColorPicker fx:id="colorPicker" onAction="#setColor"> <value> <Color /> </value> </ColorPicker>
+      <Button fx:id="back" mnemonicParsing="false" onAction="#back" text="Backward" />
+            <Button fx:id="forward" mnemonicParsing="false" onAction="#forward" text="Forward" />
+            <Button fx:id="delete" mnemonicParsing="false" onAction="#delete" text="Delete" />
+            <Button fx:id="clear" mnemonicParsing="false" onAction="#clear" text="Clear" />
+            <Button fx:id="undo" mnemonicParsing="false" onAction="#undo" text="Undo" />
+            <Button fx:id="redo" mnemonicParsing="false" onAction="#redo" text="Redo" />
+
+      </ToolBar>
+   <Canvas fx:id="drawingCanvas" height="1000.0" onMouseDragged="#drag" onMousePressed="#startDraw" onMouseReleased="#endDraw" width="1500.0" />
+
+</VBox>

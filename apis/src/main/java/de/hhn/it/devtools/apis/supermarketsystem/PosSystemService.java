@@ -57,6 +57,17 @@ public interface PosSystemService {
   void addProductToBill(int id) throws IllegalParameterException, IllegalStateException;
 
   /**
+   * Adds the given amount of the given product to the bill.
+   *
+   * @param id id of the product
+   * @throws IllegalParameterException if the id of the product does not exist
+   * @throws IllegalStateException if the POS system is in an error state or out of service
+   * @throws IllegalArgumentException if the amount is less than one
+   */
+  void addProductToBill(int id, int amount)
+      throws IllegalParameterException, IllegalStateException, IllegalArgumentException;
+
+  /**
    * Deletes a Product from the bill.
    *
    * @param id id of the product
@@ -64,6 +75,17 @@ public interface PosSystemService {
    * @throws IllegalStateException if the POS system is in an error state or out of service
    */
   void deleteProductFromBill(int id) throws IllegalParameterException, IllegalStateException;
+
+  /**
+   * Deletes a Product with the given amount from the bill.
+   *
+   * @param id id of the product
+   * @throws IllegalParameterException if the id of the product does not exist
+   * @throws IllegalStateException if the POS system is in an error state or out of service
+   * @throws IllegalArgumentException if the amount is less than one
+   */
+  void deleteProductFromBill(int id, int amount)
+      throws IllegalParameterException, IllegalStateException, IllegalArgumentException;
 
   /**
    * Calculates the change for the customer.
