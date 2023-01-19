@@ -16,6 +16,8 @@ public interface PwManagerService {
   public String masterPw = "admin";
   boolean hidepws = true;
 
+  void addListener(PwManagerListener listener) throws IllegalParameterException;
+
   /**
    * changes the Master Password.
    *
@@ -34,6 +36,9 @@ public interface PwManagerService {
    * @throws IllegalMasterPasswordException if user is not authenticated
    */
   void login(String masterPw) throws IllegalMasterPasswordException;
+
+  void loginFromLoginController(String password, String encryptedPassword)
+      throws IllegalMasterPasswordException;
 
   /**
    * Logs out the user.
@@ -106,4 +111,7 @@ public interface PwManagerService {
    */
   public void loadState() throws NullPointerException;
 
+  void decryptAndLoadEntries(String url, String username, String email, String password);
+
+  void setMasterPw(String masterPw);
 }

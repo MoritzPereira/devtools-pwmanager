@@ -5,7 +5,6 @@ import de.hhn.it.devtools.apis.pwmanager.Entry;
 import de.hhn.it.devtools.apis.pwmanager.PwManagerListener;
 import de.hhn.it.devtools.apis.pwmanager.exceptions.IllegalMasterPasswordException;
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -32,6 +31,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
    * @param listener which gets added
    * @throws IllegalParameterException if listener is null or already in the list
    */
+  @Override
   public void addListener(final PwManagerListener listener) throws IllegalParameterException {
     /*if (listener != null) {
       listeners.add(listener);
@@ -187,6 +187,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
    * @param encryptedPassword
    * @throws IllegalMasterPasswordException if the user enters the wrong masterpasword
    */
+  @Override
   public void loginFromLoginController(String password, String encryptedPassword)
       throws IllegalMasterPasswordException {
     if (Objects.equals(password, decrypt(encryptedPassword))) {
@@ -482,6 +483,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
    * @param email of the entry
    * @param password of the entry
    */
+  @Override
   public void decryptAndLoadEntries(String url, String username, String email, String password) {
     String decUrl = this.decrypt(url);
     String decUname = this.decrypt(username);
@@ -516,6 +518,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
    *
    * @param masterPw that should be set.
    */
+  @Override
   public void setMasterPw(String masterPw) {
     this.masterPw = decrypt(masterPw);
     logger.info("masterpassword was set");
