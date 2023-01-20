@@ -56,7 +56,7 @@ public class PwManagerLoginController extends Controller implements Initializabl
 
     }
 
-    private void login() {
+    private void loadMasterPwFromFile(){
         String osPath = System.getProperty("user.dir");
         osPath = osPath.replace("components", "");
         osPath = osPath.replace("javafx", "");
@@ -76,8 +76,7 @@ public class PwManagerLoginController extends Controller implements Initializabl
                 writer.close();
             }
             try {
-                pwManagerService.loginFromLoginController(firstScreenPasswordField.getText(), br.readLine());
-            } catch (IllegalMasterPasswordException e) {
+                pwManagerService.setMasterPw(br.readLine());
             } catch (IOException e) {
                 logger.error("Could not interact with file:" + e.getMessage());
             }
@@ -86,13 +85,25 @@ public class PwManagerLoginController extends Controller implements Initializabl
         }
     }
 
+    private void login(){
+
+        try {
+            pwManagerService.login(firstScreenPasswordField.getText());
+        } catch (IllegalMasterPasswordException e) {
+            logger.error(e.getMessage());
+        }
+
+    }
+
     public PwManagerLoginController() throws IllegalParameterException {
         LoginListener loginListener = new LoginListener();
         pwManagerService.addListener(loginListener);
     }
 
     @Override
-    public void initialize(final URL location, final ResourceBundle resources) {}
+    public void initialize(final URL location, final ResourceBundle resources) {
+        loadMasterPwFromFile();
+    }
 
     public void changeWindow(String name) {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/fxml/pwmanager/" + name + ".fxml"));

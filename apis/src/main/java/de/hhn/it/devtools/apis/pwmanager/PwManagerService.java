@@ -51,16 +51,6 @@ public interface PwManagerService {
   void setLoggedIn (boolean loggedIn);
 
   /**
-   * This method is only for the loginController to verfiy the login.
-   *
-   * @param password
-   * @param encryptedPassword
-   * @throws IllegalMasterPasswordException if the user enters the wrong masterpasword
-   */
-  void loginFromLoginController(String password, String encryptedPassword)
-      throws IllegalMasterPasswordException;
-
-  /**
    * Logs out the user.
    */
   void logout();

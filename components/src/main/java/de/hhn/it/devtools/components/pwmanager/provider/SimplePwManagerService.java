@@ -190,24 +190,6 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
   }
 
   /**
-   * This method is only for the loginController to verfiy the login.
-   *
-   * @param password
-   * @param encryptedPassword
-   * @throws IllegalMasterPasswordException if the user enters the wrong masterpasword
-   */
-  @Override
-  public void loginFromLoginController(String password, String encryptedPassword)
-      throws IllegalMasterPasswordException {
-    if (Objects.equals(password, decrypt(encryptedPassword))) {
-      logger.info("Logged in");
-      listeners.forEach(PwManagerListener::loggedin);
-    } else {
-      throw new IllegalMasterPasswordException();
-    }
-  }
-
-  /**
    * Logs the user out.
    */
   @Override

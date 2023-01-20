@@ -7,7 +7,6 @@ public class IllegalMasterPasswordException extends Exception {
 
   public IllegalMasterPasswordException() {
     super("Wrong master password!");
-    logger.error("Wrong master password!");
   }
 
 }
