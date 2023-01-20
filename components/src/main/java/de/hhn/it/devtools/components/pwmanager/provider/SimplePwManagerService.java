@@ -22,7 +22,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
   int idstatus = 0;
   public boolean loggedIn = false;
   public ArrayList<Entry> listOfEntrys = new ArrayList<>();
-  private List<PwManagerListener> listeners = new ArrayList<>();
+  public List<PwManagerListener> listeners = new ArrayList<>();
 
 
   /**

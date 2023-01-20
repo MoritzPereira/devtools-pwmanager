@@ -2,6 +2,7 @@ package de.hhn.it.devtools.components.pwmanager.provider.junit;
 
 import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
 import de.hhn.it.devtools.apis.pwmanager.Entry;
+import de.hhn.it.devtools.apis.pwmanager.PwManagerListener;
 import de.hhn.it.devtools.apis.pwmanager.PwManagerService;
 import de.hhn.it.devtools.apis.pwmanager.exceptions.IllegalMasterPasswordException;
 import de.hhn.it.devtools.components.pwmanager.provider.SimplePwManagerService;
@@ -43,6 +44,28 @@ public class TestPwManagerService {
     Assertions.assertThrows(IllegalParameterException.class, () -> {
       pwManagerService.addListener(pwManagerListener);
     });
+  }
+
+  @Test
+  /**
+   * Tests if listeners get added correctly.
+   */
+  void removeListener() throws IllegalParameterException {
+    int size = pwManagerService.listeners.size();
+    PwManagerListener listener2 = new DummyListener();
+
+    //Bad Cases
+    Assertions.assertThrows(IllegalParameterException.class, () -> {
+      pwManagerService.removeListener(null);
+    });
+
+    Assertions.assertThrows(IllegalParameterException.class, () -> {
+      pwManagerService.removeListener(listener2);
+    });
+
+    //Good Case
+    pwManagerService.removeListener(pwManagerListener);
+    Assertions.assertEquals(size-1,pwManagerService.listeners.size());
   }
 
   @Test
@@ -129,6 +152,11 @@ public class TestPwManagerService {
         "testpw") instanceof Entry);
     assertEquals(oldsize + 1, pwManagerService.listOfEntrys.size());
 
+    //Bad Case No valid Password
+    Assertions.assertThrows(IllegalParameterException.class, () -> {
+      pwManagerService.addEntry("test.com", "test", "test@gmail.com", "te");
+    });
+
     //Bad Case Email
     Assertions.assertThrows(IllegalParameterException.class, () -> {
       pwManagerService.addEntry("test.com", "test", "testGmailCom", "testpw");
@@ -164,6 +192,24 @@ public class TestPwManagerService {
     Entry changedEntry2 = new Entry(5, "test.com", "test", "test@gmail.com", "changedpw");
     Assertions.assertThrows(IllegalParameterException.class, () -> {
       pwManagerService.changeEntry(changedEntry2, pwManagerService.masterPw);
+    });
+
+    //Bad Case No valid Password
+    Entry changedEntry3 = new Entry(6, "test6.com", "test6", "test6@gmail.com", "6");
+    Assertions.assertThrows(IllegalParameterException.class, () -> {
+      pwManagerService.changeEntry(changedEntry3,pwManagerService.masterPw);
+    });
+
+    //Bad Case Email
+    Entry changedEntry4 = new Entry(7, "test7.com", "test7", "test7gmailcom", "changedpw7");
+    Assertions.assertThrows(IllegalParameterException.class, () -> {
+      pwManagerService.changeEntry(changedEntry4,pwManagerService.masterPw);
+    });
+
+    //Bad Case Url
+    Entry changedEntry5 = new Entry(8, "test7Com", "test8", "test8@gmail.com", "changedpw8");
+    Assertions.assertThrows(IllegalParameterException.class, () -> {
+      pwManagerService.changeEntry(changedEntry5,pwManagerService.masterPw);
     });
   }
 
