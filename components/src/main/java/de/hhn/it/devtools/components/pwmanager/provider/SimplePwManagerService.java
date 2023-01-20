@@ -20,7 +20,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
   public String masterPw = "admin";
 
   int idstatus = 0;
-  public boolean loggenIn = false;
+  public boolean loggedIn = false;
   public ArrayList<Entry> listOfEntrys = new ArrayList<>();
   private List<PwManagerListener> listeners = new ArrayList<>();
 
@@ -172,12 +172,21 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
   @Override
   public void login(String masterPw) throws IllegalMasterPasswordException {
     if (Objects.equals(this.masterPw, masterPw)) {
-      loggenIn = true;
+      setLoggedIn(true);
       logger.info("Logged in");
       listeners.forEach(PwManagerListener::loggedin);
     } else {
       throw new IllegalMasterPasswordException();
     }
+  }
+
+  /**
+   * Sets the LoggedIn variable.
+   *
+   * @param loggedIn
+   */
+  public void setLoggedIn(boolean loggedIn) {
+    this.loggedIn = loggedIn;
   }
 
   /**
@@ -205,7 +214,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
   public void logout() {
     getState(listOfEntrys);
     listeners.forEach((listener) -> listener.loggedout());
-    loggenIn = false;
+    setLoggedIn(false);
     logger.info("Logged out");
   }
 

@@ -108,11 +108,11 @@ public class TestPwManagerService {
 
     //Good Case Login
     pwManagerService.login(PwManagerService.masterPw);
-    assertEquals(true, pwManagerService.loggenIn);
+    assertEquals(true, pwManagerService.loggedIn);
 
     //Logout
     pwManagerService.logout();
-    assertEquals(false, pwManagerService.loggenIn);
+    assertEquals(false, pwManagerService.loggedIn);
 
     //Bad Case Login
     Assertions.assertThrows(IllegalMasterPasswordException.class, () -> {

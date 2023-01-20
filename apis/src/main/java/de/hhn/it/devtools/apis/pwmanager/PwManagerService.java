@@ -43,6 +43,20 @@ public interface PwManagerService {
    */
   void login(String masterPw) throws IllegalMasterPasswordException;
 
+  /**
+   * Sets the variable loggedIn
+   *
+   * @param loggedIn
+   */
+  void setLoggedIn (boolean loggedIn);
+
+  /**
+   * This method is only for the loginController to verfiy the login.
+   *
+   * @param password
+   * @param encryptedPassword
+   * @throws IllegalMasterPasswordException if the user enters the wrong masterpasword
+   */
   void loginFromLoginController(String password, String encryptedPassword)
       throws IllegalMasterPasswordException;
 

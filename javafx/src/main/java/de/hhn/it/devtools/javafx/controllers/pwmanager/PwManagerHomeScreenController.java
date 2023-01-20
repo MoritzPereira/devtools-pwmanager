@@ -3,6 +3,7 @@ package de.hhn.it.devtools.javafx.controllers.pwmanager;
 import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
 import de.hhn.it.devtools.apis.pwmanager.Entry;
 import de.hhn.it.devtools.apis.pwmanager.PwManagerListener;
+import de.hhn.it.devtools.apis.pwmanager.PwManagerService;
 import de.hhn.it.devtools.apis.pwmanager.exceptions.IllegalMasterPasswordException;
 import de.hhn.it.devtools.components.pwmanager.provider.SimplePwManagerService;
 import de.hhn.it.devtools.javafx.Main;
@@ -65,7 +66,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
     /**
      * Variables
      */
-    private SimplePwManagerService pwManagerService = new SimplePwManagerService();
+    private PwManagerService pwManagerService = new SimplePwManagerService();
     private ArrayList<Entry> listOfEntrys = new ArrayList<>();
     private boolean checkMasterPw;
     private String passwordGenerated = null;
@@ -73,16 +74,26 @@ public class PwManagerHomeScreenController extends Controller implements Initial
     /**
      * Declaration of the used images
      */
-    Image imageGenerate = new Image(getClass().getResourceAsStream("/imagesPwmanager/generate.png"));
-    Image imageAddEntry = new Image(getClass().getResourceAsStream("/imagesPwmanager/add.png"));
-    Image imageChangeMasterPw = new Image(getClass().getResourceAsStream("/imagesPwmanager/key.png"));
-    Image imageLogout = new Image(getClass().getResourceAsStream("/imagesPwmanager/logout.png"));
-    Image imageDelete = new Image(getClass().getResourceAsStream("/imagesPwmanager/mulleimer.png"));
-    Image imageDetails = new Image(getClass().getResourceAsStream("/imagesPwmanager/file.png"));
-    Image imageCopy = new Image(getClass().getResourceAsStream("/imagesPwmanager/copy.png"));
-    Image imageGeneratePopup = new Image(getClass().getResourceAsStream("/imagesPwmanager/generatepopup.png"));
-    Image imageShow = new Image(getClass().getResourceAsStream("/imagesPwmanager/view.png"));
-    Image imageHide = new Image(getClass().getResourceAsStream("/imagesPwmanager/hidden.png"));
+    Image imageGenerate = new Image(
+        Objects.requireNonNull(getClass().getResourceAsStream("/imagesPwmanager/generate.png")));
+    Image imageAddEntry = new Image(
+        Objects.requireNonNull(getClass().getResourceAsStream("/imagesPwmanager/add.png")));
+    Image imageChangeMasterPw = new Image(
+        Objects.requireNonNull(getClass().getResourceAsStream("/imagesPwmanager/key.png")));
+    Image imageLogout = new Image(
+        Objects.requireNonNull(getClass().getResourceAsStream("/imagesPwmanager/logout.png")));
+    Image imageDelete = new Image(
+        Objects.requireNonNull(getClass().getResourceAsStream("/imagesPwmanager/mulleimer.png")));
+    Image imageDetails = new Image(
+        Objects.requireNonNull(getClass().getResourceAsStream("/imagesPwmanager/file.png")));
+    Image imageCopy = new Image(
+        Objects.requireNonNull(getClass().getResourceAsStream("/imagesPwmanager/copy.png")));
+    Image imageGeneratePopup = new Image(Objects.requireNonNull(
+        getClass().getResourceAsStream("/imagesPwmanager/generatepopup.png")));
+    Image imageShow = new Image(
+        Objects.requireNonNull(getClass().getResourceAsStream("/imagesPwmanager/view.png")));
+    Image imageHide = new Image(
+        Objects.requireNonNull(getClass().getResourceAsStream("/imagesPwmanager/hidden.png")));
 
 
     public PwManagerHomeScreenController() throws IllegalParameterException {
@@ -121,7 +132,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         addButtonToTable("Details", "");
         addButtonToTable("Delete", "");
 
-        pwManagerService.loggenIn = true;
+        pwManagerService.setLoggedIn(true);
         //pwManagerService.loadState();
         loadStateFromFile();
         //updateUI();
