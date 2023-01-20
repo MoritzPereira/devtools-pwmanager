@@ -16,6 +16,12 @@ public interface PwManagerService {
   public String masterPw = "admin";
   boolean hidepws = true;
 
+  /**
+   * Adds a Listener to a list of listeners.
+   *
+   * @param listener which gets added
+   * @throws IllegalParameterException if listener is null or already in the list
+   */
   void addListener(PwManagerListener listener) throws IllegalParameterException;
 
   /**
@@ -111,7 +117,20 @@ public interface PwManagerService {
    */
   public void loadState() throws NullPointerException;
 
+  /**
+   * Decrypts an entry given.
+   *
+   * @param url of the entry
+   * @param username of the entry
+   * @param email of the entry
+   * @param password of the entry
+   */
   void decryptAndLoadEntries(String url, String username, String email, String password);
 
+  /**
+   * Sets the masterpassword.
+   *
+   * @param masterPw that should be set.
+   */
   void setMasterPw(String masterPw);
 }
