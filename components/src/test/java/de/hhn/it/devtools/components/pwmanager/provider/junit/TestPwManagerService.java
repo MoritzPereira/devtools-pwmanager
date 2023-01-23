@@ -100,7 +100,7 @@ public class TestPwManagerService {
       throws IllegalMasterPasswordException, IllegalParameterException, NullPointerException {
     String pw = "password";
 
-    pwManagerService.changeMasterPw(pw, pwManagerService.masterPw);
+    pwManagerService.changeMasterPw(pw,pw, pwManagerService.masterPw);
     assertEquals("password", pwManagerService.masterPw);
   }
 
@@ -109,19 +109,19 @@ public class TestPwManagerService {
       throws IllegalMasterPasswordException, IllegalParameterException, NullPointerException {
     //old pw is wrong
     Assertions.assertThrows(IllegalMasterPasswordException.class, () -> {
-      pwManagerService.changeMasterPw("secret", "test");
+      pwManagerService.changeMasterPw("secret", "secret","test");
     });
     //paswort is the same
     Assertions.assertThrows(IllegalParameterException.class, () -> {
-      pwManagerService.changeMasterPw("admin", pwManagerService.masterPw);
+      pwManagerService.changeMasterPw("admin", "admin",pwManagerService.masterPw);
     });
     //Passwort is too weak
     Assertions.assertThrows(IllegalParameterException.class, () -> {
-      pwManagerService.changeMasterPw("adm", pwManagerService.masterPw);
+      pwManagerService.changeMasterPw("adm","adm", pwManagerService.masterPw);
     });
     //paswort is null
     Assertions.assertThrows(NullPointerException.class, () -> {
-      pwManagerService.changeMasterPw(null, pwManagerService.masterPw);
+      pwManagerService.changeMasterPw(null, null,pwManagerService.masterPw);
     });
   }
 

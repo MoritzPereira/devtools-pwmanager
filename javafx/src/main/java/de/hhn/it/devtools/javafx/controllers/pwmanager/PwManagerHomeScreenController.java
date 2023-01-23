@@ -409,7 +409,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                         pwManagerService.changeHidden(entry.getEntryId());
                         buttonShowHidden.setGraphic(new ImageView(imageHide));
                     } catch (IllegalParameterException e) {
-                        e.printStackTrace();
+                        logger.error(e.getMessage());
                     }
                     if (entry.isChangeHidden()) {
                         passwordText.setText(entry.getPassword());
@@ -481,10 +481,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                     if (checkMasterPw) {
                         try {
                             pwManagerService.changeEntry(new Entry(entry.getEntryId(), urlText.getText(), usernameText.getText(), emailText.getText(), passwordText.getText()), password);
-                        } catch (IllegalParameterException e) {
-                            dialog.setHeaderText(e.getMessage());
-                            event.consume();
-                        } catch (IllegalMasterPasswordException e) {
+                        } catch (IllegalParameterException | IllegalMasterPasswordException e) {
                             dialog.setHeaderText(e.getMessage());
                             event.consume();
                         }
@@ -545,23 +542,14 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         btOk.addEventFilter(
                 ActionEvent.ACTION,
                 event -> {
-                    //Check if a field is empty
-                    if (oldmasterpasswordText.getText() != "" && newmasterpasswordText.getText() != "" && rnewmasterpasswordText.getText() != "") {
-                        //Check if new passwords are equal
-                        if (Objects.equals(newmasterpasswordText.getText(), rnewmasterpasswordText.getText())) {
-                            try {
-                                pwManagerService.changeMasterPw(newmasterpasswordText.getText(), oldmasterpasswordText.getText());
-                                dialog.setHeaderText("Password changed");
-                            } catch (Exception e) {
-                                dialog.setHeaderText(e.getMessage());
-                            }
-                        } else {
-                            dialog.setHeaderText("New passwords are not equal");
-                        }
-                    } else {
-                        dialog.setHeaderText("Please fill out all fields!");
+                    try {
+                        pwManagerService.changeMasterPw(newmasterpasswordText.getText(), rnewmasterpasswordText.getText(), oldmasterpasswordText.getText());
+                        dialog.setHeaderText("Password changed");
+                    } catch (Exception e) {
+                        dialog.setHeaderText(e.getMessage());
+                        event.consume();
+
                     }
-                    event.consume();
                 }
         );
         buttonGeneratepassword.addEventFilter(

@@ -32,7 +32,7 @@ public interface PwManagerService {
    * @throws IllegalMasterPasswordException if user is not authenticated (oldPassword != masterPw)
    * @throws IllegalParameterException      if the oldPassword and newPassword are equal
    */
-  void changeMasterPw(String newPassword, String oldPassword)
+  void changeMasterPw(String newPassword, String repeatedNewPassword, String oldPassword)
       throws IllegalMasterPasswordException, IllegalParameterException;
 
   /**

@@ -144,10 +144,16 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
    * @throws NullPointerException           if the password is null
    */
   @Override
-  public void changeMasterPw(String newPassword, String oldPassword)
+  public void changeMasterPw(String newPassword, String repeatedNewPassword, String oldPassword)
       throws IllegalMasterPasswordException, IllegalParameterException {
 
-    if (!Objects.equals(this.masterPw, oldPassword)) {
+    if(newPassword.equals("") || repeatedNewPassword.equals("") || oldPassword.equals("")){
+      logger.error("Some fields are empty");
+      throw new IllegalParameterException("Some fields are empty");
+    } else if(!newPassword.equals(repeatedNewPassword)){
+      logger.error("New passwords are not equal");
+      throw new IllegalParameterException("New passwords are not equal");
+    } else if (!Objects.equals(this.masterPw, oldPassword)) {
       throw new IllegalMasterPasswordException();
     } else if (newPassword == null) {
       logger.error("Password is null");

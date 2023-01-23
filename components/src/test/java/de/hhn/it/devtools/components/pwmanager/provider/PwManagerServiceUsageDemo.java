@@ -38,7 +38,7 @@ public class PwManagerServiceUsageDemo {
     logger.info("-----Hidden changed");
 
     //Change Masterpw
-    pwManagerService.changeMasterPw("newadmin","admin");
+    pwManagerService.changeMasterPw("newadmin","newadmin","admin");
     logger.info("-----Master Password changed");
 
     //Logout

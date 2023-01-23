@@ -19,7 +19,7 @@ public class PwManagerUsageDemo {
         logger.info("Logged in");
 
         //changes the master password
-        pwManagerService.changeMasterPw("Thatsthemasterpw", "admin");
+        pwManagerService.changeMasterPw("Thatsthemasterpw", "Thatsthemasterpw","admin");
         logger.info("Master password changed");
 
         //Adds an Entry
