@@ -149,27 +149,27 @@ public class TestPwManagerService {
     //Good Case
     int oldsize = pwManagerService.listOfEntrys.size();
     assertTrue(pwManagerService.addEntry("test.com", "test", "test@gmail.com",
-        "testpw") instanceof Entry);
+        "testpw", "testpw") instanceof Entry);
     assertEquals(oldsize + 1, pwManagerService.listOfEntrys.size());
 
     //Bad Case No valid Password
     Assertions.assertThrows(IllegalParameterException.class, () -> {
-      pwManagerService.addEntry("test.com", "test", "test@gmail.com", "te");
+      pwManagerService.addEntry("test.com", "test", "test@gmail.com", "te", "te");
     });
 
     //Bad Case Email
     Assertions.assertThrows(IllegalParameterException.class, () -> {
-      pwManagerService.addEntry("test.com", "test", "testGmailCom", "testpw");
+      pwManagerService.addEntry("test.com", "test", "testGmailCom", "testpw", "testpw");
     });
     //Bad Case Url
     Assertions.assertThrows(IllegalParameterException.class, () -> {
-      pwManagerService.addEntry("testCom", "test", "test@gmail.com", "testpw");
+      pwManagerService.addEntry("testCom", "test", "test@gmail.com", "testpw", "testpw");
     });
   }
 
   @Test
   void testChangeEntry() throws IllegalParameterException, IllegalMasterPasswordException {
-    pwManagerService.addEntry("test.com", "test", "test@gmail.com", "testpw");
+    pwManagerService.addEntry("test.com", "test", "test@gmail.com", "testpw", "testpw");
 
     //Good Case
     String changedpw = "";
@@ -215,8 +215,8 @@ public class TestPwManagerService {
 
   @Test
   void testDeleteEntry() throws IllegalParameterException, IllegalMasterPasswordException {
-    pwManagerService.addEntry( "test.com", "test", "test@gmail.com", "testpw");
-    pwManagerService.addEntry( "test2.com", "test2", "test2@gmail.com", "test2pw");
+    pwManagerService.addEntry( "test.com", "test", "test@gmail.com", "testpw", "testpw");
+    pwManagerService.addEntry( "test2.com", "test2", "test2@gmail.com", "test2pw", "test2pw");
 
     //Good Case
     int listsize = pwManagerService.listOfEntrys.size();
@@ -236,7 +236,7 @@ public class TestPwManagerService {
 
   @Test
   void testChangeHidden() throws IllegalParameterException {
-    pwManagerService.addEntry( "test.com", "test", "test@gmail.com", "testPw");
+    pwManagerService.addEntry( "test.com", "test", "test@gmail.com", "testPw", "testPw");
     boolean x = pwManagerService.listOfEntrys.get(0).isChangeHidden();
     pwManagerService.changeHidden(0);
 
@@ -265,8 +265,8 @@ public class TestPwManagerService {
   @Test
   void testGetLoadStateGoodCase()
       throws NullPointerException, IllegalParameterException, IllegalMasterPasswordException {
-    pwManagerService.addEntry("test.com", "test", "test@gmail.com", "testPw");
-    pwManagerService.addEntry("test2.com", "test2", "test2@gmail.com", "test2Pw");
+    pwManagerService.addEntry("test.com", "test", "test@gmail.com", "testPw", "testPw");
+    pwManagerService.addEntry("test2.com", "test2", "test2@gmail.com", "test2Pw", "test2Pw");
 
     /*
     List<Entry> testlist = pwManagerService.getState();
@@ -297,9 +297,9 @@ public class TestPwManagerService {
   void testGetLoadState() throws NullPointerException, IllegalParameterException, IOException {
 
     //Good Case
-    pwManagerService.addEntry("example.com", "example", "test@gmail.com", "testPw");
-    pwManagerService.addEntry("whynot.com", "test2", "test2@gmail.com", "test2Pw");
-    pwManagerService.addEntry("www.google.de", "Perry", "momoperkru@web.de", "sad234/(&%!ASD");
+    pwManagerService.addEntry("example.com", "example", "test@gmail.com", "testPw", "testPw");
+    pwManagerService.addEntry("whynot.com", "test2", "test2@gmail.com", "test2Pw", "test2Pw");
+    pwManagerService.addEntry("www.google.de", "Perry", "momoperkru@web.de", "sad234/(&%!ASD","sad234/(&%!ASD");
     pwManagerService.getState(pwManagerService.listOfEntrys);
 
     SimplePwManagerService anotherPwManager = new SimplePwManagerService();

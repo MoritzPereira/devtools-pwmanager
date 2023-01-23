@@ -212,8 +212,13 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
    * @throws IllegalParameterException if email, url, or password are not valid
    */
   @Override
-  public Entry addEntry(String url, String username, String email, String password)
+  public Entry addEntry(String url, String username, String email, String password, String repeatedPassword)
       throws IllegalParameterException {
+
+    if(url.equals("") || username.equals("") || email.equals("") || password.equals("") || repeatedPassword.equals("")){
+      logger.error("Fields are empty");
+      throw new IllegalParameterException("Some fields are empty");
+    }
 
     if (!checkEmail(email)) {
       logger.error("Email is not valid");
@@ -226,6 +231,15 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     if (!checkPassword(password)) {
       logger.error("Password is not valid");
       throw new IllegalParameterException("Password is not valid");
+    }
+    if(!checkPassword(repeatedPassword)){
+      logger.error("Repeated password is not valid");
+      throw new IllegalParameterException("Password is not valid");
+    }
+
+    if(!password.equals(repeatedPassword)){
+      logger.error("Passwords do not match!");
+      throw new IllegalParameterException("Passwords do not match!");
     }
 
     Entry newEntry = new Entry(idstatus, url, username, email, password);
@@ -481,7 +495,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     String decEmail = this.decrypt(email);
     String decPw = this.decrypt(password);
     try {
-      this.addEntry(decUrl, decUname, decEmail, decPw);
+      this.addEntry(decUrl, decUname, decEmail, decPw, decPw);
     } catch (IllegalParameterException e) {
       e.printStackTrace();
     }

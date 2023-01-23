@@ -38,7 +38,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
-public class PwManagerHomeScreenController extends Controller implements Initializable{
+public class PwManagerHomeScreenController extends Controller implements Initializable {
     private static final org.slf4j.Logger logger =
             org.slf4j.LoggerFactory.getLogger(PwManagerHomeScreenController.class);
 
@@ -75,25 +75,25 @@ public class PwManagerHomeScreenController extends Controller implements Initial
      * Declaration of the used images
      */
     Image imageGenerate = new Image(
-        Objects.requireNonNull(getClass().getResourceAsStream("/imagesPwmanager/generate.png")));
+            Objects.requireNonNull(getClass().getResourceAsStream("/imagesPwmanager/generate.png")));
     Image imageAddEntry = new Image(
-        Objects.requireNonNull(getClass().getResourceAsStream("/imagesPwmanager/add.png")));
+            Objects.requireNonNull(getClass().getResourceAsStream("/imagesPwmanager/add.png")));
     Image imageChangeMasterPw = new Image(
-        Objects.requireNonNull(getClass().getResourceAsStream("/imagesPwmanager/key.png")));
+            Objects.requireNonNull(getClass().getResourceAsStream("/imagesPwmanager/key.png")));
     Image imageLogout = new Image(
-        Objects.requireNonNull(getClass().getResourceAsStream("/imagesPwmanager/logout.png")));
+            Objects.requireNonNull(getClass().getResourceAsStream("/imagesPwmanager/logout.png")));
     Image imageDelete = new Image(
-        Objects.requireNonNull(getClass().getResourceAsStream("/imagesPwmanager/mulleimer.png")));
+            Objects.requireNonNull(getClass().getResourceAsStream("/imagesPwmanager/mulleimer.png")));
     Image imageDetails = new Image(
-        Objects.requireNonNull(getClass().getResourceAsStream("/imagesPwmanager/file.png")));
+            Objects.requireNonNull(getClass().getResourceAsStream("/imagesPwmanager/file.png")));
     Image imageCopy = new Image(
-        Objects.requireNonNull(getClass().getResourceAsStream("/imagesPwmanager/copy.png")));
+            Objects.requireNonNull(getClass().getResourceAsStream("/imagesPwmanager/copy.png")));
     Image imageGeneratePopup = new Image(Objects.requireNonNull(
-        getClass().getResourceAsStream("/imagesPwmanager/generatepopup.png")));
+            getClass().getResourceAsStream("/imagesPwmanager/generatepopup.png")));
     Image imageShow = new Image(
-        Objects.requireNonNull(getClass().getResourceAsStream("/imagesPwmanager/view.png")));
+            Objects.requireNonNull(getClass().getResourceAsStream("/imagesPwmanager/view.png")));
     Image imageHide = new Image(
-        Objects.requireNonNull(getClass().getResourceAsStream("/imagesPwmanager/hidden.png")));
+            Objects.requireNonNull(getClass().getResourceAsStream("/imagesPwmanager/hidden.png")));
 
 
     public PwManagerHomeScreenController() throws IllegalParameterException {
@@ -105,6 +105,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
      * First the table view is filled with content and buttons
      * Then the user is logged in, because you can only switch to this screen if the user is verifed through the login screen
      * Finally, the current state is loaded from the file
+     *
      * @param location
      * @param resources
      */
@@ -127,7 +128,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         passwordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));*/
 
 
-        tableView.getColumns().addAll(urlColumn,usernameColumn);
+        tableView.getColumns().addAll(urlColumn, usernameColumn);
         addButtonToTable("Copy", "Password");
         addButtonToTable("Details", "");
         addButtonToTable("Delete", "");
@@ -140,6 +141,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
 
     /**
      * This method adds an button to the tableview
+     *
      * @param buttonName
      * @param columnName
      */
@@ -164,7 +166,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                                 break;
                             case "Delete":
                                 btn.setGraphic(new ImageView(imageDelete));
-                            break;
+                                break;
                         }
                     }
 
@@ -172,7 +174,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                     {
                         btn.setOnAction((ActionEvent event) -> {
                             Entry entry = getTableView().getItems().get(getIndex());
-                            switch (buttonName){
+                            switch (buttonName) {
                                 case "Copy":
                                     logger.info("Copied password");
                                     copie(entry.getPassword());
@@ -191,9 +193,9 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                                     break;
                                 case "Delete":
                                     String password = openDialogCheckMasterPw();
-                                    if(password!=null){
+                                    if (password != null) {
                                         try {
-                                            pwManagerService.deleteEntry(entry.getEntryId(),password);
+                                            pwManagerService.deleteEntry(entry.getEntryId(), password);
                                         } catch (IllegalParameterException e) {
                                             e.printStackTrace();
                                         } catch (IllegalMasterPasswordException e) {
@@ -230,32 +232,31 @@ public class PwManagerHomeScreenController extends Controller implements Initial
 
     /**
      * This method implements the events for the buttons on the ui
+     *
      * @param event
      */
     @FXML
     void buttonClicked(MouseEvent event) {
 
-        if (buttonAddEntry == event.getSource()){
+        if (buttonAddEntry == event.getSource()) {
             openDialogAddEntry();
-        }
-        else if(buttonChangeMasterpassword == event.getSource()){
+        } else if (buttonChangeMasterpassword == event.getSource()) {
             openDialogChangeMasterPW();
-        }
-        else if(buttonPassword == event.getSource()){
+        } else if (buttonPassword == event.getSource()) {
             openDialogRandomPassword();
-        }
-        else if(buttonLogout == event.getSource()){
+        } else if (buttonLogout == event.getSource()) {
             logout();
         }
     }
 
     /**
      * This method puts the list of entries in an observablelist for the presentation on the ui
+     *
      * @return
      */
-    private ObservableList<Entry> getEntries(){
+    private ObservableList<Entry> getEntries() {
         ObservableList<Entry> entries = FXCollections.observableArrayList();
-        for(Entry e : listOfEntrys){
+        for (Entry e : listOfEntrys) {
             entries.add(e);
         }
         return entries;
@@ -265,7 +266,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
      * Creates the dialog to add an entry
      * The listener calls the method showsortedEntryList to update the list with the added entry on the ui
      */
-    public void openDialogAddEntry(){
+    public void openDialogAddEntry() {
 
         Dialog dialog = new Dialog();
         dialog.setTitle("Add entry");
@@ -301,7 +302,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         grid.add(emailText, 1, 2);
         grid.add(new Label("Password:"), 0, 3);
         grid.add(passwordText, 1, 3);
-        grid.add(buttonGeneratepassword,2,3);
+        grid.add(buttonGeneratepassword, 2, 3);
         grid.add(new Label("Repeat password:"), 0, 4);
         grid.add(rpasswordText, 1, 4);
 
@@ -314,21 +315,11 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         btOk.addEventFilter(
                 ActionEvent.ACTION,
                 event -> {
-                    if(Objects.equals(usernameText.getText(), "") || Objects.equals(urlText.getText(), "") || Objects.equals(emailText.getText(), "") || Objects.equals(passwordText.getText(), "") || Objects.equals(rpasswordText.getText(), "")){
+                    try {
+                        pwManagerService.addEntry(urlText.getText(), usernameText.getText(), emailText.getText(), passwordText.getText(), rpasswordText.getText());
+                    } catch (IllegalParameterException e) {
+                        dialog.setHeaderText(e.getMessage());
                         event.consume();
-                        dialog.setHeaderText("Please fill out all fields!");
-                    }
-                    else if(!Objects.equals(passwordText.getText(), rpasswordText.getText())){
-                        event.consume();
-                        dialog.setHeaderText("Passwords do not match!");
-                    }
-                    else{
-                        try {
-                            pwManagerService.addEntry(urlText.getText(), usernameText.getText(), emailText.getText(), passwordText.getText());
-                        } catch (IllegalParameterException e){
-                            dialog.setHeaderText(e.getMessage());
-                            event.consume();
-                        }
                     }
                 }
         );
@@ -346,9 +337,10 @@ public class PwManagerHomeScreenController extends Controller implements Initial
      * Creates the dialog to show the details of an entry
      * If the changeHidden function is called, the compontents changes the visibility of the password from the entry
      * and the listener delivers the new list of entries to the ui
+     *
      * @param entry
      */
-    public void openDialogDetailsEntry(Entry entry){
+    public void openDialogDetailsEntry(Entry entry) {
 
         Dialog dialog = new Dialog();
         dialog.setTitle("Details");
@@ -386,8 +378,8 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         grid.add(emailText, 1, 2);
         grid.add(new Label("Password:"), 0, 3);
         grid.add(passwordText, 1, 3);
-        grid.add(buttonShowHidden,2,3);
-        grid.add(buttonCopy,3,3);
+        grid.add(buttonShowHidden, 2, 3);
+        grid.add(buttonCopy, 3, 3);
 
         dialog.getDialogPane().setContent(grid);
 
@@ -419,10 +411,9 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                     } catch (IllegalParameterException e) {
                         e.printStackTrace();
                     }
-                    if(entry.isChangeHidden()){
+                    if (entry.isChangeHidden()) {
                         passwordText.setText(entry.getPassword());
-                    }
-                    else{
+                    } else {
                         passwordText.setText("***********");
                         buttonShowHidden.setGraphic(new ImageView(imageShow));
                     }
@@ -437,9 +428,10 @@ public class PwManagerHomeScreenController extends Controller implements Initial
     /**
      * Opens the dialog to edit an entry
      * The listener calls the method showsortedEntryList to update the list with the changed entry on the ui
+     *
      * @param entry
      */
-    public void openDialogEditEntry(Entry entry){
+    public void openDialogEditEntry(Entry entry) {
 
         Dialog dialog = new Dialog();
         dialog.setTitle("Edit entry");
@@ -475,7 +467,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         grid.add(emailText, 1, 2);
         grid.add(new Label("Password:"), 0, 3);
         grid.add(passwordText, 1, 3);
-        grid.add(buttonGeneratepassword,2,3);
+        grid.add(buttonGeneratepassword, 2, 3);
         grid.add(new Label("Repeat password:"), 0, 4);
         grid.add(rpasswordText, 1, 4);
 
@@ -486,9 +478,9 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                 ActionEvent.ACTION,
                 event -> {
                     String password = openDialogCheckMasterPw();
-                    if(checkMasterPw){
+                    if (checkMasterPw) {
                         try {
-                            pwManagerService.changeEntry(new Entry(entry.getEntryId(),urlText.getText(),usernameText.getText(),emailText.getText(),passwordText.getText()), password);
+                            pwManagerService.changeEntry(new Entry(entry.getEntryId(), urlText.getText(), usernameText.getText(), emailText.getText(), passwordText.getText()), password);
                         } catch (IllegalParameterException e) {
                             dialog.setHeaderText(e.getMessage());
                             event.consume();
@@ -496,8 +488,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                             dialog.setHeaderText(e.getMessage());
                             event.consume();
                         }
-                    }
-                    else{
+                    } else {
                         event.consume();
                     }
                 }
@@ -513,9 +504,8 @@ public class PwManagerHomeScreenController extends Controller implements Initial
 
     /**
      * Creates the dialog to change the master password
-     *
      */
-    public void openDialogChangeMasterPW(){
+    public void openDialogChangeMasterPW() {
 
         Dialog dialog = new Dialog();
         dialog.setTitle("Change Masterpassword");
@@ -544,7 +534,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         grid.add(oldmasterpasswordText, 1, 0);
         grid.add(new Label("New password:"), 0, 1);
         grid.add(newmasterpasswordText, 1, 1);
-        grid.add(buttonGeneratepassword,2,1);
+        grid.add(buttonGeneratepassword, 2, 1);
         grid.add(new Label("Repeat new password:"), 0, 2);
         grid.add(rnewmasterpasswordText, 1, 2);
         grid.add(new Label(" "), 0, 3);
@@ -556,21 +546,19 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                 ActionEvent.ACTION,
                 event -> {
                     //Check if a field is empty
-                    if(oldmasterpasswordText.getText() != "" && newmasterpasswordText.getText() != "" && rnewmasterpasswordText.getText() != ""){
+                    if (oldmasterpasswordText.getText() != "" && newmasterpasswordText.getText() != "" && rnewmasterpasswordText.getText() != "") {
                         //Check if new passwords are equal
-                        if(Objects.equals(newmasterpasswordText.getText(), rnewmasterpasswordText.getText())){
+                        if (Objects.equals(newmasterpasswordText.getText(), rnewmasterpasswordText.getText())) {
                             try {
                                 pwManagerService.changeMasterPw(newmasterpasswordText.getText(), oldmasterpasswordText.getText());
                                 dialog.setHeaderText("Password changed");
                             } catch (Exception e) {
                                 dialog.setHeaderText(e.getMessage());
                             }
-                        }
-                        else{
+                        } else {
                             dialog.setHeaderText("New passwords are not equal");
                         }
-                    }
-                    else{
+                    } else {
                         dialog.setHeaderText("Please fill out all fields!");
                     }
                     event.consume();
@@ -589,7 +577,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
     /**
      * Creates the dialog to generate a random password
      */
-    public void openDialogRandomPassword(){
+    public void openDialogRandomPassword() {
 
         Dialog dialog = new Dialog();
         dialog.setTitle("Generate password");
@@ -620,14 +608,14 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         generatedPasswordText.setDisable(true);
         Button copiePasswordButton = new Button("Copy");
         copiePasswordButton.setGraphic(new ImageView(imageCopy));
-        Slider slider = new Slider(0,10,5);
+        Slider slider = new Slider(0, 10, 5);
 
 
-        grid.add(generatedPasswordText, 1,0);
-        grid.add(copiePasswordButton, 2,0);
+        grid.add(generatedPasswordText, 1, 0);
+        grid.add(copiePasswordButton, 2, 0);
         //grid.add(slider, 0,1);
-        grid.add(numbersLabel, 0,1);
-        grid.add(numbersText, 1,1);
+        grid.add(numbersLabel, 0, 1);
+        grid.add(numbersText, 1, 1);
         grid.add(useuppercaseBox, 0, 2);
         grid.add(useuppercaseLabel, 1, 2);
         grid.add(uselowercaseBox, 0, 3);
@@ -648,7 +636,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                 ActionEvent.ACTION,
                 event -> {
                     //One box has to be selected
-                    if(useuppercaseBox.isSelected() || uselowercaseBox.isSelected() || usenumbersBox.isSelected() || usespecialsBox.isSelected() || usecyrillicBox.isSelected()){
+                    if (useuppercaseBox.isSelected() || uselowercaseBox.isSelected() || usenumbersBox.isSelected() || usespecialsBox.isSelected() || usecyrillicBox.isSelected()) {
                         try {
                             pwManagerService.generateNewPw(useuppercaseBox.isSelected(), uselowercaseBox.isSelected(), usenumbersBox.isSelected(), usespecialsBox.isSelected(), usecyrillicBox.isSelected(), Integer.parseInt(numbersText.getText()));
                             dialog.setHeaderText("Password generated");
@@ -656,8 +644,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                             dialog.setHeaderText(e.getMessage());
                         }
                         generatedPasswordText.setText(passwordGenerated);
-                    }
-                    else{
+                    } else {
                         dialog.setHeaderText("Please select at least one box");
                     }
                     password[0] = passwordGenerated;
@@ -669,8 +656,8 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         copiePasswordButton.addEventFilter(
                 ActionEvent.ACTION,
                 event -> {
-                   //If the password != null, copy to clipboard
-                    if(password[0] != null){
+                    //If the password != null, copy to clipboard
+                    if (password[0] != null) {
                         copie(password[0]);
                         logger.info("Password copied");
                         dialog.setHeaderText("copied!");
@@ -685,9 +672,10 @@ public class PwManagerHomeScreenController extends Controller implements Initial
      * Creates the dialog to check if the user is verifed
      * For example when the user wants to delete an entry or change the master password
      * The listener calls loggedin and changes the boolean "checkMasterPw" to true
+     *
      * @return
      */
-    public String openDialogCheckMasterPw(){
+    public String openDialogCheckMasterPw() {
 
         Dialog dialog = new Dialog();
         dialog.setTitle("Master password");
@@ -717,7 +705,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                 }
         );
         dialog.showAndWait();
-        if(checkMasterPw){
+        if (checkMasterPw) {
             return passwordText.getText();
         }
         return null;
@@ -725,9 +713,10 @@ public class PwManagerHomeScreenController extends Controller implements Initial
 
     /**
      * Method to copy some content to the clipboard
+     *
      * @param input
      */
-    private void copie(String input){
+    private void copie(String input) {
         final Clipboard clipboard = Clipboard.getSystemClipboard();
         final ClipboardContent content = new ClipboardContent();
         content.putString(input);
@@ -736,6 +725,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
 
     /**
      * Changes the windows to given name
+     *
      * @param name
      */
     public void changeWindow(String name) {
@@ -753,7 +743,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
     /**
      * Method to update the list on the ui
      */
-    public void updateUI(){
+    public void updateUI() {
         tableView.getItems().clear();
         tableView.setItems(getEntries());
         //addButtonToTable();
@@ -762,21 +752,22 @@ public class PwManagerHomeScreenController extends Controller implements Initial
     /**
      * Method to logout
      */
-    public void logout(){
+    public void logout() {
         pwManagerService.logout();
     }
 
     /**
      * Method to load the current encrypted state from the entries.txt and pushs them to the components
      * The method decryptAndLoadEntries in components calls the listener to update the UI with decrypted list of entries
+     *
      * @throws NullPointerException
      */
     private void loadStateFromFile() throws NullPointerException {
 
         int length = 0;
         String osPath = System.getProperty("user.dir");
-        osPath = osPath.replace("components","");
-        osPath = osPath.replace("javafx","");
+        osPath = osPath.replace("components", "");
+        osPath = osPath.replace("javafx", "");
         osPath += "/components/src/main/entries.txt";
         File file = new File(osPath);
         Path filePath = Paths.get(osPath);
@@ -798,7 +789,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                 //this.addEntry(decUrl,decUname,decEmail,decPw);
 
                 //Der Service entschlüsselt die einzelnen Entrys und übergibt sie dem Listener welcher anschließend die UI updatet
-                pwManagerService.decryptAndLoadEntries(splitline[1],splitline[2],splitline[3],splitline[4]);
+                pwManagerService.decryptAndLoadEntries(splitline[1], splitline[2], splitline[3], splitline[4]);
             }
             //listeners.forEach((listener) -> listener.showsortedEntryList(listOfEntrys));
             logger.info("Entrylist loaded");
@@ -810,6 +801,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
     /**
      * Method to writes the input (one entry) to entries.txt
      * Get called through the listener
+     *
      * @param input
      * @throws RuntimeException
      * @throws IOException
@@ -817,44 +809,44 @@ public class PwManagerHomeScreenController extends Controller implements Initial
     private void updateFile(String input) throws RuntimeException, IOException {
 
 
-            String osPath = System.getProperty("user.dir");
-            osPath = osPath.replace("components","");
-            osPath = osPath.replace("javafx","");
-            osPath += "/components/src/main/entries.txt";
-            File file = new File(osPath);
-            Path filePath = Paths.get(osPath);
+        String osPath = System.getProperty("user.dir");
+        osPath = osPath.replace("components", "");
+        osPath = osPath.replace("javafx", "");
+        osPath += "/components/src/main/entries.txt";
+        File file = new File(osPath);
+        Path filePath = Paths.get(osPath);
 
-            BufferedWriter writer =
-                    new BufferedWriter(new OutputStreamWriter(new FileOutputStream(osPath, true)));
+        BufferedWriter writer =
+                new BufferedWriter(new OutputStreamWriter(new FileOutputStream(osPath, true)));
 
-            //Writer to delete all from file
-            //PrintWriter deleteWriter = new PrintWriter(file);
-            //deleteWriter.print("");
-            //deleteWriter.close();
+        //Writer to delete all from file
+        //PrintWriter deleteWriter = new PrintWriter(file);
+        //deleteWriter.print("");
+        //deleteWriter.close();
 
 
+        try {
+            //Files.newBufferedWriter(filePath, StandardOpenOption.TRUNCATE_EXISTING);
+            writer.write(input);
+            writer.newLine();
+            //writer.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
-                try {
-                    //Files.newBufferedWriter(filePath, StandardOpenOption.TRUNCATE_EXISTING);
-                    writer.write(input);
-                    writer.newLine();
-                    //writer.close();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-
-            writer.close();
+        writer.close();
     }
 
     /**
      * Method to delete all the content of the entries.txt file
      * (Deletes the old content before saving the new content)
+     *
      * @throws FileNotFoundException
      */
     private void deleteFile() throws FileNotFoundException {
         String osPath = System.getProperty("user.dir");
-        osPath = osPath.replace("components","");
-        osPath = osPath.replace("javafx","");
+        osPath = osPath.replace("components", "");
+        osPath = osPath.replace("javafx", "");
         osPath += "/components/src/main/entries.txt";
         File file = new File(osPath);
         PrintWriter deleteWriter = new PrintWriter(file);
@@ -866,7 +858,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
     /**
      * Implementation of the listener
      */
-    class HomeListener implements PwManagerListener{
+    class HomeListener implements PwManagerListener {
 
         @Override
         public void loggingin(String masterPw) {

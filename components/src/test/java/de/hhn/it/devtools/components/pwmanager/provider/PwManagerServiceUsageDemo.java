@@ -20,8 +20,8 @@ public class PwManagerServiceUsageDemo {
     logger.info("-----Welcome to our Password Manager");
 
     //Add new Entries
-    pwManagerService.addEntry("test.de","TestUser1","test@gmail.com","testPw");
-    pwManagerService.addEntry("testtest.net","TestUser2","test@gmx.de","securePw");
+    pwManagerService.addEntry("test.de","TestUser1","test@gmail.com","testPw", "testPw");
+    pwManagerService.addEntry("testtest.net","TestUser2","test@gmx.de","securePw", "securePw");
     logger.info("-----New Entries added");
 
     //Delete an Entry
