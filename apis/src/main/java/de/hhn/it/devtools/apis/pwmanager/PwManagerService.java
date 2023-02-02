@@ -115,13 +115,6 @@ public interface PwManagerService {
   public void getState(List<Entry> state) throws NullPointerException, IOException;
 
   /**
-   * Loads the state in the component.
-   *
-   * @throws NullPointerException if file doesn't exist
-   */
-  public void loadState() throws NullPointerException;
-
-  /**
    * Decrypts an entry given.
    *
    * @param url of the entry

@@ -33,6 +33,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
    */
   @Override
   public void addListener(final PwManagerListener listener) throws IllegalParameterException {
+    logger.info("addListener: listener = {}", listener);
     /*if (listener != null) {
       listeners.add(listener);
     } else {
@@ -54,6 +55,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
   }
 
   public void removeListener(final PwManagerListener listener) throws IllegalParameterException {
+    logger.info("removeListener: listener = {}", listener);
     /*if (listener != null) {
       listeners.remove(listener);
     } else {
@@ -80,6 +82,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
    * @return true or false if the password is valid or not
    */
   public boolean checkPassword(String password) {
+    logger.info("checkPassword: password = {}", password);
 //bissle mehr überprüfungen so weisch
     int length = 4;
     if (password.length() < length) {
@@ -87,7 +90,6 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     } else {
       return true;
     }
-
   }
 
   /**
@@ -97,7 +99,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
    * @return true or false if the email is valid or not
    */
   public boolean checkEmail(String email) {
-
+    logger.info("checkEmail: email = {}", email);
     boolean foundA = false; //@
     boolean foundB = false; //.
 
@@ -124,7 +126,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
    * @return true or false if the url is valid or not
    */
   public boolean checkUrl(String url) {
-
+    logger.info("checkUrl: url = {}", url);
     for (int i = 0; i < url.length(); i++) {
       char ch = url.charAt(i);
       if (ch == '.') {
@@ -146,11 +148,13 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
   @Override
   public void changeMasterPw(String newPassword, String repeatedNewPassword, String oldPassword)
       throws IllegalMasterPasswordException, IllegalParameterException {
+    logger.info("changeMasterPw: newPassword = {}, repeatedNewPassword = {}, oldPassword = {}",
+        newPassword, repeatedNewPassword, oldPassword);
 
-    if(newPassword.equals("") || repeatedNewPassword.equals("") || oldPassword.equals("")){
+    if (newPassword.equals("") || repeatedNewPassword.equals("") || oldPassword.equals("")) {
       logger.error("Some fields are empty");
       throw new IllegalParameterException("Some fields are empty");
-    } else if(!newPassword.equals(repeatedNewPassword)){
+    } else if (!newPassword.equals(repeatedNewPassword)) {
       logger.error("New passwords are not equal");
       throw new IllegalParameterException("New passwords are not equal");
     } else if (!Objects.equals(this.masterPw, oldPassword)) {
@@ -177,6 +181,8 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
    */
   @Override
   public void login(String masterPw) throws IllegalMasterPasswordException {
+    logger.info("login: masterPw = {}", masterPw);
+
     if (Objects.equals(this.masterPw, masterPw)) {
       setLoggedIn(true);
       logger.info("Logged in");
@@ -192,6 +198,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
    * @param loggedIn
    */
   public void setLoggedIn(boolean loggedIn) {
+    logger.info("setLoggedIn: loggedIn = {}", loggedIn);
     this.loggedIn = loggedIn;
   }
 
@@ -200,6 +207,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
    */
   @Override
   public void logout() {
+    logger.info("logout: no params");
     getState(listOfEntrys);
     listeners.forEach((listener) -> listener.loggedout());
     setLoggedIn(false);
@@ -218,10 +226,15 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
    * @throws IllegalParameterException if email, url, or password are not valid
    */
   @Override
-  public Entry addEntry(String url, String username, String email, String password, String repeatedPassword)
+  public Entry addEntry(String url, String username, String email, String password,
+                        String repeatedPassword)
       throws IllegalParameterException {
+    logger.info(
+        "addEntry: url = {}, username  = {}, email  = {}, password = {}, repeatedPassword = {}",
+        url, username, email, password, repeatedPassword);
 
-    if(url.equals("") || username.equals("") || email.equals("") || password.equals("") || repeatedPassword.equals("")){
+    if (url.equals("") || username.equals("") || email.equals("") || password.equals("") ||
+        repeatedPassword.equals("")) {
       logger.error("Fields are empty");
       throw new IllegalParameterException("Some fields are empty");
     }
@@ -238,12 +251,12 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
       logger.error("Password is not valid");
       throw new IllegalParameterException("Password is not valid");
     }
-    if(!checkPassword(repeatedPassword)){
+    if (!checkPassword(repeatedPassword)) {
       logger.error("Repeated password is not valid");
       throw new IllegalParameterException("Password is not valid");
     }
 
-    if(!password.equals(repeatedPassword)){
+    if (!password.equals(repeatedPassword)) {
       logger.error("Passwords do not match!");
       throw new IllegalParameterException("Passwords do not match!");
     }
@@ -267,6 +280,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
   @Override
   public void changeEntry(Entry entry, String masterPw)
       throws IllegalParameterException, IllegalMasterPasswordException {
+    logger.info("changeEntry: entry = {}, masterPw = {}", entry, masterPw);
 
     boolean found = false;
     int id = 0;
@@ -316,7 +330,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
   @Override
   public void deleteEntry(int id, String masterPw)
       throws IllegalParameterException, IllegalMasterPasswordException {
-
+    logger.info("deletedEntry: id = {}, masterPw = {}", id, masterPw);
     boolean foundId = false;
 
     if (!Objects.equals(this.masterPw, masterPw)) {
@@ -349,9 +363,9 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
    */
   @Override
   public void changeHidden(int id) throws IllegalParameterException {
+    logger.info("changeHidden: id = {}", id);
 
     boolean foundId = false;
-
     for (Entry i : listOfEntrys) {
       if (i.getEntryId() == id) {
         if (i.isChangeHidden()) {
@@ -390,6 +404,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
   public String generateNewPw(boolean useUpper, boolean useLower, boolean useDigits,
                               boolean useSpecialCharacters, boolean useCyrillic, int length)
       throws IllegalParameterException {
+    logger.info("generateNewPw: useUpper = {},useLower = {},useDigits = {},useSpecialCharacters = {},useCyrillic = {},lenght = {},", useUpper,useLower,useDigits,useSpecialCharacters,useCyrillic,length);
 
     final String LOWER = "abcdefghijklmnopqrstuvwxyz";
     final String UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -445,6 +460,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
    */
   @Override
   public void getState(List<Entry> listOfEntries) {
+    logger.info("getState: listOfEntries = {}", listOfEntries);
 
     //Deleting the entries bevor saving them
     listeners.forEach(PwManagerListener::deleteContentOfFile);
@@ -472,6 +488,8 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
    * @return the encrypted string
    */
   private String encrypt(String text) {
+    logger.info("encrypt: text = {}", text);
+
     StringBuilder hashedString = new StringBuilder();
     char[] chars = text.toCharArray();
     for (char c : chars) {
@@ -481,21 +499,17 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     return hashedString.toString();
   }
 
-  @Override
-  public void loadState() throws NullPointerException {
-
-  }
-
   /**
    * Decrypts an entry given.
    *
-   * @param url of the entry
+   * @param url      of the entry
    * @param username of the entry
-   * @param email of the entry
+   * @param email    of the entry
    * @param password of the entry
    */
   @Override
   public void decryptAndLoadEntries(String url, String username, String email, String password) {
+    logger.info("decryptAndLoadEntries: url = {},username = {},email = {},password = {}", url,username,email,password);
     String decUrl = this.decrypt(url);
     String decUname = this.decrypt(username);
     String decEmail = this.decrypt(email);
@@ -515,6 +529,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
    * @return the decrypted string
    */
   private String decrypt(String text) {
+    logger.info("decrypt: text = {}", text);
     StringBuilder result = new StringBuilder();
     char[] chars = text.toCharArray();
     for (char c : chars) {
@@ -531,6 +546,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
    */
   @Override
   public void setMasterPw(String masterPw) {
+    logger.info("setMasterPw: masterPw = {}", masterPw);
     this.masterPw = decrypt(masterPw);
     logger.info("masterpassword was set");
   }

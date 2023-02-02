@@ -303,7 +303,6 @@ public class TestPwManagerService {
     pwManagerService.getState(pwManagerService.listOfEntrys);
 
     SimplePwManagerService anotherPwManager = new SimplePwManagerService();
-    anotherPwManager.loadState();
     assertEquals(0,anotherPwManager.listOfEntrys.size());
 
     //Bad Case
