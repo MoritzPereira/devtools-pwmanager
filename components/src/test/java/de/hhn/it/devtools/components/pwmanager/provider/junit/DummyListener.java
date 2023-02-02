@@ -11,45 +11,46 @@ public class DummyListener implements PwManagerListener {
     private static final org.slf4j.Logger logger =
             org.slf4j.LoggerFactory.getLogger(DummyCallback.class);
 
+    /*
     @Override
     public void loggingin(String masterPw) {
         logger.info("Logging in...");
-    }
+    }*/
 
     @Override
     public void loggedin() {
         logger.info("Logged in");
     }
 
-    @Override
+    /*@Override
     public void logout() {
         logger.info("Logging out...");
-    }
+    }*/
 
     @Override
     public void loggedout() {
         logger.info("Loggt out...");
     }
 
-    @Override
+    /*@Override
     public void entryAdded(Entry newEntry) {
         logger.info("Entry added");
-    }
+    }*/
 
-    @Override
+    /*@Override
     public void entryDeleted(Entry currentEntry) {
         logger.info("Entry deleted");
-    }
+    }*/
 
-    @Override
+    /*@Override
     public void entryChanged(Entry entry) {
         logger.info("Entry changed");
-    }
+    }*/
 
-    @Override
+    /*@Override
     public void changePasswordVisibility(int id) {
         logger.info("Passsword-Visibility changed from id: " + id);
-    }
+    }*/
 
     @Override
     public void deleteContentOfFile() {}
@@ -64,10 +65,10 @@ public class DummyListener implements PwManagerListener {
         logger.info("New password generated");
     }
 
-    @Override
+    /*@Override
     public void showNewPw(String pw) {
         logger.info("Showing new password");
-    }
+    }*/
 
     @Override
     public void showSortedEntryList(ArrayList<Entry> entryList) {

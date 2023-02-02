@@ -119,45 +119,45 @@ public class PwManagerLoginController extends Controller implements Initializabl
 
     class LoginListener implements PwManagerListener {
 
-        @Override
+        /*@Override
         public void loggingin(String masterPw) {
 
-        }
+        }*/
 
         @Override
         public void loggedin() {
             changeWindow("PwManagerHomeScreen");
         }
 
-        @Override
+        /*@Override
         public void logout() {
 
-        }
+        }*/
 
         @Override
         public void loggedout() {
 
         }
 
-        @Override
+        /*@Override
         public void entryAdded(Entry newEntry) {
 
-        }
+        }*/
 
-        @Override
+        /*@Override
         public void entryDeleted(Entry currentEntry) {
 
-        }
+        }*/
 
-        @Override
+        /*@Override
         public void entryChanged(Entry entry) {
 
-        }
+        }*/
 
-        @Override
+        /*@Override
         public void changePasswordVisibility(int id) {
 
-        }
+        }*/
 
         @Override
         public void updateEntryListFile(String input) {
@@ -174,10 +174,10 @@ public class PwManagerLoginController extends Controller implements Initializabl
 
         }
 
-        @Override
+        /*@Override
         public void showNewPw(String pw) {
 
-        }
+        }*/
 
         @Override
         public void showSortedEntryList(ArrayList<Entry> entryList) {

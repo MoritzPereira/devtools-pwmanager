@@ -848,10 +848,10 @@ public class PwManagerHomeScreenController extends Controller implements Initial
      */
     class HomeListener implements PwManagerListener {
 
-        @Override
+        /*@Override
         public void loggingin(String masterPw) {
             logger.info("loggingin: masterPw = {}", masterPw);
-        }
+        }*/
 
         @Override
         public void loggedin() {
@@ -859,10 +859,10 @@ public class PwManagerHomeScreenController extends Controller implements Initial
             checkMasterPw = true;
         }
 
-        @Override
+        /*@Override
         public void logout() {
             logger.info("logout: no params");
-        }
+        }*/
 
         @Override
         public void loggedout() {
@@ -870,27 +870,27 @@ public class PwManagerHomeScreenController extends Controller implements Initial
             changeWindow("PwManagerLoginScreen");
         }
 
-        @Override
+        /*@Override
         public void entryAdded(Entry newEntry) {
             logger.info("entryAdded: newEntry = {}",newEntry);
-        }
+        }*/
 
-        @Override
+        /*@Override
         public void entryDeleted(Entry currentEntry) {
             logger.info("entryDeleted: currentEntry = {}",currentEntry);
             updateUI();
-        }
+        }*/
 
-        @Override
+        /*@Override
         public void entryChanged(Entry entry) {
             logger.info("entryChanged: entry = {}",entry);
-        }
+        }*/
 
-        @Override
+        /*@Override
         public void changePasswordVisibility(int id) {
             logger.info("changePasswordVisibility: id = {}",id);
             //updateUI(); with specs to the changed visibility password
-        }
+        }*/
 
         @Override
         public void updateEntryListFile(String input) {
@@ -919,10 +919,10 @@ public class PwManagerHomeScreenController extends Controller implements Initial
             logger.info("generatePw: password = {}",password);
         }
 
-        @Override
+        /*@Override
         public void showNewPw(String pw) {
             logger.info("showNewPw: pw = {}",pw);
-        }
+        }*/
 
         @Override
         public void showSortedEntryList(ArrayList<Entry> entryList) {
