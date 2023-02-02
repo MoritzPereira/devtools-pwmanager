@@ -180,7 +180,7 @@ public class PwManagerLoginController extends Controller implements Initializabl
         }
 
         @Override
-        public void showsortedEntryList(ArrayList<Entry> entryList) {
+        public void showSortedEntryList(ArrayList<Entry> entryList) {
 
         }
     }

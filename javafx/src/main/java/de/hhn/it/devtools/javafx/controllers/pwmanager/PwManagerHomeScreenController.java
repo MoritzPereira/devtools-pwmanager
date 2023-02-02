@@ -722,7 +722,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         //GameScreen gameScreen = new GameScreen(snakeService);
         try {
             controlAnchorPane.getChildren().add(fxmlLoader.load());
-            logger.info("Der Screen wurde zu: " + name + " gewechselt.");
+            logger.info("screen switched to: " + name );
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -850,41 +850,45 @@ public class PwManagerHomeScreenController extends Controller implements Initial
 
         @Override
         public void loggingin(String masterPw) {
-
+            logger.info("loggingin: masterPw = {}", masterPw);
         }
 
         @Override
         public void loggedin() {
+            logger.info("loggedIn: no params");
             checkMasterPw = true;
         }
 
         @Override
         public void logout() {
-
+            logger.info("logout: no params");
         }
 
         @Override
         public void loggedout() {
+            logger.info("loggedout: no params");
             changeWindow("PwManagerLoginScreen");
         }
 
         @Override
         public void entryAdded(Entry newEntry) {
-
+            logger.info("entryAdded: newEntry = {}",newEntry);
         }
 
         @Override
         public void entryDeleted(Entry currentEntry) {
+            logger.info("entryDeleted: currentEntry = {}",currentEntry);
             updateUI();
         }
 
         @Override
         public void entryChanged(Entry entry) {
-
+            logger.info("entryChanged: entry = {}",entry);
         }
 
         @Override
         public void changePasswordVisibility(int id) {
+            logger.info("changePasswordVisibility: id = {}",id);
             //updateUI(); with specs to the changed visibility password
         }
 
@@ -892,6 +896,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         public void updateEntryListFile(String input) {
             try {
                 updateFile(input);
+                logger.info("updateEntryFile: input = {}",input);
             } catch (IOException e) {
                 logger.error("Error saving list of entrys");
             }
@@ -902,6 +907,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
             try {
                 deleteFile();
                 logger.info("File resetet");
+                logger.info("deleteContentOfFile: no params");
             } catch (FileNotFoundException e) {
                 logger.error("Error with reseting the file: " + e.getMessage());
             }
@@ -910,16 +916,18 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         @Override
         public void generatePw(String password) {
             passwordGenerated = password;
+            logger.info("generatePw: password = {}",password);
         }
 
         @Override
         public void showNewPw(String pw) {
-
+            logger.info("showNewPw: pw = {}",pw);
         }
 
         @Override
-        public void showsortedEntryList(ArrayList<Entry> entryList) {
+        public void showSortedEntryList(ArrayList<Entry> entryList) {
             listOfEntrys = entryList;
+            logger.info("showSortedEntryList: entryList = {}",entryList);
             updateUI();
         }
     }

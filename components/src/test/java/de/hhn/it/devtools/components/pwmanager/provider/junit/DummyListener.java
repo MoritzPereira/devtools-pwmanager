@@ -70,7 +70,7 @@ public class DummyListener implements PwManagerListener {
     }
 
     @Override
-    public void showsortedEntryList(ArrayList<Entry> entryList) {
+    public void showSortedEntryList(ArrayList<Entry> entryList) {
         logger.info("Showing sorted entry list");
     }
 }

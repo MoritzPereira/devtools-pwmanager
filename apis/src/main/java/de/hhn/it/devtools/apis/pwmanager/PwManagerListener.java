@@ -78,6 +78,6 @@ public interface PwManagerListener {
    *
    * @param entryList sorted list of entrys
    */
-  void showsortedEntryList(ArrayList<Entry> entryList);
+  void showSortedEntryList(ArrayList<Entry> entryList);
 
 }

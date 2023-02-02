@@ -265,7 +265,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     logger.info("New entry {id: " + idstatus + " } added");
     idstatus++;
     listOfEntrys.add(newEntry);
-    listeners.forEach((listener) -> listener.showsortedEntryList(listOfEntrys));
+    listeners.forEach((listener) -> listener.showSortedEntryList(listOfEntrys));
     return newEntry;
   }
 
@@ -310,7 +310,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
         i.setPassword(entry.getPassword());
       }
     }
-    listeners.forEach((listener) -> listener.showsortedEntryList(listOfEntrys));
+    listeners.forEach((listener) -> listener.showSortedEntryList(listOfEntrys));
 
     if (!found) {
       throw new IllegalParameterException("Entry not found");
@@ -344,7 +344,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
         foundId = true;
         it.remove();
         logger.info("Entry {id: " + id + " } deleted");
-        listeners.forEach((listener) -> listener.showsortedEntryList(listOfEntrys));
+        listeners.forEach((listener) -> listener.showSortedEntryList(listOfEntrys));
         break;
       }
     }
@@ -384,7 +384,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
       logger.error("Given id not found");
       throw new IllegalParameterException("Given id not found");
     } else {
-      listeners.forEach((listener) -> listener.showsortedEntryList(listOfEntrys));
+      listeners.forEach((listener) -> listener.showSortedEntryList(listOfEntrys));
     }
   }
 
@@ -519,7 +519,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     } catch (IllegalParameterException e) {
       e.printStackTrace();
     }
-    listeners.forEach(listener -> listener.showsortedEntryList(listOfEntrys));
+    listeners.forEach(listener -> listener.showSortedEntryList(listOfEntrys));
   }
 
   /**
