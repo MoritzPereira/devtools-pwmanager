@@ -7,10 +7,6 @@ import java.util.ArrayList;
  */
 public interface PwManagerListener {
 
-  /**
-   * Updates the log-status to "logged in".
-   */
-  //void loggingin(String masterPw);
 
   /**
    * Status from components.
@@ -18,38 +14,9 @@ public interface PwManagerListener {
   void loggedin();
 
   /**
-   * Updates the log-status to "logged out".
-   */
-  //void logout();
-
-  /**
    * Status from components.
    */
   void loggedout();
-
-  /**
-   * Add a new Entry to the entry-list.
-   *
-   * @param newEntry with the given attributes
-   */
-  //void entryAdded(Entry newEntry);
-
-  /**
-   * Deletes the current entry.
-   *
-   * @param currentEntry the entry which should be deleted.
-   */
-  //void entryDeleted(Entry currentEntry);
-
-  /**
-   * Updates the attributes of an entry.
-   */
-  //void entryChanged(Entry entry);
-
-  /**
-   * Changes the visability of the chosen password.
-   */
-  //void changePasswordVisibility(int id);
 
   /**
    * Updates the entry-list.
@@ -65,13 +32,6 @@ public interface PwManagerListener {
    * gives the pw to the ui.
    */
   void generatePw(String password);
-
-  /**
-   * shows the newly generated pw.
-   *
-   * @param pw the generated pw.
-   */
-  //void showNewPw(String pw);
 
   /**
    * gives the sorted List of Entrys.

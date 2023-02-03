@@ -1,8 +1,7 @@
 package de.hhn.it.devtools.apis.pwmanager;
 
 /**
- * Class of an Entry
- *
+ * Class of an Entry.
  */
 public class Entry {
 
@@ -15,19 +14,21 @@ public class Entry {
   private boolean changeHidden = false;
 
   private static final org.slf4j.Logger logger =
-          org.slf4j.LoggerFactory.getLogger(Entry.class);
+      org.slf4j.LoggerFactory.getLogger(Entry.class);
 
   /**
    * Constructor of an entry.
    *
-   * @param id of the entry
-   * @param url of the entry
+   * @param id       of the entry
+   * @param url      of the entry
    * @param username of the entry
-   * @param email of the entry
+   * @param email    of the entry
    * @param password of the entry
    */
   public Entry(int id, String url, String username, String email, String password) {
-    logger.info("Entry created with ID: " +id+ "; URL: "+ url+": USERNAME: "+username+"; EMAIL: "+email+ "; PASSWORD: "+password );
+    logger.info(
+        "Entry created with ID: " + id + "; URL: " + url + ": USERNAME: " + username + "; EMAIL: "
+            + email + "; PASSWORD: " + password);
     this.entryId = id;
     this.url = url;
     this.username = username;

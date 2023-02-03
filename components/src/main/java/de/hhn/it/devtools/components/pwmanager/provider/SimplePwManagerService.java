@@ -4,7 +4,6 @@ import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
 import de.hhn.it.devtools.apis.pwmanager.Entry;
 import de.hhn.it.devtools.apis.pwmanager.PwManagerListener;
 import de.hhn.it.devtools.apis.pwmanager.exceptions.IllegalMasterPasswordException;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -54,6 +53,12 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
 
   }
 
+  /**
+   * Removes a listener from the list of listeners.
+   *
+   * @param listener who gets removed
+   * @throws IllegalParameterException if listener doesn't exist
+   */
   public void removeListener(final PwManagerListener listener) throws IllegalParameterException {
     logger.info("removeListener: listener = {}", listener);
     /*if (listener != null) {
@@ -83,7 +88,6 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
    */
   public boolean checkPassword(String password) {
     logger.info("checkPassword: password = {}", password);
-//bissle mehr überprüfungen so weisch
     int length = 4;
     if (password.length() < length) {
       return false;
@@ -174,7 +178,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
   }
 
   /**
-   * This method is for checking if the user is verifed to do some stuff like edit entry, delete entry.
+   * This method is for checking if the user is verifed to edit entry, delete entry, ... .
    *
    * @param masterPw Master password to get access
    * @throws IllegalMasterPasswordException if the user enters the wrong masterpasword
@@ -195,7 +199,7 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
   /**
    * Sets the LoggedIn variable.
    *
-   * @param loggedIn
+   * @param loggedIn variable
    */
   public void setLoggedIn(boolean loggedIn) {
     logger.info("setLoggedIn: loggedIn = {}", loggedIn);
@@ -233,8 +237,8 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
         "addEntry: url = {}, username  = {}, email  = {}, password = {}, repeatedPassword = {}",
         url, username, email, password, repeatedPassword);
 
-    if (url.equals("") || username.equals("") || email.equals("") || password.equals("") ||
-        repeatedPassword.equals("")) {
+    if (url.equals("") || username.equals("") || email.equals("") || password.equals("")
+        || repeatedPassword.equals("")) {
       logger.error("Fields are empty");
       throw new IllegalParameterException("Some fields are empty");
     }
@@ -404,7 +408,10 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
   public String generateNewPw(boolean useUpper, boolean useLower, boolean useDigits,
                               boolean useSpecialCharacters, boolean useCyrillic, int length)
       throws IllegalParameterException {
-    logger.info("generateNewPw: useUpper = {},useLower = {},useDigits = {},useSpecialCharacters = {},useCyrillic = {},lenght = {},", useUpper,useLower,useDigits,useSpecialCharacters,useCyrillic,length);
+    logger.info(
+        "generateNewPw: useUpper = {},useLower = {},useDigits = {},"
+            + "useSpecialCharacters = {},useCyrillic = {},lenght = {},",
+        useUpper, useLower, useDigits, useSpecialCharacters, useCyrillic, length);
 
     final String LOWER = "abcdefghijklmnopqrstuvwxyz";
     final String UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -456,7 +463,6 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
    * Puts the State of entries to an extern file.
    *
    * @param listOfEntries the current list of entries
-   * @throws RuntimeException
    */
   @Override
   public void getState(List<Entry> listOfEntries) {
@@ -509,7 +515,8 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
    */
   @Override
   public void decryptAndLoadEntries(String url, String username, String email, String password) {
-    logger.info("decryptAndLoadEntries: url = {},username = {},email = {},password = {}", url,username,email,password);
+    logger.info("decryptAndLoadEntries: url = {},username = {},email = {},password = {}", url,
+        username, email, password);
     String decUrl = this.decrypt(url);
     String decUname = this.decrypt(username);
     String decEmail = this.decrypt(email);

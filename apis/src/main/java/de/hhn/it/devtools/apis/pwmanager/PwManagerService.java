@@ -2,14 +2,11 @@ package de.hhn.it.devtools.apis.pwmanager;
 
 import de.hhn.it.devtools.apis.exceptions.IllegalParameterException;
 import de.hhn.it.devtools.apis.pwmanager.exceptions.IllegalMasterPasswordException;
-
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Pw-Manager Service.
- *
  */
 public interface PwManagerService {
 
@@ -44,11 +41,11 @@ public interface PwManagerService {
   void login(String masterPw) throws IllegalMasterPasswordException;
 
   /**
-   * Sets the variable loggedIn
+   * Sets the variable loggedIn.
    *
-   * @param loggedIn
+   * @param loggedIn variable
    */
-  void setLoggedIn (boolean loggedIn);
+  void setLoggedIn(boolean loggedIn);
 
   /**
    * Logs out the user.
@@ -59,7 +56,6 @@ public interface PwManagerService {
    * changes the visibility of a single password.
    *
    * @param id of the Entry
-   * @return the decrypted password
    * @throws IllegalParameterException if the id does not exist
    */
   public void changeHidden(int id) throws IllegalParameterException;
@@ -75,7 +71,8 @@ public interface PwManagerService {
    * @return the created entry.
    * @throws IllegalParameterException if any attributs are invalid
    */
-  public Entry addEntry(String url, String username, String email, String password, String repeatedPassword)
+  public Entry addEntry(String url, String username, String email, String password,
+                        String repeatedPassword)
       throws IllegalParameterException;
 
   /**
@@ -104,12 +101,12 @@ public interface PwManagerService {
    * @param useUpper signals if uppercase letters
    */
   public String generateNewPw(boolean useUpper, boolean useLower, boolean useDigits,
-                              boolean useSpecialChars, boolean useCyrillic, int length) throws IllegalParameterException;
+                              boolean useSpecialChars, boolean useCyrillic, int length)
+      throws IllegalParameterException;
 
   /**
-   * Gets the state from the component
+   * Gets the state from the component.
    *
-   * @return the state.
    * @throws NullPointerException if list doesn't exist
    */
   public void getState(List<Entry> state) throws NullPointerException, IOException;
@@ -117,9 +114,9 @@ public interface PwManagerService {
   /**
    * Decrypts an entry given.
    *
-   * @param url of the entry
+   * @param url      of the entry
    * @param username of the entry
-   * @param email of the entry
+   * @param email    of the entry
    * @param password of the entry
    */
   void decryptAndLoadEntries(String url, String username, String email, String password);
