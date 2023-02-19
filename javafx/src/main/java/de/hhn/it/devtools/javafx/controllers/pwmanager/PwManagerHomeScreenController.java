@@ -107,11 +107,18 @@ public class PwManagerHomeScreenController extends Controller implements Initial
   Image imageHide = new Image(
       Objects.requireNonNull(getClass().getResourceAsStream("/imagesPwmanager/hidden.png")));
 
-    /**
-     * Constructor.
-     *
-     * @throws IllegalParameterException if Listener is null
-     */
+  Label useuppercaseLabel = new Label("Use uppercase");
+  Label uselowercaseLabel = new Label("Use lowercase");
+  Label usenumbersLabel = new Label("Use numbers");
+  Label usespecialsLabel = new Label("Use specials");
+  Label usecyrillicLabel = new Label("Use cyrillic");
+  Label numbersLabel = new Label("Numbers:");
+
+  /**
+   * Constructor.
+   *
+   * @throws IllegalParameterException if Listener is null
+   */
   public PwManagerHomeScreenController() throws IllegalParameterException {
     HomeListener homeListener = new HomeListener();
     pwManagerService.addListener(homeListener);
@@ -119,7 +126,8 @@ public class PwManagerHomeScreenController extends Controller implements Initial
 
   /**
    * First the table view is filled with content and buttons
-   * Then the user is logged in, because you can only switch to this screen if the user is verifed through the login screen
+   * Then the user is logged in, because you can only switch to
+   * this screen if the user is verifed through the login screen
    * Finally, the current state is loaded from the file.
    *
    * @param location
@@ -151,7 +159,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
   }
 
   /**
-   * This method adds an button to the tableview
+   * This method adds an button to the tableview.
    *
    * @param buttonName
    * @param columnName
@@ -178,6 +186,8 @@ public class PwManagerHomeScreenController extends Controller implements Initial
               case "Delete":
                 btn.setGraphic(new ImageView(imageDelete));
                 break;
+              default:
+                btn.setText("Imageload not possible");
             }
           }
 
@@ -189,14 +199,6 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                 case "Copy":
                   logger.info("Copied password");
                   copie(entry.getPassword());
-                  break;
-                case "Show":
-                                    /*
-                                    try {
-                                        pwManagerService.changeHidden(entry.getEntryId());
-                                    } catch (IllegalParameterException e) {
-                                        e.printStackTrace();
-                                    }*/
                   break;
                 case "Details":
                   logger.info("Show details of Entry ID: " + entry.getEntryId());
@@ -214,6 +216,8 @@ public class PwManagerHomeScreenController extends Controller implements Initial
                     }
                   }
                   break;
+                default:
+                  logger.info("No button was clicked");
               }
             });
 
@@ -242,7 +246,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
   }
 
   /**
-   * This method implements the events for the buttons on the ui
+   * This method implements the events for the buttons on the ui.
    *
    * @param event which gets analysed.
    */
@@ -252,7 +256,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
     if (buttonAddEntry == event.getSource()) {
       openDialogAddEntry();
     } else if (buttonChangeMasterpassword == event.getSource()) {
-      openDialogChangeMasterPW();
+      opendialogChangemasterpw();
     } else if (buttonPassword == event.getSource()) {
       openDialogRandomPassword();
     } else if (buttonLogout == event.getSource()) {
@@ -261,7 +265,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
   }
 
   /**
-   * This method puts the list of entries in an observablelist for the presentation on the ui
+   * This method puts the list of entries in an observablelist for the presentation on the ui.
    *
    * @return
    */
@@ -274,8 +278,9 @@ public class PwManagerHomeScreenController extends Controller implements Initial
   }
 
   /**
-   * Creates the dialog to add an entry
-   * The listener calls the method showsortedEntryList to update the list with the added entry on the ui
+   * Creates the dialog to add an entry.
+   * The listener calls the method showsortedEntryList
+   * to update the list with the added entry on the ui.
    */
   public void openDialogAddEntry() {
 
@@ -346,9 +351,10 @@ public class PwManagerHomeScreenController extends Controller implements Initial
   }
 
   /**
-   * Creates the dialog to show the details of an entry
-   * If the changeHidden function is called, the compontents changes the visibility of the password from the entry
-   * and the listener delivers the new list of entries to the ui
+   * Creates the dialog to show the details of an entry.
+   * If the changeHidden function is called, the compontents
+   * changes the visibility of the password from the entry
+   * and the listener delivers the new list of entries to the ui.
    *
    * @param entry
    */
@@ -438,8 +444,9 @@ public class PwManagerHomeScreenController extends Controller implements Initial
   }
 
   /**
-   * Opens the dialog to edit an entry
-   * The listener calls the method showsortedEntryList to update the list with the changed entry on the ui
+   * Opens the dialog to edit an entry.
+   * The listener calls the method showsortedEntryList
+   * to update the list with the changed entry on the ui
    *
    * @param entry
    */
@@ -514,9 +521,9 @@ public class PwManagerHomeScreenController extends Controller implements Initial
   }
 
   /**
-   * Creates the dialog to change the master password
+   * Creates the dialog to change the master password.
    */
-  public void openDialogChangeMasterPW() {
+  public void opendialogChangemasterpw() {
 
     Dialog dialog = new Dialog();
     dialog.setTitle("Change Masterpassword");
@@ -578,7 +585,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
   }
 
   /**
-   * Creates the dialog to generate a random password
+   * Creates the dialog to generate a random password.
    */
   public void openDialogRandomPassword() {
 
@@ -594,12 +601,6 @@ public class PwManagerHomeScreenController extends Controller implements Initial
     grid.setVgap(10);
     grid.setPadding(new Insets(20, 150, 10, 10));
 
-    Label useuppercaseLabel = new Label("Use uppercase");
-    Label uselowercaseLabel = new Label("Use lowercase");
-    Label usenumbersLabel = new Label("Use numbers");
-    Label usespecialsLabel = new Label("Use specials");
-    Label usecyrillicLabel = new Label("Use cyrillic");
-    Label numbersLabel = new Label("Numbers:");
     CheckBox useuppercaseBox = new CheckBox();
     useuppercaseBox.setSelected(true);
     CheckBox uselowercaseBox = new CheckBox();
@@ -639,9 +640,9 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         ActionEvent.ACTION,
         event -> {
           //One box has to be selected
-          if (useuppercaseBox.isSelected() || uselowercaseBox.isSelected() ||
-              usenumbersBox.isSelected() || usespecialsBox.isSelected() ||
-              usecyrillicBox.isSelected()) {
+          if (useuppercaseBox.isSelected() || uselowercaseBox.isSelected()
+                  || usenumbersBox.isSelected() || usespecialsBox.isSelected()
+                  || usecyrillicBox.isSelected()) {
             try {
               pwManagerService.generateNewPw(useuppercaseBox.isSelected(),
                   uselowercaseBox.isSelected(), usenumbersBox.isSelected(),
@@ -677,7 +678,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
   }
 
   /**
-   * Creates the dialog to check if the user is verifed
+   * Creates the dialog to check if the user is verifed.
    * For example when the user wants to delete an entry or change the master password
    * The listener calls loggedin and changes the boolean "checkMasterPw" to true
    *
@@ -720,7 +721,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
   }
 
   /**
-   * Method to copy some content to the clipboard
+   * Method to copy some content to the clipboard.
    *
    * @param input
    */
@@ -732,7 +733,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
   }
 
   /**
-   * Changes the windows to given name
+   * Changes the windows to given name.
    *
    * @param name
    */
@@ -749,24 +750,26 @@ public class PwManagerHomeScreenController extends Controller implements Initial
   }
 
   /**
-   * Method to update the list on the ui
+   * Method to update the list on the ui.
    */
-  public void updateUI() {
+  public void updateUi() {
     tableView.getItems().clear();
     tableView.setItems(getEntries());
     //addButtonToTable();
   }
 
   /**
-   * Method to logout
+   * Method to logout.
    */
   public void logout() {
     pwManagerService.logout();
   }
 
   /**
-   * Method to load the current encrypted state from the entries.txt and pushs them to the components
-   * The method decryptAndLoadEntries in components calls the listener to update the UI with decrypted list of entries
+   * Method to load the current encrypted state from the entries.txt
+   * and pushs them to the components.
+   * The method decryptAndLoadEntries in components calls the
+   * listener to update the UI with decrypted list of entries
    *
    * @throws NullPointerException
    */
@@ -796,7 +799,6 @@ public class PwManagerHomeScreenController extends Controller implements Initial
         //String decPw = this.decrypt(splitline[4]);
         //this.addEntry(decUrl,decUname,decEmail,decPw);
 
-        //Der Service entschlüsselt die einzelnen Entrys und übergibt sie dem Listener welcher anschließend die UI updatet
         pwManagerService.decryptAndLoadEntries(splitline[1], splitline[2], splitline[3],
             splitline[4]);
       }
@@ -865,14 +867,9 @@ public class PwManagerHomeScreenController extends Controller implements Initial
 
 
   /**
-   * Implementation of the listener
+   * Implementation of the listener.
    */
   class HomeListener implements PwManagerListener {
-
-        /*@Override
-        public void loggingin(String masterPw) {
-            logger.info("loggingin: masterPw = {}", masterPw);
-        }*/
 
     @Override
     public void loggedin() {
@@ -880,38 +877,11 @@ public class PwManagerHomeScreenController extends Controller implements Initial
       checkMasterPw = true;
     }
 
-        /*@Override
-        public void logout() {
-            logger.info("logout: no params");
-        }*/
-
     @Override
     public void loggedout() {
       logger.info("loggedout: no params");
       changeWindow("PwManagerLoginScreen");
     }
-
-        /*@Override
-        public void entryAdded(Entry newEntry) {
-            logger.info("entryAdded: newEntry = {}",newEntry);
-        }*/
-
-        /*@Override
-        public void entryDeleted(Entry currentEntry) {
-            logger.info("entryDeleted: currentEntry = {}",currentEntry);
-            updateUI();
-        }*/
-
-        /*@Override
-        public void entryChanged(Entry entry) {
-            logger.info("entryChanged: entry = {}",entry);
-        }*/
-
-        /*@Override
-        public void changePasswordVisibility(int id) {
-            logger.info("changePasswordVisibility: id = {}",id);
-            //updateUI(); with specs to the changed visibility password
-        }*/
 
     @Override
     public void updateEntryListFile(String input) {
@@ -940,16 +910,11 @@ public class PwManagerHomeScreenController extends Controller implements Initial
       logger.info("generatePw: password = {}", password);
     }
 
-        /*@Override
-        public void showNewPw(String pw) {
-            logger.info("showNewPw: pw = {}",pw);
-        }*/
-
     @Override
     public void showSortedEntryList(ArrayList<Entry> entryList) {
       listOfEntrys = entryList;
       logger.info("showSortedEntryList: entryList = {}", entryList);
-      updateUI();
+      updateUi();
     }
   }
 
