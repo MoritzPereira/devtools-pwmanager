@@ -17,6 +17,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -49,10 +53,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.util.Callback;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+
 
 /**
  * Implementation of the HomeScreenController.
@@ -130,8 +131,10 @@ public class PwManagerHomeScreenController extends Controller implements Initial
    * this screen if the user is verifed through the login screen
    * Finally, the current state is loaded from the file.
    *
-   * @param location
-   * @param resources
+   * @param location The location used to resolve relative paths for the root object, or
+   *                 <code>null</code> if the location is not known.
+   * @param resources The resources used to localize the root object, or <code>null</code> if
+   *                  the location is not known.
    */
   @Override
   public void initialize(final URL location, final ResourceBundle resources) {
@@ -161,8 +164,8 @@ public class PwManagerHomeScreenController extends Controller implements Initial
   /**
    * This method adds an button to the tableview.
    *
-   * @param buttonName
-   * @param columnName
+   * @param buttonName name each Button by function
+   * @param columnName name each column by content
    */
   private void addButtonToTable(String buttonName, String columnName) {
     TableColumn<Entry, Void> colBtn = new TableColumn(columnName);
@@ -267,7 +270,6 @@ public class PwManagerHomeScreenController extends Controller implements Initial
   /**
    * This method puts the list of entries in an observablelist for the presentation on the ui.
    *
-   * @return
    */
   private ObservableList<Entry> getEntries() {
     ObservableList<Entry> entries = FXCollections.observableArrayList();
@@ -356,7 +358,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
    * changes the visibility of the password from the entry
    * and the listener delivers the new list of entries to the ui.
    *
-   * @param entry
+   * @param entry Entry whose details are output
    */
   public void openDialogDetailsEntry(Entry entry) {
 
@@ -448,7 +450,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
    * The listener calls the method showsortedEntryList
    * to update the list with the changed entry on the ui
    *
-   * @param entry
+   * @param entry Chosen entry which is about to get changed
    */
   public void openDialogEditEntry(Entry entry) {
 
@@ -601,18 +603,18 @@ public class PwManagerHomeScreenController extends Controller implements Initial
     grid.setVgap(10);
     grid.setPadding(new Insets(20, 150, 10, 10));
 
-    CheckBox useuppercaseBox = new CheckBox();
+    final CheckBox useuppercaseBox = new CheckBox();
     useuppercaseBox.setSelected(true);
-    CheckBox uselowercaseBox = new CheckBox();
-    CheckBox usenumbersBox = new CheckBox();
-    CheckBox usespecialsBox = new CheckBox();
-    CheckBox usecyrillicBox = new CheckBox();
-    TextField generatedPasswordText = new TextField("");
-    TextField numbersText = new TextField("0");
+    final CheckBox uselowercaseBox = new CheckBox();
+    final CheckBox usenumbersBox = new CheckBox();
+    final CheckBox usespecialsBox = new CheckBox();
+    final CheckBox usecyrillicBox = new CheckBox();
+    final TextField generatedPasswordText = new TextField("");
+    final TextField numbersText = new TextField("0");
     generatedPasswordText.setDisable(true);
     Button copiePasswordButton = new Button("Copy");
     copiePasswordButton.setGraphic(new ImageView(imageCopy));
-    Slider slider = new Slider(0, 10, 5);
+    final Slider slider = new Slider(0, 10, 5);
 
 
     grid.add(generatedPasswordText, 1, 0);
@@ -682,7 +684,6 @@ public class PwManagerHomeScreenController extends Controller implements Initial
    * For example when the user wants to delete an entry or change the master password
    * The listener calls loggedin and changes the boolean "checkMasterPw" to true
    *
-   * @return
    */
   public String openDialogCheckMasterPw() {
 
@@ -723,7 +724,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
   /**
    * Method to copy some content to the clipboard.
    *
-   * @param input
+   * @param input The content of the textfield which is about to get copied to the clipboard
    */
   private void copie(String input) {
     final Clipboard clipboard = Clipboard.getSystemClipboard();
@@ -735,7 +736,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
   /**
    * Changes the windows to given name.
    *
-   * @param name
+   * @param name name of the new screen
    */
   public void changeWindow(String name) {
     FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/fxml/" + name + ".fxml"));
@@ -771,7 +772,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
    * The method decryptAndLoadEntries in components calls the
    * listener to update the UI with decrypted list of entries
    *
-   * @throws NullPointerException
+   * @throws NullPointerException Exeption which is thrown if there is no file found
    */
   private void loadStateFromFile() throws NullPointerException {
 
@@ -813,9 +814,9 @@ public class PwManagerHomeScreenController extends Controller implements Initial
    * Method to writes the input (one entry) to entries.txt
    * Get called through the listener
    *
-   * @param input
-   * @throws RuntimeException
-   * @throws IOException
+   * @param input String which is about to get added to the safefile
+   * @throws RuntimeException Exeption if Method takes too much time
+   * @throws IOException Exeption if file is not available
    */
   private void updateFile(String input) throws RuntimeException, IOException {
 
@@ -852,7 +853,7 @@ public class PwManagerHomeScreenController extends Controller implements Initial
    * Method to delete all the content of the entries.txt file
    * (Deletes the old content before saving the new content)
    *
-   * @throws FileNotFoundException
+   * @throws FileNotFoundException Exeption if file is not found
    */
   private void deleteFile() throws FileNotFoundException {
     String osPath = System.getProperty("user.dir");
