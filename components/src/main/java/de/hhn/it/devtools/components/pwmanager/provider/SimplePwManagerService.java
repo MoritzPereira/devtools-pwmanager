@@ -413,9 +413,9 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
             + "useSpecialCharacters = {},useCyrillic = {},lenght = {},",
         useUpper, useLower, useDigits, useSpecialCharacters, useCyrillic, length);
 
-    final String LOWER = "abcdefghijklmnopqrstuvwxyz";
-    final String UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    final String DIGITS = "0123456789";
+    final String Lower = "abcdefghijklmnopqrstuvwxyz";
+    final String Upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    final String Digits = "0123456789";
     final String SpecialCharacters = "!@#$%&*()_+-=[]|,./?><";
     final String Cyrillicletters = "БГЗИЙЛПФД";
 
@@ -430,13 +430,13 @@ public class SimplePwManagerService implements de.hhn.it.devtools.apis.pwmanager
     // Use categories
     List<String> charCategories = new ArrayList<>(4);
     if (useLower) {
-      charCategories.add(LOWER);
+      charCategories.add(Lower);
     }
     if (useUpper) {
-      charCategories.add(UPPER);
+      charCategories.add(Upper);
     }
     if (useDigits) {
-      charCategories.add(DIGITS);
+      charCategories.add(Digits);
     }
     if (useSpecialCharacters) {
       charCategories.add(SpecialCharacters);
