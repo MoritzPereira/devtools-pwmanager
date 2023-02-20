@@ -10,8 +10,10 @@ import java.util.List;
  */
 public interface PwManagerService {
 
-  public String masterPw = "admin";
-  boolean hidepws = true;
+  /**
+   * Auxiliary variables
+   */
+  String masterPw = "admin";
 
   /**
    * Adds a Listener to a list of listeners.
@@ -25,6 +27,7 @@ public interface PwManagerService {
    * changes the Master Password.
    *
    * @param newPassword the new master password
+   * @param repeatedNewPassword to check if both old passwords are the same
    * @param oldPassword to check if user is authenticated to change master password
    * @throws IllegalMasterPasswordException if user is not authenticated (oldPassword != masterPw)
    * @throws IllegalParameterException      if the oldPassword and newPassword are equal
@@ -68,6 +71,7 @@ public interface PwManagerService {
    * @param username for the associated password.
    * @param email    for the associated password.
    * @param password for the associated password.
+   * @param repeatedPassword for the associated password.
    * @return the created entry.
    * @throws IllegalParameterException if any attributs are invalid
    */
@@ -79,6 +83,7 @@ public interface PwManagerService {
    * Changes an entry and loads the entry in the file.
    *
    * @param entry that will be changed
+   * @param masterPw to verify the user
    * @throws IllegalParameterException      if the chosen entry does not exist
    * @throws IllegalMasterPasswordException if user is not authenticated
    */
@@ -89,6 +94,7 @@ public interface PwManagerService {
    * Deletes an entry.
    *
    * @param id of the entry that will be deleted
+   * @param masterPw to verify the user
    * @throws IllegalParameterException      if the chosen id does not exist
    * @throws IllegalMasterPasswordException if user is not authenticated
    */
@@ -99,6 +105,13 @@ public interface PwManagerService {
    * Generates a new password with the given specs.
    *
    * @param useUpper signals if uppercase letters
+   * @param useLower signals if lowercase letters
+   * @param useDigits signals if digits
+   * @param useSpecialChars signals if special characters
+   * @param useCyrillic signals if cyrillic letters
+   * @param length of the password to generate
+   * @return the generated password
+   * @throws IllegalParameterException if the password is not valid
    */
   public String generateNewPw(boolean useUpper, boolean useLower, boolean useDigits,
                               boolean useSpecialChars, boolean useCyrillic, int length)
@@ -107,7 +120,9 @@ public interface PwManagerService {
   /**
    * Gets the state from the component.
    *
+   * @param state the current list of entries
    * @throws NullPointerException if list doesn't exist
+   * @throws IOException if file is not available
    */
   public void getState(List<Entry> state) throws NullPointerException, IOException;
 

@@ -20,6 +20,7 @@ public interface PwManagerListener {
 
   /**
    * Updates the entry-list.
+   * @param input new entry list
    */
   void updateEntryListFile(String input);
 
@@ -30,6 +31,7 @@ public interface PwManagerListener {
 
   /**
    * gives the pw to the ui.
+   * @param password generated password
    */
   void generatePw(String password);
 
