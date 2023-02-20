@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="controlAnchorPane" onKeyPressed="#keyPressed" prefHeight="680.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hhn.it.devtools.javafx.controllers.pwmanager.PwManagerLoginController">
+<AnchorPane fx:id="controlAnchorPane" prefHeight="680.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hhn.it.devtools.javafx.controllers.pwmanager.PwManagerLoginController">
     <children>
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="413.0" layoutX="363.0" layoutY="76.0" stroke="BLACK" strokeType="INSIDE" width="354.0" />
         <VBox layoutX="371.0" layoutY="121.0" prefHeight="351.0" prefWidth="343.0">
